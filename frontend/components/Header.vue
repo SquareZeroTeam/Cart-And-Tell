@@ -7,7 +7,7 @@
 <template>
     <header class="shadow-sm border-b-[1px] py-3 px-6 ">
         <div class="container mx-auto flex flex-col sm:flex-row items-center">
-            <h1 class="text-blue-800 flex-none font-bold text-3xl mb-4 sm:mb-0">Cart & Tell</h1>
+            <NuxtLink to="/"><h1 class="text-blue-800 flex-none font-bold text-3xl mb-4 sm:mb-0">Cart & Tell</h1></NuxtLink>
             <div class="flex flex-1 w-full">
                 <div class="sm:ml-8 ml-1 h-12 border-2 rounded-full flex-1 flex overflow-hidden ">
                     <select class="bg-white text-xl px-4 w-42">
