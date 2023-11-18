@@ -3,7 +3,7 @@
     console.log (products.value);
 </script>
 <template>
-    <div class="container mx-auto h-[500px] mt-20 justify-center items-center">
+    <div class="container mx-auto mt-20 justify-center items-center">
         <div class="flex h-full flex-wrap">
             <div class="blend w-[512px] p-4 flex-grow">
                 <h1 class="text-blue-800 font-bold text-2xl">Cart & Tell</h1>

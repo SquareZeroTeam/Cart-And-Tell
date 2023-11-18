@@ -1,7 +1,8 @@
 <template>
     <div>
         <Header/>
-        <HomeHero/> 
+        <HomeHero/>
+        <Categories/> 
     </div>
 </template>
 
