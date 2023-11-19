@@ -7,7 +7,7 @@
         @mouseout="showDetails(false)"
       >
         <img :src="product.image" alt="product" class="thumb">
-        <p class="text-bold text-gray-500 truncate">{{ product.title }}</p>
+        <p class="text-bold text-gray-500 truncate mt-4 text-center">{{ product.title }}</p>
         <p class="text-bold text-[#b7410e] mt-8 mb-6">${{ product.price }}</p>
       </div>
 
