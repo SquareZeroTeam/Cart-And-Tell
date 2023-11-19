@@ -1,6 +1,5 @@
 <script setup>
     const {data:categories} = await useFetch('https://fakestoreapi.com/products/categories');  
-    console.log(categories.value);
 </script>
 <template>
     <div class="container mx-auto px-4 mt-12">
