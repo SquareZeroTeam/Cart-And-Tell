@@ -3,5 +3,4 @@
       <NuxtLoadingIndicator />
       <NuxtPage />
     </NuxtLayout>
-
 </template>

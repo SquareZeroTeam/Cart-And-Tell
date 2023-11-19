@@ -4,6 +4,7 @@
         <HomeHero/>
         <Categories/>
         <ProductFeatures/>
+        <JustForYou/>
     </div>
 </template>
 
