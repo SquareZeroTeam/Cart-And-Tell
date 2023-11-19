@@ -2,7 +2,8 @@
     <div>
         <Header/>
         <HomeHero/>
-        <Categories/> 
+        <Categories/>
+        <ProductFeatures/>
     </div>
 </template>
 
