@@ -59,8 +59,4 @@
   .z-10:hover .opacity-100 {
     opacity: 0;
   }
-  .xblend {
-    mix-blend-mode: difference;
-    color: black; /* Set the default text color to white */
-}
 </style>

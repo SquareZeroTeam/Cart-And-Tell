@@ -5,7 +5,7 @@
     }
 </script>
 <template>
-    <header class="shadow-sm border-b-[1px] py-3 px-6 ">
+    <header class="shadow-sm border-b-[1px] py-3 px-6">
         <div class="container mx-auto flex flex-col sm:flex-row items-center">
             <NuxtLink to="/"><h1 class="text-blue-800 flex-none font-bold text-3xl mb-4 sm:mb-0">Cart & Tell</h1></NuxtLink>
             <div class="flex flex-1 w-full">
