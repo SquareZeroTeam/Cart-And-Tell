@@ -1,13 +1,17 @@
 <template>
     <div>
-        <p>ror</p>
+      <ProductDetails :product="product"/>
     </div>
-</template>
+  </template>
+  
+  <script setup>
 
-<script setup>
+  const { id } = useRoute().params;
+  const uri = `https://fakestoreapi.com/products/${id}`;
+  const { data: product } = await useFetch(uri, { key: id });
+  </script>
+  
+  <style scoped>
 
-</script>
-
-<style lang="scss" scoped>
-
-</style>
+  </style>
+  
