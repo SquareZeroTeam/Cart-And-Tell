@@ -3,7 +3,7 @@
     const AllProducts = useState('newArrivals',() =>products.value.splice(10,5));
 </script>
 <template>
-    <div class="p-4  w-full sm:w-[512px] sm:h-[700px] flex flex-col shadow-lg rounded-3xl">
+    <div class="bg-white p-4  w-full sm:w-[512px] sm:h-[700px] flex flex-col shadow-lg rounded-3xl my-4">
         <h2 class="my-4 text-3xl font-bold">New Arrivals</h2>
         <div class="w-full h-full flex overflow-x-scroll snap-x snap-mandatory no-scrollbar">
             <div class="snap-center flex-none h-full w-full flex flex-col justify-center items-center" v-for="products in AllProducts" >

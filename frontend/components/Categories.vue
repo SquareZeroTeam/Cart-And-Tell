@@ -2,7 +2,7 @@
     const {data:categories} = await useFetch('https://fakestoreapi.com/products/categories');  
 </script>
 <template>
-    <div class="container mx-auto px-4 mt-12">
+    <div class="container mx-auto px-4 my-12">
         <h2 class="my-4 text-3xl font-bold">Categories</h2>
         <div class="flex justify-start items-center  gap-4 overflow-x-scroll no-scrollbar">
             <div class="flex-none flex justify-evenly items-center border-2 rounded-full p-4 w-48 h-48">
