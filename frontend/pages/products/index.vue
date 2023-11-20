@@ -1,3 +1,9 @@
+<script setup>
+
+//Fetch the data from the fakestoreapi
+const { data: products } = await useFetch('https://fakestoreapi.com/products');
+</script>
+
 <template>
     <div>
       <Header />
@@ -21,11 +27,7 @@
   
 
 
-<script setup>
 
-//Fetch the data from the fakestoreapi
-const { data: products } = await useFetch('https://fakestoreapi.com/products');
-</script>
 
 <style scoped>
 

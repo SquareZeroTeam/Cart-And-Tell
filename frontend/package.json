@@ -13,13 +13,10 @@
     "@nuxt/devtools": "latest",
     "@nuxtjs/tailwindcss": "^6.9.4",
     "eslint": "^8.54.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-prettier": "^5.0.1",
     "nuxt": "^3.8.1",
     "prettier": "^2.8.8",
     "sass": "^1.69.5",
     "vue": "^3.3.8",
-    "vue-eslint-parser": "^8.3.0",
     "vue-router": "^4.2.5"
   }
 }

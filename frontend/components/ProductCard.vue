@@ -1,3 +1,12 @@
+<script setup>
+const { product } = defineProps(['product']);
+const isHovered = ref(false);
+
+const showDetails = (hover) => {
+  isHovered.value = hover;
+};
+</script>
+
 <template>
   <NuxtLink :to="`/products/${product.id}`">
     <div class="relative">
@@ -8,7 +17,7 @@
       >
         <img :src="product.image" alt="product" class="thumb object-contain">
         <p class="text-bold text-gray-500 truncate mt-4 text-center">{{ product.title }}</p>
-        <p class="text-bold text-[#b7410e] mt-8 mb-6">${{ product.price }}</p>
+        <p class="text-bold text-[#b7410e] mt-8 mb-6">₱{{ product.price * 10 }}</p>
       </div>
 
       <transition name="fade">
@@ -19,15 +28,6 @@
     </div>
   </NuxtLink>
 </template>
-
-<script setup>
-const { product } = defineProps(['product']);
-const isHovered = ref(false);
-
-const showDetails = (hover) => {
-  isHovered.value = hover;
-};
-</script>
 
 <style scoped>
 .thumb {
