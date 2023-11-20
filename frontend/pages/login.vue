@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <SignIn/>
+    <LogIn/>
 </template>
 
 <style lang="scss" scoped>
