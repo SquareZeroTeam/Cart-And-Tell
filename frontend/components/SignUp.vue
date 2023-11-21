@@ -15,7 +15,7 @@ watch(formDataRegister, () => {
 <template>
   <div class="container mx-auto">
     <h1 class="text-[#282F7A] flex-none font-bold text-3xl mt-6 ml-6 absolute">Cart & Tell</h1>
-    <div class="flex justify-center items-center flex-col h-screen">
+    <div class="flex justify-center items-center flex-col h-screen p-4">
       <h3 class="text-2xl font-bold text-black mb-6">Sign up with <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
         <input
@@ -68,7 +68,7 @@ watch(formDataRegister, () => {
       >
         Sign up
       </button>
-      <p class="text-md mt-0.25">
+      <p class="text-md mt-4">
         Already have an account? <NuxtLink to="/login" class="text-[#282F7A] font-bold cursor-pointer">Log In</NuxtLink>
       </p>
     </div>
