@@ -27,6 +27,24 @@ async function handler() {
   const result:loginFetchData = await login(formData.username, formData.password);
   if (result.access_token) {
     const token = useCookie('token');
+    token.value = result.access_token;
+
+    const userObj = useUserObj();
+    const response:any = await $fetch<{
+        username:string,
+        id:number,
+        cartCount: number,
+    }>(`${API}/auth/validate`,{
+        headers:{
+            Authorization: `Bearer ${token.value}`,
+            ContentType: 'application/json',
+        },
+        method: 'GET',
+    })
+    if (response) {
+        const userObj = useUserObj();
+        userObj.value = {...response,loggedIn:true};
+    }
     await navigateTo('/');
   }
   else {

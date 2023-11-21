@@ -20,11 +20,13 @@ export default defineNuxtPlugin( async () => {
         isInvalidToken = true;
     });
     if (isInvalidToken) {
+        const token = useCookie('token');
+        token.value = null;
         // return await navigateTo('/login',{ redirectCode: 301 });
     }
     if (result) {
         const userObj = useUserObj();
-        userObj.value = result;
+        userObj.value = {...result,loggedIn:true};
     }
 });
 

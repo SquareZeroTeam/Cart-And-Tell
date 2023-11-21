@@ -1,7 +1,9 @@
 <script setup>
     //Ping Free Render Server
     const API = useRuntimeConfig().public.API;
-    const {data,pending} = await useLazyFetch(`${API}`);
+    const { pending, data: result, error } = await useFetch(`${API}`, {
+        lazy: true
+    });
 </script>
 <template>
     <div>
