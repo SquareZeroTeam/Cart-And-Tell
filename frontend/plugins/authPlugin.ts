@@ -3,7 +3,6 @@ export default defineNuxtPlugin( async () => {
     const API = useRuntimeConfig().public.API;
     if (token.value === undefined) {
         // return await navigateTo('/login'); 
-        console.log("No token");
     }
     // Verify token
     let isInvalidToken = null;
@@ -22,12 +21,10 @@ export default defineNuxtPlugin( async () => {
     });
     if (isInvalidToken) {
         // return await navigateTo('/login',{ redirectCode: 301 });
-        console.log("Invalid token ");
     }
     if (result) {
         const userObj = useUserObj();
         userObj.value = result;
-        console.log(userObj.value.id);
     }
 });
 

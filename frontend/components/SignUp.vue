@@ -37,7 +37,6 @@ async function handler() {
     errorMessage.value = ["Confirm Password doesn't match"];
   }
   const result = await signup(formDataRegister.username,formDataRegister.password);
-  console.log(result);
   if (result) {
     const castedResult = result as registerFetchData
     if (castedResult.errors) {
@@ -50,9 +49,6 @@ async function handler() {
     }
   }
 }
-watch(formDataRegister, () => {
-  console.log(formDataRegister);
-});
 </script>
 
 <template>

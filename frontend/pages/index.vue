@@ -1,3 +1,8 @@
+<script setup>
+    //Ping Free Render Server
+    const API = useRuntimeConfig().public.API;
+    const {data,pending} = await useLazyFetch(`${API}`);
+</script>
 <template>
     <div>
         <Header/>
@@ -5,12 +10,10 @@
         <Categories/>
         <ProductFeatures/>
         <JustForYou/>
+        <Loading v-if="pending"/>
     </div>
 </template>
 
-<script setup>
-
-</script>
 
 <style scoped>
 
