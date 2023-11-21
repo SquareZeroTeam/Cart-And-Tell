@@ -7,7 +7,7 @@ export class AppController {
   constructor(private readonly appService: AppService, private readonly paymongo:PaymongoService ) {}
 
   @Get()
-  async getCheckout() {
-    return await this.paymongo.createCheckOut([]);
+  hello() {
+    return 'Cart-And-Tell API v1.0.0'
   }
 }
