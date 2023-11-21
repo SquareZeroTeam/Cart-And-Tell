@@ -1,12 +1,55 @@
-<script setup>
+<script setup lang="ts">
 import { reactive, watch } from 'vue';
 
+const errorMessage = ref<Array<any>>([]);
+const successMessage = ref<string>("");
 const formDataRegister = reactive({
   username: '',
   password: '',
   confirmPassword: ''
 });
 
+interface registerFetchData {
+  message: [string]
+  errors: [string]
+}
+const API = useRuntimeConfig().public.API;
+async function signup(username:string,password:string):Promise<registerFetchData> {
+  const result:registerFetchData =  await $fetch<registerFetchData>(`${API}/user`,{
+    method:'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({username,password}),
+  })
+  .then(res => res)
+  .catch((errors:{data:{message:[string]}})=> {
+    return {
+      message:[""],
+      errors:errors.data.message
+    }
+  }
+  );
+  return result;
+}
+async function handler() {
+  if (formDataRegister.password !== formDataRegister.confirmPassword) {
+    errorMessage.value = ["Confirm Password doesn't match"];
+  }
+  const result = await signup(formDataRegister.username,formDataRegister.password);
+  console.log(result);
+  if (result) {
+    const castedResult = result as registerFetchData
+    if (castedResult.errors) {
+      errorMessage.value = castedResult.errors;
+    }
+    else {
+      errorMessage.value = [];
+      successMessage.value = castedResult.message[0];
+      setTimeout(async () => await navigateTo("/login"),5000);
+    }
+  }
+}
 watch(formDataRegister, () => {
   console.log(formDataRegister);
 });
@@ -63,6 +106,7 @@ watch(formDataRegister, () => {
         </label>
       </div>
       <button
+        @click="handler"
         type="button"
         class="w-full md:w-[70%] lg:w-[50%] xl:w-[40%] h-[3rem] border-2 bg-[#282F7A] rounded-[0.5rem] text-white font-bold text-xl mt-0.5"
       >
@@ -71,6 +115,12 @@ watch(formDataRegister, () => {
       <p class="text-md mt-4">
         Already have an account? <NuxtLink to="/login" class="text-[#282F7A] font-bold cursor-pointer">Log In</NuxtLink>
       </p>
+      <div class="">
+          <ul class="mt-4 ">
+            <li v-for="error in errorMessage" class="font-bold">{{ error }}</li>
+            <li class="mt-4 font-bold">{{ successMessage }}</li>
+          </ul>
+      </div>
     </div>
   </div>
 </template>
