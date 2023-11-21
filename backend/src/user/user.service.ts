@@ -21,8 +21,8 @@ export class UserService {
     return {message:[`Successfully created user ${createUserDto.username}`]};
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll() {
+    return await this.prisma.user.findMany({select:{id:true,username:true,cart:true,_count:{select:{cart:true}}}})
   }
 
   findOne(id: number) {
@@ -39,6 +39,6 @@ export class UserService {
 
 
   async findOneByUsername(username:string) {
-    return await this.prisma.user.findUnique({where:{username},include: {cart:true}});
+    return await this.prisma.user.findUnique({where:{username},include: {cart:true,_count:{select:{cart:true}}}});
   }
 }
