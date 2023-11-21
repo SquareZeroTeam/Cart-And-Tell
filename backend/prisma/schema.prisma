@@ -21,6 +21,7 @@ model User {
 model Product {
   id Int @id @default(autoincrement())
   name String
+  image String?
   amount Int
   description String
   productItemId ProductItem?

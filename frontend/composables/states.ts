@@ -3,5 +3,6 @@ export const useUserObj = () => useState("userObj", () => {
         username:"",
         id:NaN,
         cartCount:0,
+        loggedIn:false,
     }
 });
