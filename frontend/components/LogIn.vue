@@ -1,20 +1,45 @@
-<script setup>
+<script setup lang="ts">
 import { reactive, watch } from 'vue';
-
-const formData = reactive({
+const API = useRuntimeConfig().public.API;
+const formData = reactive<{username:string, password:string}>({
   username: '',
   password: ''
 });
-
-watch(formData, () => {
-  console.log(formData);
-});
+const errorMessage = ref<string>("");
+interface loginFetchData {
+  message:string,
+  access_token?:string
+}
+async function login(username:string, password:string):Promise<loginFetchData> {
+  const data = await $fetch<string>(`${API}/auth/login`,{
+    method:'POST',
+    headers:{
+        "Content-Type": "application/json",
+    },
+    body: JSON.stringify({username,password})
+  })
+  .then(res => res)
+  .catch(error => error.data);
+  return data;
+}
+async function handler() {
+  errorMessage.value = "";
+  const result:loginFetchData = await login(formData.username, formData.password);
+  if (result.access_token) {
+    const token = useCookie('token');
+    await navigateTo('/');
+  }
+  else {
+    const errorMSG = (result.message === "Unauthorized") ? "Provide Username and Password":result.message; 
+    errorMessage.value = errorMSG;
+  }
+}
 </script>
 
 <template>
   <div class="container mx-auto">
     <h1 class="text-[#282F7A] flex-none font-bold text-3xl mt-6 ml-6 absolute">Cart & Tell</h1>
-    <div class="flex justify-center items-center flex-col h-screen">
+    <div class="flex justify-center items-center flex-col h-screen p-4">
       <h3 class="text-2xl font-bold text-black mb-6">Log In to <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
         <input
@@ -48,14 +73,20 @@ watch(formData, () => {
         <p class="text-sm text-[#282F7A] font-semibold cursor-pointer mb-1.5 mt-0.25">Forgot Password?</p>
       </div>
       <button
+        @click="handler"
         type="button"
         class="w-full md:w-[70%] lg:w-[50%] xl:w-[40%] h-[3rem] border-2 bg-[#282F7A] rounded-[0.5rem] text-white font-bold text-xl mt-0.5"
       >
         Log In
       </button>
-      <p class="text-md mt-0.25">
+      <p class="text-md mt-4">
         Don't have an account? <NuxtLink to="/signup" class="text-[#282F7A] font-bold cursor-pointer">Sign up</NuxtLink>
       </p>
+      <div class="">
+          <ul>
+            <li class="mt-4 font-bold">{{ errorMessage }}</li>
+          </ul>
+      </div>
     </div>
   </div>
 </template>

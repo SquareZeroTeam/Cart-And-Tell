@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  runtimeConfig:{
+    public:{
+      API:process.env.API
+    }
+  },
   app: {
     head: {
       title: 'Cart & Tell',

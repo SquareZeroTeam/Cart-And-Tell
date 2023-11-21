@@ -1,11 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from "bcryptjs";
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class AuthService {
-    constructor(private UserService:UserService, private jwtService:JwtService){}
+    constructor(
+        private UserService:UserService, 
+        private jwtService:JwtService,
+        private prisma:PrismaService
+        ){}
     // Authenticates Username and Password
     async validateUser(username:string, password:string):Promise<any> {
         const user = await this.UserService.findOneByUsername(username);
@@ -18,7 +23,7 @@ export class AuthService {
     }
     // Returns JWT Bearer Token
     async login(user:any) {
-        const payload = {username: user.username, id: user.id, cart:user.cart};
+        const payload = {username: user.username, id: user.id};
         return {
             // Calls Passport JWTStrategy
             access_token: this.jwtService.sign(payload)
