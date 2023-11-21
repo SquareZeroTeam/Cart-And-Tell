@@ -1,6 +1,5 @@
 <script setup>
     const {data:products} = await useFetch('https://fakestoreapi.com/products');
-    console.log (products.value);
 </script>
 <template>
     <div class="container mx-auto mt-20 justify-center items-center">

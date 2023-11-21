@@ -18,12 +18,24 @@ model User {
   cart ProductItem[]
 }
 
+model Merchant {
+  id Int @id @default(autoincrement())
+  name String @unique
+  email String @unique
+  website String @unique
+  image String?
+  products Product[]
+}
+
 model Product {
   id Int @id @default(autoincrement())
   name String
+  image String?
   amount Int
   description String
   productItemId ProductItem?
+  merchant Merchant @relation(fields: [merchantId], references: [id])
+  merchantId Int
 }
 
 model ProductItem {
