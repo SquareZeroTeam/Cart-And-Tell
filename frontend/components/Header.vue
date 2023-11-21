@@ -12,12 +12,12 @@
             <NuxtLink to="/"><h1 class="text-blue-800 flex-none font-bold text-3xl mb-4 sm:mb-0">Cart & Tell</h1></NuxtLink>
             <div class="flex flex-1 w-full">
                 <div class="sm:ml-8 ml-1 h-12 border-2 rounded-full flex-1 flex overflow-hidden ">
-                    <select class="bg-white text-xl px-4 w-[114px]">
+                    <select class="bg-white text-xl px-4 w-32">
                         <option value="Products" selected>
                             Products
                         </option>
-                        <option value="Vendors">
-                            Vendors
+                        <option value="Merchants">
+                            Merchants
                         </option>
                     </select>
                     <input type="text" class="flex-1 outline-none w-0 px-2 text-xl border-l-2">
@@ -50,11 +50,13 @@
                             <span class="material-symbols-outlined text-4xl">home</span>
                             <p class="block sm:hidden">Home</p>
                         </div> 
-                        <div class="relative top-2 flex flex-col justify-center items-c">
-                            <span class="material-symbols-outlined text-4xl">shopping_cart</span>
-                            <p class="block sm:hidden">Cart</p>
-                            <p class="absolute top-[-8px] left-5 bg-blue-600 h-6 w-6 text-center rounded-full text-white font-semibold">{{ userObj.cartCount }}</p>
-                        </div>
+                        <NuxtLink to="/user/cart">
+                            <div class="relative top-2 flex flex-col justify-center items-c">
+                                <span class="material-symbols-outlined text-4xl">shopping_cart</span>
+                                <p class="block sm:hidden">Cart</p>
+                                <p class="absolute top-[-8px] left-5 bg-blue-600 h-6 w-6 text-center rounded-full text-white font-semibold">{{ userObj.cartCount }}</p>
+                            </div>
+                        </NuxtLink>
                         <div class="relative sm:flex items-center flex flex-col sm:flex-row sm:top-1 justify-center items-c">
                             <span class="material-symbols-outlined text-4xl sm:text-5xl">account_circle</span>
                             <p class="text-xl font-semibold hidden sm:block">{{ userObj.username }}</p>

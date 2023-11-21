@@ -1,10 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { PaymongoService } from './paymongo/paymongo.service';
 import { promisify } from 'util';
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService, private readonly paymongo:PaymongoService ) {}
+  constructor(private readonly appService: AppService ) {}
 
   @Get()
   hello() {
