@@ -22,9 +22,11 @@
                         </option>
                     </select>
                     <input type="text" class="flex-1 outline-none w-0 px-2 text-xl border-l-2">
-                    <button class="flex justify-center items-center bg-blue-800 w-12 rounded-full text-white">
-                        <span class="material-symbols-outlined">search</span>
-                    </button>
+                    <NuxtLink to="/products">
+                        <button class="flex-none bg-blue-800 text-white px-4 h-full flex justify-center items-center">
+                            <span class="material-symbols-outlined">search</span>
+                        </button>
+                    </NuxtLink>
                 </div>
                 <nav class="flex w-full sm:ml-4 justify-center items-center absolute top-[125px] left-0 sm:static sm:w-56">
                     <button @click="modalToggle" class="flex-none rounded-md border-2 h-12 w-12 flex justify-center items-center sm:hidden absolute top-[calc(-125px+0.5rem)] right-2">
