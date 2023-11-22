@@ -7,7 +7,7 @@ const { data: product } = await useFetch(uri, { key: id });
 
 
 
-<template class="bg-red">
+<template class="">
   <Header />
 
     <ProductDetails :product="product"/>
