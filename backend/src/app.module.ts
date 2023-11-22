@@ -7,9 +7,10 @@ import { UserModule } from './user/user.module';
 import { PrismaService } from './prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { PaymongoModule } from './paymongo/paymongo.module';
+import { MerchantModule } from './merchant/merchant.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule],
+  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
