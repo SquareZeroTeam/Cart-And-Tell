@@ -28,17 +28,31 @@
     }
 </script>
 <template>
-    <div>
+    <div class="bg-gray-200 h-screen">
         <Header/>
-        <div class="container mx-auto">
-            <h1>Cart</h1>
-            <div>Checked names: {{ checkedItems }}</div>
-            <div class="" v-if="pending">loading</div>
-            <div v-else v-for="item in userData.cart">
-                <input type="checkbox" :value="item.id" v-model="checkedItems">
-                <p>{{ item.product.name }}</p>
+        <div class="container mx-auto w-[1280px] h-[calc(100svh-74px)] p-4 ">
+            <div class="my-4 bg-white p-4 rounded-md">
+                <p class="font-bold">Selected Items : {{ checkedItems.length }}</p>
             </div>
-            <button @click="checkout" class="button">Checkout</button>
+            <div class="" v-if="pending">loading</div>
+            <div v-else v-for="item in userData.cart" class="flex gap-4 bg-white p-4 rounded-md">
+                <input type="checkbox" :value="item.id" v-model="checkedItems">
+                <div class="flex gap-2">
+                    <img :src="item.product.image" alt="" class="h-36 rounded-md">
+                    <p>{{ item.product.name }}</p>
+                </div>
+                <div class="flex-1 flex justify-center items-center">
+                    <p class="text-2xl font-bold text-blue-800">
+                        ₱{{ item.product.amount }}
+                    </p>
+                </div>
+                <div class="flex-1 flex justify-end items-center gap-5">
+                    <button class="h-12 w-12 bg-gray-200">-</button>
+                    <p>1</p>
+                    <button class="h-12 w-12 bg-gray-300">+</button>
+                </div>
+            </div>
+            <button @click="checkout" class="button mt-4 bg-blue-800 text-white font-bold px-4 py-2 rounded-full">Checkout</button>
         </div>
     </div>
 </template>
