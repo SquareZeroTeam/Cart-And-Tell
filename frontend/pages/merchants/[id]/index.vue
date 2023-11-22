@@ -2,12 +2,11 @@
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
     const {data:merchant} = useFetch<any>(`${API}/merchant/${id}`);
-    console.log(merchant.value);
 </script>
 <template>
     <div>
         <Header/>
-        <div class="container mx-auto shadow-md p-8  rounded-lg mt-10 max-w-[1280px]">
+        <div v-if="merchant" class="container mx-auto shadow-md p-8  rounded-lg mt-10 max-w-[1280px]">
             <div class="flex justify-between">
                 <h1 class="text-2xl font-semibold text-blue-800">{{ merchant.name }}</h1>
                 <NuxtLink :to="merchant.website" class="flex gap-2">
@@ -40,7 +39,7 @@
             <div class="mt-10">
                 <h2 class="text-2xl font-bold mb-4">Products</h2>
                 <div class="flex">
-                    <NuxtLink :to="`/products.${product.id}`" class=" rounded-lg " v-for="product in merchant.products">
+                    <NuxtLink :to="`/products/${product.id}`" class=" rounded-lg " v-for="product in merchant.products">
                         <div class="h-[300px] w-[200px] rounded-lg shadow-md">
                             <img :src="product.image" alt="" class="rounded-lg">
                             <p class="p-4 text-center font-medium">{{ product.name }}</p>
