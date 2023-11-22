@@ -5,12 +5,15 @@
     <div class="container mx-auto px-4 my-12">
         <h2 class="my-4 text-3xl font-bold">Categories</h2>
         <div class="flex justify-start items-center  gap-4 overflow-x-scroll no-scrollbar">
-            <div class="flex-none flex justify-evenly items-center border-2 rounded-full p-4 w-48 h-48 hover:border-blue-800">
-                <div class="text-center">
-                    <span class="text-5xl material-symbols-outlined">real_estate_agent</span>
-                    <p class="text-xl font-bold text-center">Real Estate</p>
+
+            <NuxtLink to="/merchants">
+                <div class="flex-none flex justify-evenly items-center border-2 rounded-full p-4 w-48 h-48 hover:border-blue-800">
+                    <div class="text-center">
+                        <span class="text-5xl material-symbols-outlined">real_estate_agent</span>
+                        <p class="text-xl font-bold text-center">Real Estate</p>
+                    </div>
                 </div>
-            </div>
+            </NuxtLink>
             <div class="flex-none flex justify-evenly items-center border-2 rounded-full p-4 w-48 h-48 hover:border-blue-800">
                 <div class="text-center">
                     <span class="text-5xl material-symbols-outlined">restaurant</span>

@@ -3,7 +3,7 @@
 </script>
 <template>
     <div class="container mx-auto my-4">
-        <h2 class="my-4 text-3xl font-bold">Just For You</h2>
+        <h2 class="my-4 text-3xl font-bold p-4">Just For You</h2>
         <div class="flex flex-wrap gap-4 justify-center p-4">
             <NuxtLink v-for="product in products" :to="`/products/${product.id}`">
                 <div class=" w-[150px] h-[330px] sm:w-[280px] sm:h-[400px] flex flex-col justify-between p-4 shadow-md rounded-lg">
