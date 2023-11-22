@@ -61,18 +61,7 @@
                 
                 </div>
             </div>
-            <footer class="bg-[#2563EB]  shadow-2xl bottom-0 relative">
-                <div class="mx-auto flex">
-                    <div class="flex items-center">
-                        <input type="checkbox" class="ml-12 h-4 w-4 rounded-md text-[#2563EB] focus:ring-[#2563EB] ring-1 ring-offset-1 ring-offset-white" />
-                        <p class="m-10">Select All {{ checkedItems }}</p>
-                    </div>
-                    <div class="flex items-center justify-end">
-                        <button @click="checkout" class="button">Checkout</button>
-                    </div>
-                </div>
-            </footer>
+            <button @click="checkout" class="button">Checkout</button>
         </div>
-    </div>
   </template>
   
