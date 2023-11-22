@@ -12,7 +12,7 @@
             <NuxtLink to="/"><h1 class="text-blue-800 flex-none font-bold text-3xl mb-4 sm:mb-0">Cart & Tell</h1></NuxtLink>
             <div class="flex flex-1 w-full">
                 <div class="sm:ml-8 ml-1 h-12 border-2 rounded-full flex-1 flex overflow-hidden ">
-                    <select class="bg-white text-xl px-4 w-32">
+                    <select class="bg-white text-xl px-4 w-36">
                         <option value="Products" selected>
                             Products
                         </option>
