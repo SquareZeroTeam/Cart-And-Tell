@@ -46,10 +46,12 @@
                         </div>
                     </div>
                     <div class="w-full h-20 flex justify-evenly items-center gap-4 fixed sm:h-0 sm:static left-0 bottom-0 bg-white" v-else>
-                        <div class="relative top-2 flex flex-col justify-center items-center sm:hidden">
-                            <span class="material-symbols-outlined text-4xl">home</span>
-                            <p class="block sm:hidden">Home</p>
-                        </div> 
+                        <NuxtLink to="/">
+                            <div class="relative top-2 flex flex-col justify-center items-center sm:hidden">
+                                <span class="material-symbols-outlined text-4xl">home</span>
+                                <p class="block sm:hidden">Home</p>
+                            </div> 
+                        </NuxtLink>
                         <NuxtLink to="/user/cart">
                             <div class="relative top-2 flex flex-col justify-center items-c">
                                 <span class="material-symbols-outlined text-4xl">shopping_cart</span>
