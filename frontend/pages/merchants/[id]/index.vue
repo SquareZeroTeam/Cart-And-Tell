@@ -43,11 +43,12 @@
                         <div class="h-[300px] w-[200px] rounded-lg shadow-md">
                             <img :src="product.image" alt="" class="rounded-lg">
                             <p class="p-4 text-center font-medium">{{ product.name }}</p>
-                            <p class="text-center">₱{{ product.amount }}</p>
+                            <p class="text-center text-[#2563EB] font-semibold text-lg">₱{{ product.amount }}</p>
                         </div>
                     </NuxtLink>
                 </div>
             </div>
         </div>
+        <Footer/>
     </div>
 </template>

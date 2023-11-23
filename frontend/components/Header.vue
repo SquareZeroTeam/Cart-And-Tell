@@ -7,7 +7,7 @@
     // console.log(userObj);
 </script>
 <template>
-    <header class="shadow-sm border-b-[1px] py-3 px-6 bg-white">
+    <header class="shadow-sm border-b-[1px] py-3 px-6">
         <div class="container mx-auto flex flex-col sm:flex-row items-center">
             <NuxtLink to="/"><h1 class="text-blue-800 flex-none font-bold text-3xl mb-4 sm:mb-0">Cart & Tell</h1></NuxtLink>
             <div class="flex flex-1 w-full">
@@ -46,12 +46,10 @@
                         </div>
                     </div>
                     <div class="w-full h-20 flex justify-evenly items-center gap-4 fixed sm:h-0 sm:static left-0 bottom-0 bg-white" v-else>
-                        <NuxtLink to="/">
-                            <div class="relative top-2 flex flex-col justify-center items-center sm:hidden">
-                                <span class="material-symbols-outlined text-4xl">home</span>
-                                <p class="block sm:hidden">Home</p>
-                            </div> 
-                        </NuxtLink>
+                        <div class="relative top-2 flex flex-col justify-center items-center sm:hidden">
+                            <span class="material-symbols-outlined text-4xl">home</span>
+                            <p class="block sm:hidden">Home</p>
+                        </div> 
                         <NuxtLink to="/user/cart">
                             <div class="relative top-2 flex flex-col justify-center items-c">
                                 <span class="material-symbols-outlined text-4xl">shopping_cart</span>

@@ -1,6 +1,6 @@
 <script setup>
     //Ping Free Render Server
-    const API = useRuntimeConfig().public.API;
+    // const API = useRuntimeConfig().public.API;
     // const { pending, data: result, error } = await useFetch(`${API}`, {
     //     lazy: true
     // });
