@@ -12,7 +12,6 @@
         <Categories/>
         <ProductFeatures/>
         <JustForYou/>
-        <Footer/>
         <!-- <Loading v-if="pending"/> -->
     </div>
 </template>
