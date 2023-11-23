@@ -23,6 +23,7 @@ async function login(username:string, password:string):Promise<loginFetchData> {
   return data;
 }
 async function handler() {
+  console.log("TEST");
   errorMessage.value = "";
   const result:loginFetchData = await login(formData.username, formData.password);
   if (result.access_token) {
@@ -67,11 +68,11 @@ async function handler() {
           type="text"
           id="username"
           required
-          class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-1.5"
+          class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-[2rem]"
         />
         <label
           for="username"
-          class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-1.5 text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
+          class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-[2rem] text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
         >
           Username
         </label>
@@ -82,11 +83,11 @@ async function handler() {
           type="password"
           id="password"
           required
-          class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-1.5"
+          class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-[2rem]"
         />
         <label
           for="password"
-          class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-1.5 text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
+          class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-[2rem] text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
         >
           Password
         </label>
