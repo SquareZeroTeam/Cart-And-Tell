@@ -9,7 +9,7 @@
         <div class="lg:ml-16">
           <p class="text-3xl font-bold">{{ product.title }}</p>
           <p class="text-xl font-semibold text-gray-700 mb-6">{{ product.category }}</p>
-          <p class="text-4xl text-[#282F7A] font-bold mb-12">${{ product.price }}</p>
+          <p class="text-4xl text-[#282F7A] font-bold mb-12">₱{{ product.price }}</p>
           <p class="text-lg text-gray-600 leading-relaxed mb-6">{{ product.description }}</p>
 
           <div class="flex items-center mb-8 lg:mt-40">

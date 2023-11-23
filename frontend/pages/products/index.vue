@@ -4,17 +4,25 @@
 const { data: products } = await useFetch('https://fakestoreapi.com/products');
 </script>
 <template>
-  <div>
+  <div class="">
     <Header />
     <div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-col items-center justify-center mb-8">
+      <!-- <div class="flex flex-col items-center justify-center mb-8">
         <div class="flex justify-center items-center mb-4">
           <div class="flex items-center h-3 w-32">
             <span class="material-symbols-outlined text-lg mr-2">filter_alt</span>
             <p class="text-lg">Search Filter</p>
           </div>
         </div>
-      </div>
+      </div> -->
+      <div class="flex h-16 justify-between items-center p-4">
+                <NuxtLink to="/products" class="flex-1 flex justify-center">
+                    <button type="button" class="text-3xl font-bold underline text-[#2563EB]">Products</button>
+                </NuxtLink>
+                <NuxtLink to="/merchants" class="flex-1 flex justify-center">
+                    <button type="button" class="text-3xl font-bold text-[#2563EB]">Merchants</button>
+                </NuxtLink>
+            </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <div v-for="p in products" :key="p.id">
@@ -23,6 +31,7 @@ const { data: products } = await useFetch('https://fakestoreapi.com/products');
       </div>
     </div>
   </div>
+  <Footer/>
 </template>
 
   

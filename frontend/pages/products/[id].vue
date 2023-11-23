@@ -12,7 +12,7 @@ const { data: product } = await useFetch(uri, { key: id });
 
     <ProductDetails :product="product"/>
 
-    
+    <Footer/>
 </template>
   
 
