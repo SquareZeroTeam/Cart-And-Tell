@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
 import { MerchantService } from './merchant.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
@@ -8,7 +8,7 @@ export class MerchantController {
   constructor(private readonly merchantService: MerchantService) {}
 
   @Post()
-  create(@Body() createMerchantDto: CreateMerchantDto) {
+  create(@Body(new ValidationPipe) createMerchantDto: CreateMerchantDto) {
     return this.merchantService.create(createMerchantDto);
   }
 
