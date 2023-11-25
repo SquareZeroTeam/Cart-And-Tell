@@ -1,12 +1,16 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/db/prisma/prisma.service';
+import { SupabaseService } from 'src/microservices/supabase/supabase.service';
 
 @Injectable()
 export class MerchantService {
-  constructor(private readonly prisma:PrismaService) {}
-  async create(createMerchantDto: CreateMerchantDto) {
+  constructor(
+    private readonly prisma:PrismaService,
+    private readonly supabase:SupabaseService
+  ) {}
+  async create(createMerchantDto: CreateMerchantDto,image:Express.Multer.File) {
     // Checks if an email or name already exists
     const merchantExist = await this.prisma.merchant.findFirst({
       where:{
@@ -19,14 +23,15 @@ export class MerchantService {
     if (merchantExist) {
       throw new BadRequestException("Merchant already exists");
     }
-    const {image,...rest} = createMerchantDto;
     //Supabase Image Upload implementation
     if (image) {
-      //To-Do: Implement image upload
+      const imageLink:string = await this.supabase.uploadImage(image);
+      const newMerchant =  await this.prisma.merchant.create({data:{...createMerchantDto,image:imageLink}});
+      return {message:`Successfully Created Merchant ${newMerchant.name}`};
     }
 
     // Creates a new merchant
-    const newMerchant =  await this.prisma.merchant.create({data:{...rest}});
+    const newMerchant =  await this.prisma.merchant.create({data:{...createMerchantDto}});
     return {message:`Successfully Created Merchant ${newMerchant.name}`};
   }
   
@@ -44,7 +49,7 @@ export class MerchantService {
     }
   }
 
-  async update(id: number, updateMerchantDto: UpdateMerchantDto) {
+  async update(id: number, updateMerchantDto: UpdateMerchantDto,image:Express.Multer.File) {
     const merchant = await this.prisma.merchant.findUnique({where:{id}});
     if (!merchant) {
       throw new NotFoundException("Merchant not found");
@@ -60,14 +65,17 @@ export class MerchantService {
     if (merchantExit) {
       throw new BadRequestException("Merchant already exists");
     }
-    const {image,...rest} = updateMerchantDto;
     //Supabase Image Upload implementation
     if (image) {
-      //To-Do: Implement image upload
+      const imageLink = await this.supabase.uploadImage(image);
+      const updatedMerchant = await this.prisma.merchant.update({
+        where:{id},
+        data:{...updateMerchantDto,image:imageLink}
+      });
     }
     const updatedMerchant = await this.prisma.merchant.update({
       where:{id},
-      data:{...rest}
+      data:{...updateMerchantDto}
     });
     return {message:`Successfully updated Merchant ${updatedMerchant.name}`,};
   }
