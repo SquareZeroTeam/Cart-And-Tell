@@ -4,11 +4,10 @@
 
 <template>
     <div>
-
-        <p>RORRRRR</p>
+        <MerchantHeader/>
     </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>
