@@ -10,20 +10,44 @@
     <header class="shadow-sm border-b-[1px] pb-4 lg:px-40 md:px-20 sm:px-8 bg-[#2563EB]">
         <div class="container mx-auto pb-6 pt-2 text-white text-md hidden sm:block lg:block">
             <div class="flex items-center">
-                <NuxtLink to="/merchantcentre">
-                    <button>
-                        <span>
-                            Merchant Centre
+                <div v-if="!userObj.loggedIn">
+                    <NuxtLink to="/login">
+                        <button>
+                            <span>
+                                Merchant Center
+                                <span class="m-3 text-gray-200">|</span>
+                            </span>
+                        </button>
+                    </NuxtLink>
+                    <NuxtLink to="/signup">
+                        <button>
+                            <span>
+                                Start Selling
+                            </span>
                             <span class="m-3 text-gray-200">|</span>
-                        </span>
-                    </button>
-                </NuxtLink>
-                <button>
-                    <span>
-                        Start Selling
-                    </span>
-                    <span class="m-3 text-gray-200">|</span>
-                </button>
+                        </button>
+                    </NuxtLink>
+                </div>
+                <div v-else>
+                    <NuxtLink to="/merchant/merchantcenter">
+                        <button>
+                            <span>
+                                Merchant Center
+                                <span class="m-3 text-gray-200">|</span>
+                            </span>
+                        </button>
+                    </NuxtLink>
+                    <NuxtLink to="/merchant/merchantcenter">
+                        <button>
+                            <span>
+                                Start Selling
+                            </span>
+                            <span class="m-3 text-gray-200">|</span>
+                        </button>
+                    </NuxtLink>
+                </div>
+                
+                
                 <span>Follow us on</span>
                 <button class="ml-2 w-6 h-6">
                     <a href="https://facebook.com" target="_blank">
@@ -63,19 +87,19 @@
                 </div>
                 <nav class="flex w-full sm:ml-4 justify-center items-center absolute top-[125px] left-0 sm:static sm:w-56">
                     <div class="w-full" v-if="!userObj.loggedIn">
-                        <button @click="modalToggle" class="flex-none rounded-md border-2 h-12 w-12 flex justify-center items-center sm:hidden absolute top-[calc(-125px+0.5rem)] right-2">
+                        <button @click="modalToggle" class="text-red flex-none bg-white rounded-md h-10 w-10 flex justify-center items-center sm:hidden absolute top-[calc(-125px+0.5rem)] right-2">
                         <span class="material-symbols-outlined">menu</span>
                         </button>
                         <div ref="refTemp" class="nav-burger w-full sm:mt-0 sm:flex hidden gap-2">
                             <NuxtLink to="/login">
-                                <button class=" text-xl font-bold flex-1 w-full sm:w-auto border-2 px-4 h-12 rounded-full flex justify-center items-center">
+                                <button class="mb-2 border-[#2563EB] text-xl font-bold flex-1 w-full sm:w-auto border-2 px-4 h-12 rounded-full flex justify-center items-center">
                                 <span class="material-symbols-outlined">person</span>
                                 Login
                             </button>
                             </NuxtLink>
                             
                             <NuxtLink to="/signup">
-                                <button class="text-xl font-bold text-white bg-blue-800 flex-1 w-full sm:w-auto border-2 border-blue-800 px-4 h-12 rounded-full">Signup</button>
+                                <button class="text-xl font-bold text-white bg-[#282F7A] flex-1 w-full sm:w-auto px-4 h-12 rounded-full">Signup</button>
                             </NuxtLink> 
                         </div>
                     </div>
