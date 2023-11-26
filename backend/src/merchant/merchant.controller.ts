@@ -1,15 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { MerchantService } from './merchant.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('merchant')
 export class MerchantController {
   constructor(private readonly merchantService: MerchantService) {}
 
   @Post()
-  create(@Body(new ValidationPipe) createMerchantDto: CreateMerchantDto) {
-    return this.merchantService.create(createMerchantDto);
+  @UseInterceptors(FileInterceptor('image'))
+  create(
+    @Body(new ValidationPipe) createMerchantDto: CreateMerchantDto,
+    @UploadedFile() image:Express.Multer.File
+    ) {
+    return this.merchantService.create(createMerchantDto,image);
   }
 
   @Get()
@@ -23,8 +28,12 @@ export class MerchantController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateMerchantDto: UpdateMerchantDto) {
-    return this.merchantService.update(+id, updateMerchantDto);
+  update(
+    @Param('id') id: string, 
+    @Body() updateMerchantDto: UpdateMerchantDto,
+    @UploadedFile() image:Express.Multer.File
+  ) {
+    return this.merchantService.update(+id, updateMerchantDto,image);
   }
 
   @Delete(':id')
