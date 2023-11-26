@@ -95,7 +95,6 @@ const handleToggleDropDown3 = () => {
 </template>
 
 <style scoped>
-/* Add any additional styles as needed */
 .rotate-180 {
     transform: rotate(180deg);
 }
