@@ -7,5 +7,4 @@ export class CreateMerchantDto {
     email: string;
     @IsUrl()
     website: string;
-    image: string;
 }

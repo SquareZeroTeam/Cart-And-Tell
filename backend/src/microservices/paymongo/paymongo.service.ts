@@ -1,7 +1,7 @@
 import { HttpException, Injectable, InternalServerErrorException, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
 import { CreatePaymongoDto } from './dto/create-paymongo.dto';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from 'src/db/prisma/prisma.service';
 @Injectable()
 export class PaymongoService implements OnModuleInit{
   constructor(private readonly prisma:PrismaService) {}
