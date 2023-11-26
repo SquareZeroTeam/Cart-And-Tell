@@ -1,15 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
+import { PrismaService } from 'src/db/prisma/prisma.service';
 
 @Injectable()
 export class CartService {
-  create(createCartDto: CreateCartDto) {
-    return 'This action adds a new cart';
+  constructor(private prisma:PrismaService) {}
+  async create(createCartDto: CreateCartDto,userId:number) {
+    const user = await this.prisma.user.findUnique({where:{id:userId}});
+    const product = await this.prisma.product.findUnique({where:{id:createCartDto.productId}});
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    if (!product) {
+      throw new NotFoundException("Product not found");
+    }
+    const addedCart = await this.prisma.user.update({
+      where:{id:userId},
+      data:{
+        cart: {
+          upsert:{
+            where: {
+              productId: createCartDto.productId,
+            },
+          create:{
+            quantity:1,
+            productId:createCartDto.productId,
+          },
+          update:{
+            quantity:{
+              increment:1
+            }
+          }
+        }}
+      }})
+      return {message:`Successfully added product ${createCartDto.productId} to cart`};
   }
-
-  findAll() {
-    return `This action returns all cart`;
+  async findAll(userId:number) {
+    const user = await this.prisma.user.findUnique({where:{id:userId}});
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    return await this.prisma.user.findUnique({where:{id:userId},include:{cart:true}});
   }
 
   findOne(id: number) {

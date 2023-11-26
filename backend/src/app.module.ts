@@ -9,8 +9,9 @@ import { JwtService } from '@nestjs/jwt';
 import { MerchantModule } from './merchant/merchant.module';
 import { PaymongoModule } from './microservices/paymongo/paymongo.module';
 import { SupabaseService } from './microservices/supabase/supabase.service';
+import { ProductsModule } from './products/products.module';
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule],
+  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule],
   controllers: [AppController],
   providers: [AppService, PrismaService, SupabaseService],
 })
