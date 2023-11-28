@@ -2,7 +2,7 @@
     const userObj = useUserObj().value;
 </script>
 <template>
-    <header class="shadow-sm border-b-[1px] bg-white ">
+    <header class="shadow-sm border-b-[1px] bg-white">
         <div class=" text-white text-md ">
                 <div class="text-[#2563EB] mt-2 mb-2 items-center flex justify-end px-6">
                     <NuxtLink to="/">
@@ -20,7 +20,7 @@
                             <span class="material-symbols-outlined text-5xl">account_circle</span>
                             <p class="text-lg font-medium text-black">{{ userObj.username }}</p>   
                         </div> 
-                        <div class="w-[2px] h-12 bg-gray-300"></div>
+                        <div class="w-[2px] h-10 bg-gray-300 opacity-80"></div>
                         <div>
                             <span class="material-symbols-outlined text-4xl">notifications_unread</span>
                         </div>            
