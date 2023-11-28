@@ -9,7 +9,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit{
     }
 }
 
-
 // await db.merchant.create({data:{
 //     name:"Cathay Land Inc.",
 //     email:"CathaylandInc@gmail.com",

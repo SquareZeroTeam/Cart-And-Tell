@@ -23,13 +23,13 @@ export class AppController {
   // @Get('createproducts')
   // async createproducts() {
   //   const products = await fetch('https://fakestoreapi.com/products').then(res => res.json());
+  //   console.log(products);
   //   const newMerchant = await this.prisma.merchant.create({data:{
   //     name:"FakeStore API",
   //     website:"https://fakestoreapi.com/",
   //     email:"fakestoreapi@fake.com",
   //     image:"https://fakestoreapi.com/icons/logo.png"
   //   }});
-  //   // const newMerchant = {id:3};
   //   const filteredProducts = products.map(product => {
   //     return  {
   //       name:product.title,
@@ -39,12 +39,12 @@ export class AppController {
   //       // merchantId:newMerchant.id
   //     }
   //   });
-  //   await this.prisma.merchant.update({
+  //   const newProducts = await this.prisma.merchant.update({
   //     where:{id:newMerchant.id},
   //     data:{
   //       products:{createMany:{data:filteredProducts}}
   //     }
   //   });
-  //   return filteredProducts;
+  //   return {message: "Successfully Created Mock Products"};
   // }
 }

@@ -4,11 +4,13 @@ import { UserController } from './user.controller';
 import { PrismaService } from 'src/db/prisma/prisma.service';
 import { JwtStrategy } from 'src/authentication/auth/jwt.strategy';
 import { CartModule } from './cart/cart.module';
+import { PaymongoService } from 'src/microservices/paymongo/paymongo.service';
+import { PrismaModule } from 'src/db/prisma/prisma.module';
 @Module({
 
   controllers: [UserController],
-  providers: [UserService,PrismaService,JwtStrategy],
+  providers: [UserService,JwtStrategy],
   exports: [UserService],
-  imports: [CartModule]
+  imports: [CartModule, PrismaModule]
 })
 export class UserModule {}
