@@ -1,5 +1,6 @@
 <script setup>
-    const {data:products} = useFetch('https://fakestoreapi.com/products');
+    const API = useRuntimeConfig().public.API;
+    const { data: products } = await useFetch(`${API}/products`);
 </script>
 <template>
     <div class="container mx-auto my-4">
@@ -11,7 +12,7 @@
                         <img :src="product.image" alt="" class="object-contain h-full">
                     </div>
                     <p class="text-ellipsis overflow-hidden whitespace-pre-line h-24">{{ product.title }}</p>
-                    <p class="text-[#282F7A] text-center font-bold py-3">₱{{ (product.price * 10).toFixed(2)}}</p>
+                    <p class="text-[#282F7A] text-center font-bold py-3">₱{{ product.amount }}</p>
                 </div>
             </NuxtLink>
         </div>  

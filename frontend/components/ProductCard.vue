@@ -17,7 +17,7 @@ const showDetails = (hover) => {
       >
         <img :src="product.image" alt="product" class="thumb object-contain">
         <p class="font-bold text-gray-700 truncate mt-4 text-center">{{ product.title }}</p>
-        <p class="font-bold text-xl  text-[#282F7A] mt-8 mb-6">₱{{ product.price * 10 }}</p>
+        <p class="font-bold text-xl  text-[#282F7A] mt-8 mb-6 text-center">₱{{ product.amount * 10 }}</p>
       </div>
 
       <transition name="fade">

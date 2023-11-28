@@ -1,5 +1,4 @@
 <script setup>
-    const {data:products} = await useFetch('https://fakestoreapi.com/products');
 </script>
 <template>
     <div class="container mx-auto mt-16 justify-center items-center">

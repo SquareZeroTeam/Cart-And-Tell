@@ -1,8 +1,7 @@
-<script setup>
-
+<script setup lang="ts">
 const { id } = useRoute().params;
-const uri = `https://fakestoreapi.com/products/${id}`;
-const { data: product } = await useFetch(uri, { key: id });
+const API = useRuntimeConfig().public.API;
+const { data: product } = await useFetch(`${API}/products/${id}`,{key:id as string});
 </script>
 
 

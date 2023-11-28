@@ -1,7 +1,8 @@
 <script setup>
 
 //Fetch the data from the fakestoreapi
-const { data: products } = await useFetch('https://fakestoreapi.com/products');
+const API = useRuntimeConfig().public.API;
+const { data: products } = await useFetch(`${API}/products/`);
 </script>
 <template>
   <div class="">
