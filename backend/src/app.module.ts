@@ -11,6 +11,7 @@ import { PaymongoModule } from './microservices/paymongo/paymongo.module';
 import { SupabaseService } from './microservices/supabase/supabase.service';
 import { ProductsModule } from './products/products.module';
 import { PrismaModule } from './db/prisma/prisma.module';
+import { CartModule } from './user/cart/cart.module';
 @Module({
   imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule],
   controllers: [AppController],

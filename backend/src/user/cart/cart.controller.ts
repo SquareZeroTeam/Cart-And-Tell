@@ -1,11 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, ValidationPipe, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, ParseIntPipe } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
-import { JwtAuthGuard } from 'src/authentication/auth/jwt.auth.guard';
-import { IsUserSelfOrAdminGuard } from 'src/guards/is-user-self-or-admin/is-user-self-or-admin.guard';
+import { DeleteCarDto } from './dto/delete-car.dto';
 
-@UseGuards(JwtAuthGuard,IsUserSelfOrAdminGuard)
 @Controller('user/:userId/cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
@@ -31,7 +29,7 @@ export class CartController {
   }
 
   @Delete('')
-  remove(@Body(new ValidationPipe) createCartDto: CreateCartDto, @Param('userId',ParseIntPipe) userId: number) {
-    return this.cartService.remove(createCartDto,userId);
+  remove(@Body(new ValidationPipe) deleteCarDto:DeleteCarDto, @Param('userId',ParseIntPipe) userId: number) {
+    return this.cartService.remove(deleteCarDto,userId);
   }
 }

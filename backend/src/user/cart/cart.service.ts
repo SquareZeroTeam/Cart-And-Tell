@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
 import { PrismaService } from 'src/db/prisma/prisma.service';
+import { DeleteCarDto } from './dto/delete-car.dto';
 
 @Injectable()
 export class CartService {
@@ -59,10 +60,10 @@ export class CartService {
     return `This action updates a #${id} cart`;
   }
 
-  async remove(createCartDto:CreateCartDto,userId:number) {
+  async remove(deleteCarDto:DeleteCarDto,userId:number) {
     // Removed many product from productID list
-    const deletedProducts = await this.prisma.productItem.deleteMany({where:{userId:userId,productId:{in:createCartDto.products}}});
+    const deletedProducts = await this.prisma.productItem.deleteMany({where:{userId:userId,productId:{in:deleteCarDto.products}}});
     console.log(deletedProducts);
-    return `Successfully Removed products:${createCartDto.products} from cart of user:${userId}`;
+    return `Successfully Removed products:${deleteCarDto.products} from cart of user:${userId}`;
   }
 }
