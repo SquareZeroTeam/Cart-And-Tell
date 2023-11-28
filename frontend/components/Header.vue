@@ -92,7 +92,7 @@
                         </button>
                         <div ref="refTemp" class="nav-burger w-full sm:mt-0 sm:flex hidden gap-2">
                             <NuxtLink to="/login">
-                                <button class="mb-2 bg-[#2563EB] sm:bg-white text-xl font-bold flex-1 w-full sm:w-auto border-2 px-4 h-12 rounded-full flex justify-center items-center">
+                                <button class="mb-2 bg-[#2563EB] sm:bg-white text-xl font-bold flex-1 w-full sm:w-auto px-4 h-12 rounded-full flex justify-center items-center">
                                 <span class="material-symbols-outlined">person</span>
                                 Login
                             </button>
