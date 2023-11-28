@@ -6,5 +6,5 @@ export class CreateCartDto {
     quantity:number;
 
     @IsNotEmpty()
-    productId:number;
+    products:number[];
 }

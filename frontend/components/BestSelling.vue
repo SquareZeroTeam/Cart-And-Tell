@@ -1,5 +1,6 @@
 <script setup>
-    const {data:products} = await useFetch('https://fakestoreapi.com/products');
+    const API = useRuntimeConfig().public.API;
+    const { data: products } = await useFetch(`${API}/products`);
     const AllProducts = useState('bestSelling',() =>products.value.splice(5,5));
 </script>
 <template>
@@ -8,7 +9,7 @@
         <div class="w-full h-full flex overflow-x-scroll snap-x snap-mandatory no-scrollbar">
             <div class="snap-center flex-none h-full w-full flex flex-col justify-center items-center" v-for="products in AllProducts" >
                 <img class="h-[calc(100%-60px)] max-w-full object-contain" :src="products.image" alt="">
-                <p class="text-[#282F7A] text-xl font-bold p-4">₱{{ (products.price * 10).toFixed(2)}}</p>
+                <p class="text-[#282F7A] text-xl font-bold p-4">₱{{ products.amount}}</p>
             </div>
         </div>
     </div>
