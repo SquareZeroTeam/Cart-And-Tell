@@ -38,12 +38,14 @@
             </div>
             <div class="mt-10">
                 <h2 class="text-2xl font-bold mb-4">Products</h2>
-                <div class="flex">
+                <div class="flex flex-wrap gap-4 justify-center">
                     <NuxtLink :to="`/products/${product.id}`" class=" rounded-lg " v-for="product in merchant.products">
-                        <div class="h-[300px] w-[200px] rounded-lg shadow-md">
-                            <img :src="product.image" alt="" class="rounded-lg">
-                            <p class="p-4 text-center font-medium">{{ product.name }}</p>
-                            <p class="text-center text-[#2563EB] font-semibold text-lg">₱{{ product.amount }}</p>
+                        <div class="h-[350px] w-[200px] rounded-lg shadow-md flex flex-col justify-start">
+                            <img :src="product.image" alt="" class="rounded-lg h-[250px] object-contain">
+                            <div>
+                                <p class="p-4 text-center font-medium overflow-hidden text-ellipsis h-10">{{ product.name }}</p>
+                                <p class="text-center text-[#2563EB] font-semibold text-lg">₱{{ product.amount }}</p>
+                            </div>
                         </div>
                     </NuxtLink>
                 </div>

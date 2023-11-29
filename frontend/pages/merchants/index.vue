@@ -11,7 +11,7 @@
     console.log(merchants.value)
 </script>
 <template>
-    <div class="bg-gray-100 h-screen">
+    <div class="bg-gray-100 min-h-screen">
         <Header/>
         <div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8">
         
@@ -42,8 +42,8 @@
                     </div>
                     <div class="rounded-md block sm:flex justify-between">
                         <p class="w-96 px-4 m-[1rem] text-justify">We build in settings that favor the future. Learn how we defy modern luxury, comfort, and convenience to originate lifestyle options for the coming generations.</p>
-                        <div class="flex flex-none">
-                            <div class="h-[10rem] " v-for="product in merchant.products">
+                        <div class="flex flex-none flex-wrap">
+                            <div class="h-full " v-for="product in merchant.products">
                                 <NuxtLink :to="`/products/${product.id}`">
                                     <img class="h-[160px] object-contain rounded-md" :src="product.image" alt="">
                                 </NuxtLink>
