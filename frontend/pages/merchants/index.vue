@@ -1,7 +1,14 @@
 <script setup lang="ts">
     const API = useRuntimeConfig().public.API;
-    const {data:merchants} = await useFetch<any>(`${API}/merchant`);
-    console.log(merchants);
+    const {data:merchants} = await useFetch<any>(`${API}/merchant`,{
+        transform: (data) => {
+            return data.map( (merchant:any)  => {
+                merchant.products = merchant.products.splice(0,3);
+                return merchant;
+            })
+        }
+    });
+    console.log(merchants.value)
 </script>
 <template>
     <div class="bg-gray-100 h-screen">
@@ -38,7 +45,7 @@
                         <div class="flex flex-none">
                             <div class="h-[10rem] " v-for="product in merchant.products">
                                 <NuxtLink :to="`/products/${product.id}`">
-                                    <img class="h-full rounded-md" :src="product.image" alt="">
+                                    <img class="h-[160px] object-contain rounded-md" :src="product.image" alt="">
                                 </NuxtLink>
                             </div>
                         </div>
