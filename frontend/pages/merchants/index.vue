@@ -13,8 +13,7 @@
 <template>
     <div class="bg-gray-100 min-h-screen">
         <Header/>
-        <div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8">
-        
+        <div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8"> 
             <div class="container mx-auto ">
                 <div class="flex h-16 justify-between items-center p-4">
                     <NuxtLink to="/products" class="flex-1 flex justify-center">

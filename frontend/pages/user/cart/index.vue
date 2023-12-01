@@ -28,7 +28,7 @@
     }   
 </script>
 <template>
-    <div class="bg-gray-100 h-screen">
+    <div class="bg-gray-100 ">
         <Header />
         <div class="container mx-auto justify-center items-center w-full mt-[4em] lg:pr-48 lg:pl-48">
             <div class="" v-if="pending">loading</div>
@@ -62,17 +62,17 @@
                 
                 </div>
                 <footer class=" shadow-sm bottom-0 relative mt-[2rem] rounded-md bg-white">
-                <div class="mx-auto flex justify-between ">
+                <div class="mx-auto flex justify-between h-20">
                     <div class="flex items-center">
                         <input type="checkbox" :value="item.id" v-model="checkedItems" class="ml-12 mr-4 h-4 w-4 rounded-sm text-[#2563EB] focus:ring-[#2563EB] ring-2 ring-offset-2 ring-offset-white" />
                     <div class="text-lg">Select All {{ checkedItems }}</div>
                     </div>
-                    <div class="flex items-center justify-end mr-8">
-                        <button @click="checkout" class="button mt-4 bg-blue-800 text-white font-bold px-4 py-2 rounded-full mb-4">Checkout</button>
-                    </div>
                 </div>
             </footer>
-            </div>
+        </div>
+        <div class="flex items-center justify-end mr-8">
+            <button @click="checkout" class="button mt-4 bg-blue-800 text-white font-bold px-4 py-2 rounded-full mb-4">Checkout</button>
+        </div>
             
         </div>
     </div>

@@ -1,6 +1,10 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  routeRules :{
+    '/': {ssr:false}
+  },
+  spaLoadingTemplate:"./spa-loading-template.html",
   runtimeConfig:{
     public:{
       API:process.env.API
