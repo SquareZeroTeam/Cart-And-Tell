@@ -8,10 +8,15 @@
 <template>
     <div>
         <Header/>
-        <HomeHero/>
+        <div class="container mx-auto flex justify-center mt-1">
+            <SideBar/>
+            <Home/>
+        </div>
+        
+        <!-- <HomeHero/>
         <Categories/>
         <ProductFeatures/>
-        <JustForYou/>
+        <JustForYou/> -->
         <!-- <Loading v-if="pending"/> -->
     </div>
 </template>
