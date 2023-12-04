@@ -6,11 +6,16 @@
     // });
 </script>
 <template>
-    <div>
+    <div clas="container">
         <Header/>
-        <div class="container mx-auto flex justify-center mt-1">
-            <SideBar/>
+        <div class="container mx-auto flex justify-center mt-2">
+            <div class="hidden sm:hidden lg:flex">
+  <SideBar />
+</div>
+
+
             <Home/>
+
         </div>
         
         <!-- <HomeHero/>
