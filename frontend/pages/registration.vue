@@ -145,6 +145,32 @@
                         ></v-select>
                         </div>
                     </div>
+                    <div class="m-4">
+                        <p class="font-semibold"><span class="text-red-500 font-bold">*</span>
+                        Password
+                        </p>
+                        <input
+                        v-model="password"
+                        type="text"
+                        id="textInput"
+                        name="textInput"
+                        class="mt-1 p-1 block w-full border border-gray-300 rounded-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+                        placeholder=""
+                        />
+                    </div>
+                    <div class="m-4">
+                        <p class="font-semibold"><span class="text-red-500 font-bold">*</span>
+                        Confirm Password
+                        </p>
+                        <input
+                        v-model="confirmPassword"
+                        type="text"
+                        id="textInput"
+                        name="textInput"
+                        class="mt-1 p-1 block w-full border border-gray-300 rounded-sm focus:outline-none focus:border-indigo-500 focus:ring focus:ring-indigo-200"
+                        placeholder=""
+                        />
+                    </div>
                     <button @click="submitForm" class="p-2 m-4 bg-[#282F7A] text-white rounded-sm">Register Now</button>
                     <span v-if="!selectedOption && formSubmitted" class="text-red-500">Please Fill up the required inputs</span>
                     </div>

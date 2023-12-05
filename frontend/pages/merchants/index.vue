@@ -1,7 +1,8 @@
 <script setup lang="ts">
     const API = useRuntimeConfig().public.API;
     const {data:merchants} = await useFetch<any>(`${API}/merchant`);
-    console.log(merchants);
+    console.log(merchants.value);
+    console.log("test")
 </script>
 <template>
     <div clas="container">
@@ -21,7 +22,7 @@
                         <div class="h-24 flex w-full ">
                             
                             <NuxtLink :to="`/merchants/${merchant.id}`">
-                                <img class="w-24 h-24 object-contain m-[1rem]" :src="merchant.image" alt="" >
+                                <img class="w-24 h-24 object-contain m-[1rem]" :src="merchant.image">
                             </NuxtLink>
                             <div class="flex justify-between items-center w-full">
                                 <NuxtLink :to="`/merchants/${merchant.id}`">

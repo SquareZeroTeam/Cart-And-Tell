@@ -32,8 +32,13 @@
                             <p>Home</p>
                         </button>   
                         </NuxtLink>
+                        <NuxtLink to="/login">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Log in</p>
+                        </button>
+                        </NuxtLink>
                         
-                        <NuxtLink to="/mregistration">
+                        <NuxtLink to="/registration">
                             <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                             <p>Registration</p>
                         </button>
