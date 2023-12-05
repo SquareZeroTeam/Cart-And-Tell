@@ -1,6 +1,26 @@
+<script setup>
+import { ref } from 'vue';
+
+//I dont know if create ba object or nu hahah (e add yata sa user's cart schema?)
+const quantity = ref(1);
+
+const increment = () => {
+  quantity.value += 1;
+};
+
+const decrement = () => {
+  if (quantity.value > 1) {
+    quantity.value -= 1;
+  }
+};
+
+const { product } = defineProps(['product']);
+</script>
+
+
 <template>
-  <div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8 mt-5rem  lg:pr-48 lg:pl-48">
-    <div class="flex flex-col items-center  shadow-xl px-4 sm:px-6 lg:px-8 h-[60rem] mt-[4rem]">
+  <div class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8 mt-5rem  lg:pr-48 lg:pl-48 mb-40 border-2 pb-40 lg:mr-10">
+    <div class="flex flex-col items-center ">
       <img :src="product.image" alt="product" class=" h-64 lg:h-96 object-contain mb-4 lg:mb-0 lg:hidden" />
 
       <div class="lg:flex lg:items-center lg:justify-center lg:ml-8">
@@ -44,21 +64,3 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from 'vue';
-
-//I dont know if create ba object or nu hahah (e add yata sa user's cart schema?)
-const quantity = ref(1);
-
-const increment = () => {
-  quantity.value += 1;
-};
-
-const decrement = () => {
-  if (quantity.value > 1) {
-    quantity.value -= 1;
-  }
-};
-
-const { product } = defineProps(['product']);
-</script>

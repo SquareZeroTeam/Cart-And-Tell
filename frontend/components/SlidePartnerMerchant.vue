@@ -33,7 +33,7 @@
         v-for="(slide, any) in slides"
         :key="any"
         :style="`background-color: ${slide.bg}`"
-        :class="['swiper-cards', 'rounded-sm']"
+        :class="['swiper-cards', 'rounded-sm', 'border-t-2', 'border-b-2', 'border-[#282F7A]']"
       >
         {{ any }}
       </SwiperSlide>
@@ -69,7 +69,7 @@
         v-for="(slide, any) in slides"
         :key="any"
         :style="`background-color: ${slide.bg}`"
-        :class="['swiper-cards', 'rounded-sm']"
+        :class="['swiper-cards', 'rounded-sm', 'border-t-2', 'border-red-500']"
       >
         {{ any }}
       </SwiperSlide>
