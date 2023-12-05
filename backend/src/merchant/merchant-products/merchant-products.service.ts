@@ -21,6 +21,7 @@ export class MerchantProductsService {
     }
     const imageLink = await this.supabase.uploadImage(image);
     createMerchantProductDto.image = imageLink;
+    createMerchantProductDto.amount = parseFloat(createMerchantProductDto.amount.toString());
     const newProduct = await this.prisma.product.create({data:{...createMerchantProductDto,merchantId:id}});
     return {message:`Successfully created product ${newProduct.name}`,data:newProduct};
   }

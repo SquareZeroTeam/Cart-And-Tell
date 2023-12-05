@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile, FileValidator, ValidationPipe, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
 import { MerchantProductsService } from './merchant-products.service';
 import { CreateMerchantProductDto } from './dto/create-merchant-product.dto';
 import { UpdateMerchantProductDto } from './dto/update-merchant-product.dto';
@@ -6,16 +6,22 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('merchant/:merchantId/products')
 export class MerchantProductsController {
-  merchantService: any;
   constructor(private readonly merchantProductsService: MerchantProductsService) {}
 
   @Post('')
   @UseInterceptors(FileInterceptor('image'))
   create(
     @Param('merchantId') id: string,
-    @UploadedFile() image:Express.Multer.File,
-    @Body() createMerchantProductDto:CreateMerchantProductDto) {
-    return this.merchantService.createProduct(+id,image,createMerchantProductDto);
+    @UploadedFile(new ParseFilePipe({
+      validators: [
+        new MaxFileSizeValidator({ maxSize: 1024*1024*5 ,message(maxSize) {
+          return `Maximum file size is ${maxSize/1024/1024}MB`;
+        },}),
+        new FileTypeValidator({ fileType: 'image/*'}),
+      ],
+    }),) image:Express.Multer.File,
+    @Body(new ValidationPipe()) createMerchantProductDto:CreateMerchantProductDto) {
+    return this.merchantProductsService.create(+id,image,createMerchantProductDto);
   } 
 
   @Get()
