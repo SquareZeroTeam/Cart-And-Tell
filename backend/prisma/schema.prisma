@@ -17,6 +17,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   cart ProductItem[]
+  isMerchant Boolean @default(false)
   merchant Merchant?
 }
 model Category {
@@ -49,7 +50,7 @@ model Merchant {
   user User? @relation(fields: [userId], references: [id])
   userId Int? @unique
   published Boolean @default(false)
-  verified Boolean @default(false)
+  isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
