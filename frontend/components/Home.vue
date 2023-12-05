@@ -21,7 +21,7 @@ const items = ref(Array.from({ length: 16 }, (_, index) => ({
                 </div>
                 <div class="mx-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-40">
                     <div class="gap-4 flex flex-wrap justify-center">
-                        <NuxtLink v-for="(item, index) in items" :key="index" :to="item.link">
+                        <NuxtLink v-for="(item, index) in items" :key="index" to="/merchants"><!-- test muna -->
                             <button class="flex flex-col items-center">
                                 <div class="w-16 h-16 bg-white mb-2"></div>
                                 <p class="text-white text-center">{{ item.text }}</p>

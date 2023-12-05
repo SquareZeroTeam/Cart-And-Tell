@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  const slides = ref(Array.from({ length: 10 }, () => {
-    return { bg: ' #FFFF' };
-  }));
+    const API = useRuntimeConfig().public.API;
+    const {id} = useRoute().params;
+    const {data:merchant} = useFetch<any>(`${API}/merchant/${id}`);
 </script>
 
 <template>
@@ -30,12 +30,11 @@
       <SwiperPrev class="  absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
       <SwiperSlide
-        v-for="(slide, any) in slides"
-        :key="any"
-        :style="`background-color: ${slide.bg}`"
+        v-for="product in merchant.products"
+        :style="`background-color: white`"
         :class="['swiper-cards', 'rounded-sm']"
       >
-        {{ any }}
+        <p class="text-sm">{{ product.name }}</p>
       </SwiperSlide>
 
       <SwiperNext class=" absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
