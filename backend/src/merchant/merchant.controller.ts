@@ -40,4 +40,6 @@ export class MerchantController {
   remove(@Param('id') id: string) {
     return this.merchantService.remove(+id);
   }
+
+  // Merchant Products
 }
