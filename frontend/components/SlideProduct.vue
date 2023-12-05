@@ -3,7 +3,6 @@
     const {id} = useRoute().params;
     const {data:merchant} = useFetch<any>(`${API}/merchant/${id}`);
 
-    const { data: products } = await useFetch(`${API}/products/`);
 </script>
 
 <template><!--  d nako mabuhat nga responsive sya slides per view -->
@@ -31,7 +30,7 @@
 
       <SwiperPrev class="  absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
-      <SwiperSlide v-for="p in products" >
+      <SwiperSlide v-for="p in merchant.products">
         <div class="">
           <ProductCard :product="p" />
         </div>
@@ -65,7 +64,7 @@
 
       <SwiperPrev class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
-      <SwiperSlide v-for="p in products">
+      <SwiperSlide v-for="p in merchant.products">
         <div class="">
           <ProductCard :product="p" />
         </div>
@@ -99,7 +98,7 @@
 
       <SwiperPrev class=" absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
-      <SwiperSlide v-for="p in products" :key="p.id">
+      <SwiperSlide v-for="p in merchant.products">
         <div class=""> 
           <ProductCard :product="p" />
         </div>
