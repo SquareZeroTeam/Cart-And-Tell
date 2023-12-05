@@ -22,6 +22,7 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-swiper',
+    '@vueuse/nuxt',
 
   ]
 })
