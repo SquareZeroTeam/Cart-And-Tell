@@ -3,15 +3,16 @@
 </script>
 
 <template>
-    <div class="container mx-auto bg-white h-screen w-auto">
+    
+    <div class=" bg-white">
         <div class="flex flex-col items-center mt-8 gap-4 mr-4 ml-12">
-            <NuxtLink to="">
+            <NuxtLink to="/">
                 <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                 <p>Home</p>
             </button>
             </NuxtLink>
             
-            <NuxtLink to="">
+            <NuxtLink to="/registration">
                 <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                 <p>Registration</p>
             </button>
