@@ -7,7 +7,7 @@ import * as bcrypt from "bcryptjs"
 export class UserService {
   constructor(private prisma:PrismaService){};
   async create(createUserDto: CreateUserDto) {
-    const userExists = await this.prisma.user.findFirst({where:{username:createUserDto.username}});
+    const userExists = await this.prisma.user.findFirst({where:{email:createUserDto.email}});
     if (userExists) {
       throw new BadRequestException({message:['user already exist']});
     }
@@ -18,11 +18,11 @@ export class UserService {
       createUserDto.password = hash;
       await this.prisma.user.create({data:{...createUserDto}});
     })
-    return {message:[`Successfully created user ${createUserDto.username}`]};
+    return {message:[`Successfully created user ${createUserDto.email}`]};
   }
 
   async findAll() {
-    return await this.prisma.user.findMany({select:{id:true,username:true,cart:true,_count:{select:{cart:true}}}})
+    return await this.prisma.user.findMany({select:{id:true,email:true,cart:true,_count:{select:{cart:true}}}})
   }
 
   findOne(id: number) {
@@ -38,7 +38,7 @@ export class UserService {
   }
 
 
-  async findOneByUsername(username:string) {
-    return await this.prisma.user.findUnique({where:{username},include: {cart:true,_count:{select:{cart:true}}}});
+  async findOneByEmail(email:string) {
+    return await this.prisma.user.findUnique({where:{email},include: {cart:true,_count:{select:{cart:true}}}});
   }
 }

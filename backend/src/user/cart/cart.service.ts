@@ -46,7 +46,7 @@ export class CartService {
     return await this.prisma.user.findUnique({
       where:{id:userId},
       select:{
-        username:true,
+        email:true,
         _count:{select:{cart:true}},
         cart:true
       }});
