@@ -30,7 +30,7 @@ export class AppController {
   //     email:"fakestoreapi@fake.com",
   //     image:"https://fakestoreapi.com/icons/logo.png"
   //   }});
-  //   const filteredProducts = products.map(product => {
+  // //   const filteredProducts = products.map(product => {
   //     return  {
   //       name:product.title,
   //       description:product.description,
@@ -47,4 +47,10 @@ export class AppController {
   //   });
   //   return {message: "Successfully Created Mock Products"};
   // }
+//   const array = ["Health and Wellness", "Hotels and Resorts", "Aesthetic Clinics", "Insurance [Life & None Life]","Restaurants","Fashion Accessories","Jewelries","Watches","Crafts & Artworks", "Bags", "Apparels", "Gadgets","Musical Instruments","Sports","Paper Goods","Smart Toys","Home & Babies Stuff","Foods","Franchise","Event Needs","Creative Needs","Real Estate", "Professionals","Automobiles"]
+// const filteredData = array.map(category => {
+//   return {
+//     name:category
+//   }
+// })
 }

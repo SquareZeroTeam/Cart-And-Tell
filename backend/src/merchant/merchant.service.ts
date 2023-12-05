@@ -15,7 +15,6 @@ export class MerchantService {
     const merchantExist = await this.prisma.merchant.findFirst({
       where:{
         OR:[
-          {email:createMerchantDto.email},
           {name:createMerchantDto.name}
         ]
       }
@@ -57,7 +56,6 @@ export class MerchantService {
     const merchantExit = await this.prisma.merchant.findFirst({
       where: {
         OR:[
-          {email:updateMerchantDto.email},
           {name:updateMerchantDto.name},
         ]
       }

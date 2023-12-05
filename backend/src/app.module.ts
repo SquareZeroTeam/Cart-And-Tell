@@ -13,8 +13,9 @@ import { ProductsModule } from './products/products.module';
 import { PrismaModule } from './db/prisma/prisma.module';
 import { CartModule } from './user/cart/cart.module';
 import { SupabaseModule } from './microservices/supabase/supabase.module';
+import { NodemailerModule } from './nodemailer/nodemailer.module';
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule, SupabaseModule],
+  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule, SupabaseModule, NodemailerModule],
   controllers: [AppController],
   providers: [AppService],
 })
