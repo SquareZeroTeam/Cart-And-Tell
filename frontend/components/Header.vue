@@ -1,13 +1,12 @@
 <script setup lang="ts">
-    let refTemp = ref<HTMLDivElement|null>(null);
-    function modalToggle(event:Event) {
-        refTemp?.value?.classList.toggle('hidden');
+    let isModalVisible = ref(false);
+
+    function modalToggle() {
+        isModalVisible.value = !isModalVisible.value;
     }
-    const userObj = useUserObj().value;
-    // console.log(userObj);
 </script>
 <template>
-    <header class="shadow-sm border-b-[1px] pb-4 lg:px-40 md:px-20 sm:px-8 bg-[#282F7A]">
+    <header class="shadow-sm pb-4 w-full bg-[#282F7A] m-0 p-0">
         <div class="flex justify-center items-center pt-4">
             <div class="border-l-2 h-14 bg-gray-500 mr-1"></div>
             <NuxtLink to="/" class="text-center text-white text-lg">
@@ -20,6 +19,63 @@
                     ECOMMERCE  SOLUTIONS
                 </p>
             </NuxtLink>
+            <div class="block lg:hidden">
+                <button @click="modalToggle" class="flex justify-center items-center bg-white rounded-md h-10 w-10 absolute right-4 top-8    ">
+                    <span class="material-symbols-outlined text-3xl">menu</span>
+                </button>         
+            </div>
+            <div v-if="isModalVisible" class="absolute right-0 top-20">
+
+                    <div class="flex flex-col items-center gap-2 bg-white p-2  ">
+                        <NuxtLink to="/">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Home</p>
+                        </button>   
+                        </NuxtLink>
+                        
+                        <NuxtLink to="">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Registration</p>
+                        </button>
+                        </NuxtLink>
+
+                        <NuxtLink to="">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>About Us</p>
+                        </button>
+                        </NuxtLink>
+
+                        <NuxtLink to="">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Contact Us</p>
+                        </button>
+                        </NuxtLink>
+
+                        <NuxtLink to="">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Policy</p>
+                        </button>
+                        </NuxtLink>
+
+                        <NuxtLink to="">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Certifications</p>
+                        </button>
+                        </NuxtLink>
+
+                        <NuxtLink to="">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Ratings</p>
+                        </button>
+                        </NuxtLink>
+
+                        <NuxtLink to="">
+                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                            <p>Your Cart</p>
+                        </button>
+                        </NuxtLink>
+                    </div>
+            </div>
         </div>
     </header>
 </template>

@@ -5,6 +5,10 @@ export default defineNuxtConfig({
     '/': {ssr:false}
   },
   spaLoadingTemplate:"./spa-loading-template.html",
+  build: {
+    transpile: ['@vuepic/vue-datepicker']
+},
+  
   runtimeConfig:{
     public:{
       API:process.env.API
@@ -18,9 +22,12 @@ export default defineNuxtConfig({
       ],
     }
   },
-  
+ 
   modules: [
-    '@nuxtjs/tailwindcss'
+    '@nuxtjs/tailwindcss',
+    'nuxt-swiper',
+    '@vueuse/nuxt',
+
   ]
 })
 
