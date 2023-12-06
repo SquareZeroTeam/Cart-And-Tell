@@ -26,7 +26,7 @@ model Category {
   icon String? 
   merchant Merchant[]
 }
-model Brands {
+model Brand {
   id Int @id @default(autoincrement())
   name String @unique
   icon String? 
@@ -38,7 +38,7 @@ model Merchant {
   // email String @unique   //Might move it to User model later
   category Category? @relation(fields: [categoryId],references: [id])
   categoryId Int?
-  brand Brands? @relation(fields: [brandId],references: [id])
+  brand Brand? @relation(fields: [brandId],references: [id])
   brandId Int?
   proofOfAuthenticity String?
   brandRelationship BrandRelation @default(BrandOwner)
