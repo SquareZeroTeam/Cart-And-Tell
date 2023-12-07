@@ -1,20 +1,8 @@
 <script setup lang="ts">
     const API = useRuntimeConfig().public.API;
-<<<<<<< HEAD
-    const {data:merchants} = await useFetch<any>(`${API}/merchant`,{
-        transform: (data) => {
-            return data.map( (merchant:any)  => {
-                merchant.products = merchant.products.splice(0,3);
-                return merchant;
-            })
-        }
-    });
-    console.log(merchants.value)
-=======
     const {data:merchants} = await useFetch<any>(`${API}/merchant`);
     console.log(merchants.value);
     console.log("test")
->>>>>>> upstream/main
 </script>
 <template>
     <div clas="container">
