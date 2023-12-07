@@ -1,20 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UploadedFiles } from '@nestjs/common';
 import { MerchantService } from './merchant.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor, FileInterceptor } from '@nestjs/platform-express';
+import { FilesValidator } from './files.validator';
 
 @Controller('merchant')
 export class MerchantController {
   constructor(private readonly merchantService: MerchantService) {}
 
   @Post()
-  @UseInterceptors(FileInterceptor('image'))
+  @UseInterceptors(FileFieldsInterceptor([
+    {name:'image',maxCount:1},
+    {name:'proofOfAuthenticity',maxCount:1}
+  ]))
   create(
-    @Body(new ValidationPipe) createMerchantDto: CreateMerchantDto,
-    @UploadedFile() image:Express.Multer.File
-    ) {
-    return this.merchantService.create(createMerchantDto,image);
+    @Body(new ValidationPipe()) createMerchantDto: CreateMerchantDto,
+    @UploadedFiles(new ParseFilePipe({
+      validators:[new FilesValidator({filesSchema:[
+        {fieldName:'image',fileType:'image/*',maxSize:1024*1024*5},
+        {fieldName:'proofOfAuthenticity',fileType:'application/pdf',maxSize:1024*1024*5}
+      ]})]
+    })) files: {[keys:string]:Express.Multer.File}
+  ) {
+    return this.merchantService.create(createMerchantDto,files.image[0],files.proofOfAuthenticity[0]);
   }
 
   @Get()

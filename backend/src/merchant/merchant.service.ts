@@ -10,28 +10,26 @@ export class MerchantService {
     private readonly prisma:PrismaService,
     private readonly supabase:SupabaseService
   ) {}
-  async create(createMerchantDto: CreateMerchantDto,image:Express.Multer.File) {
+  async create(createMerchantDto: CreateMerchantDto,image:Express.Multer.File,proofOfAuthenticity:Express.Multer.File) {
     // Checks if an email or name already exists
     const merchantExist = await this.prisma.merchant.findFirst({
-      where:{
-        OR:[
-          {name:createMerchantDto.name}
-        ]
-      }
+      where:{name:createMerchantDto.name}
     });
     if (merchantExist) {
       throw new BadRequestException("Merchant already exists");
     }
     //Supabase Image Upload implementation
-    if (image) {
-      const imageLink:string = await this.supabase.uploadImage(image);
-      const newMerchant =  await this.prisma.merchant.create({data:{...createMerchantDto,image:imageLink}});
-      return {message:`Successfully Created Merchant ${newMerchant.name}`};
-    }
-
+    const imageLink:string = await this.supabase.uploadImage(image);
+    const pdfLink:string = await this.supabase.uploadPDF(proofOfAuthenticity);
+    createMerchantDto.image = imageLink;
+    createMerchantDto.proofOfAuthenticity = pdfLink;
+    createMerchantDto.categoryId = +createMerchantDto.categoryId //Converts to Int
+    //Converts to ISO 8601 Date Format
+    createMerchantDto.merchantStartValidity = new Date(createMerchantDto.merchantStartValidity)
+    createMerchantDto.merchantEndValidity = new Date(createMerchantDto.merchantEndValidity)
     // Creates a new merchant
     const newMerchant =  await this.prisma.merchant.create({data:{...createMerchantDto}});
-    return {message:`Successfully Created Merchant ${newMerchant.name}`};
+    return newMerchant;
   }
   
   async findAll() {
