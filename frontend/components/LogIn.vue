@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue';
 const API = useRuntimeConfig().public.API;
-const formData = reactive<{username:string, password:string}>({
-  username: '',
+const formData = reactive<{email:string, password:string}>({
+  email: '',
   password: ''
 });
 const errorMessage = ref<string>("");
@@ -10,13 +10,13 @@ interface loginFetchData {
   message:string,
   access_token?:string
 }
-async function login(username:string, password:string):Promise<loginFetchData> {
+async function login(email:string, password:string):Promise<loginFetchData> {
   const data = await $fetch<string>(`${API}/auth/login`,{
     method:'POST',
     headers:{
         "Content-Type": "application/json",
     },
-    body: JSON.stringify({username,password})
+    body: JSON.stringify({email,password})
   })
   .then(res => res)
   .catch(error => error.data);
@@ -25,14 +25,14 @@ async function login(username:string, password:string):Promise<loginFetchData> {
 async function handler() {
   console.log("TEST");
   errorMessage.value = "";
-  const result:loginFetchData = await login(formData.username, formData.password);
+  const result:loginFetchData = await login(formData.email, formData.password);
   if (result.access_token) {
     const token = useCookie('token');
     token.value = result.access_token;
 
     const userObj = useUserObj();
     const response:any = await $fetch<{
-        username:string,
+        email:string,
         id:number,
         cartCount: number,
     }>(`${API}/auth/validate`,{
@@ -49,30 +49,30 @@ async function handler() {
     await navigateTo('/');
   }
   else {
-    const errorMSG = (result.message === "Unauthorized") ? "Provide Username and Password":result.message; 
+    const errorMSG = (result.message === "Unauthorized") ? "Provide email and Password":result.message; 
     errorMessage.value = errorMSG;
   }
 }
 </script>
 
 <template>
-  <div class="container mx-auto">
+  <div class="">
     <Header/>
-    <div class="flex justify-center items-center flex-col h-screen p-4">
+    <div class="container mx-auto flex justify-center items-center flex-col h-screen p-4">
       <h3 class="text-2xl font-bold text-black mb-6">Log In to <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
         <input
-          v-model="formData.username"
+          v-model="formData.email"
           type="text"
-          id="username"
+          id="email"
           required
           class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-[2rem]"
         />
         <label
-          for="username"
+          for="email"
           class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-[2rem] text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-8 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
         >
-          Username
+          Email
         </label>
       </div>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
@@ -112,6 +112,7 @@ async function handler() {
       >
         Register
         </NuxtLink>
+        <p class="text-md">Want to become part of part of Cart & Tell? Register Now!</p>
 
       
     </div>
