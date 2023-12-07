@@ -53,7 +53,6 @@ async function handler() {
 
 <template>
   <div class="container mx-auto">
-
     <div class="flex justify-center items-center flex-col h-screen p-4">
       <h3 class="text-2xl font-bold text-black mb-6">Register with <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
@@ -68,7 +67,11 @@ async function handler() {
           for="email"
           class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-[2rem] text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
         >
+<<<<<<< HEAD
           email
+=======
+          Email
+>>>>>>> upstream/main
         </label>
       </div>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">

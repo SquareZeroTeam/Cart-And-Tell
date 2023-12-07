@@ -46,12 +46,38 @@ export class CartService {
     return await this.prisma.user.findUnique({
       where:{id:userId},
       select:{
-        username:true,
+        email:true,
         _count:{select:{cart:true}},
         cart:true
       }});
   }
-
+  async increment(id:number,userId:number) {
+    const product = await this.prisma.productItem.findUnique({where:{id}});
+    if (!product) {
+      throw new NotFoundException("Product not found");
+    }
+    await this.prisma.productItem.update({
+      where:{id},
+      data:{
+        quantity:{increment:1}
+      }
+    });
+    return {message:`Successfully incremented product ${id} to cart of user:${userId}`};
+    }
+    async decrement(id:number,userId:number) {
+      const product = await this.prisma.productItem.findUnique({where:{id}});
+      if (!product) {
+        throw new NotFoundException("Product not found");
+      }
+      await this.prisma.productItem.update({
+        where:{id},
+        data:{
+          quantity:{decrement:1}
+        }
+      });
+      return {message:`Successfully decremented product ${id} to cart of user:${userId}`};
+      }
+  async
   findOne(id: number) {
     return `This action returns a #${id} cart`;
   }

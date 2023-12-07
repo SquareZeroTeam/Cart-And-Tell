@@ -15,7 +15,6 @@ export class MerchantService {
     const merchantExist = await this.prisma.merchant.findFirst({
       where:{
         OR:[
-          {email:createMerchantDto.email},
           {name:createMerchantDto.name}
         ]
       }
@@ -39,14 +38,12 @@ export class MerchantService {
     return await this.prisma.merchant.findMany({include:{products:true}}); 
   }
 
-  findOne(id: number) {
-    const merchant = this.prisma.merchant.findUnique({where:{id},include:{products:true}});
-    if (merchant) {
-      return merchant;
-    }
-    else {
+  async findOne(id: number) {
+    const merchant = await this.prisma.merchant.findUnique({where:{id},include:{products:true}});
+    if (!merchant) {
       throw new NotFoundException("Merchant not found");
     }
+    return merchant;
   }
 
   async update(id: number, updateMerchantDto: UpdateMerchantDto,image:Express.Multer.File) {
@@ -57,7 +54,6 @@ export class MerchantService {
     const merchantExit = await this.prisma.merchant.findFirst({
       where: {
         OR:[
-          {email:updateMerchantDto.email},
           {name:updateMerchantDto.name},
         ]
       }

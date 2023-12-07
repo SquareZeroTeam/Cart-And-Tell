@@ -23,8 +23,6 @@ const items = ref(categories.map((category, index) => ({
   text: category,
 })));
 </script>
-
-
 <template>
     <div class="w-full bg-white lg:mr-12">
         <div class="flex flex-col gap-4">  
@@ -67,12 +65,9 @@ const items = ref(categories.map((category, index) => ({
                     <div class="bg-white h-32 w-64"></div>
                     <div class="bg-white h-32 w-64"></div>
                     <div class="bg-white h-32 w-64"></div>
-
                 </div>
             </div>
-
         </div>
-
     </div>
 </template>
 

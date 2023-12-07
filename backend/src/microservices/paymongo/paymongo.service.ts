@@ -23,13 +23,14 @@ export class PaymongoService implements OnModuleInit{
     const filteredData = productItems.map( item => {
       return {
         name:item.product.name,
-        amount:item.product.amount,
+        amount:item.product.amount * 100,
         quantity:item.quantity,
         currency:"PHP",
         image:item.product.image,
-        description:item.product.description,
+        // description:item.product.description,
       }
     });
+    console.log(filteredData);
     const checkoutData = {
       data:{
         attributes:{

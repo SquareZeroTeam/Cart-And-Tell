@@ -12,21 +12,28 @@ export class CartController {
   create(@Body(new ValidationPipe) createCartDto: CreateCartDto, @Param('userId',ParseIntPipe) userId: number) {
     return this.cartService.create(createCartDto,userId);
   }
-
+  @Post(":id/increment")
+  increment(@Param('id',ParseIntPipe) id: number,@Param('userId',ParseIntPipe) userId: number) {
+    return this.cartService.increment(id,userId);
+  }
+  @Post(":id/decrement")
+  decrement(@Param('id',ParseIntPipe) id: number,@Param('userId',ParseIntPipe) userId: number) {
+    return this.cartService.decrement(id,userId);
+  }
   @Get()
   findAll(@Param('userId',ParseIntPipe) userId: number) {
     return this.cartService.findAll(userId);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cartService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.cartService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartService.update(+id, updateCartDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
+  //   return this.cartService.update(+id, updateCartDto);
+  // }
 
   @Delete('')
   remove(@Body(new ValidationPipe) deleteCarDto:DeleteCarDto, @Param('userId',ParseIntPipe) userId: number) {

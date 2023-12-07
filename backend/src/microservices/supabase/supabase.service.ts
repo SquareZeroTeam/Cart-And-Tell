@@ -33,4 +33,16 @@ export class SupabaseService implements OnModuleInit{
         const link = await this.supabase.storage.from('Images').getPublicUrl(data.path).data.publicUrl;
         return link;
     }
+    async uploadPDF(file) {
+        // Uploads File image and returns public link
+        const {data,error} = await this.supabase.storage
+            .from('PDFs')
+            //Generates random filename
+            .upload(`${file.fieldname}/${randomUUID()}.${file.originalname.split('.').pop()}`,file.buffer,{contentType:file.mimetype});
+        if (error) {
+            throw new UnprocessableEntityException(error);
+        }
+        const link = await this.supabase.storage.from('PDFs').getPublicUrl(data.path).data.publicUrl;
+        return link;
+    }
 }
