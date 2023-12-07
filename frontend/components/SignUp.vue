@@ -53,7 +53,9 @@ async function handler() {
 
 <template>
   <div class="container mx-auto">
-
+    <NuxtLink to="/">
+      <h1 class="text-[#282F7A] flex-none font-bold text-3xl mt-6 ml-6 absolute">Cart & Tell</h1>
+    </NuxtLink>
     <div class="flex justify-center items-center flex-col h-screen p-4">
       <h3 class="text-2xl font-bold text-black mb-6">Sign up with <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
