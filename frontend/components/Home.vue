@@ -1,7 +1,26 @@
 <script setup>
-const items = ref(Array.from({ length: 16 }, (_, index) => ({
-    link: `/item/${index + 1}`,
-    text: `Item ${index + 1}`,
+const categories = [
+  'Electronics',
+  'Clothing',
+  'Home & Garden',
+  'Books & Literature',
+  'Beauty & Personal Care',
+  'Sports & Outdoors',
+  'Toys & Games',
+  'Automotive',
+  'Health & Wellness',
+  'Jewelry',
+  'Food & Grocery',
+  'Music & Instruments',
+  'Pets',
+  'Art & Collectibles',
+  'Office & School Supplies',
+  'Travel & Luggage',
+];
+
+const items = ref(categories.map((category, index) => ({
+  link: `/category/${index + 1}`,
+  text: category,
 })));
 </script>
 <template>
@@ -18,11 +37,11 @@ const items = ref(Array.from({ length: 16 }, (_, index) => ({
                     <p class="text-white m-2 text-2xl">16 Categories</p>
                 </div>
                 <div class="mx-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-40">
-                    <div class="gap-4 flex flex-wrap justify-center">
+                    <div class="gap-4 flex flex-wrap justify-center ">
                         <NuxtLink v-for="(item, index) in items" :key="index" to="/merchants"><!-- test muna -->
-                            <button class="flex flex-col items-center">
-                                <div class="w-16 h-16 bg-white mb-2"></div>
-                                <p class="text-white text-center">{{ item.text }}</p>
+                            <button class="flex flex-col items-center max-w-[80px] ">
+                                <div class="w-20 h-16 bg-white mb-2"></div>
+                                <p class="text-white text-center ">{{ item.text }}</p>
                             </button>
                         </NuxtLink>
                     </div>
@@ -30,7 +49,12 @@ const items = ref(Array.from({ length: 16 }, (_, index) => ({
             </div>
             <div class="bg-[#282F7A] flex flex-col justify-center">
                 <p class="text-white mt-2  text-2xl text-center">Partner Merchants</p>
-                <SlidePartnerMerchant/> 
+   
+                <div class="m-4">
+                    <SlidePartnerMerchant/>
+                </div>
+          
+                
             </div>
             <div class="bg-[#282F7A]">
                 <div class="flex justify-center">

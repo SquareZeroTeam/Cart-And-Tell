@@ -2,9 +2,10 @@
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
     const {data:merchant} = useFetch<any>(`${API}/merchant/${id}`);
+
 </script>
 
-<template>
+<template><!--  d nako mabuhat nga responsive sya slides per view -->
   <div class="hidden lg:block mb-4">
     <Swiper
       :modules="[SwiperAutoplay, SwiperEffectCreative]"
@@ -29,12 +30,11 @@
 
       <SwiperPrev class="  absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
-      <SwiperSlide
-        v-for="product in merchant.products"
-        :style="`background-color: white`"
-        :class="['swiper-cards', 'rounded-sm']"
-      >
-        <p class="text-sm">{{ product.name }}</p>
+      <SwiperSlide v-for="p in merchant.products">
+        <div class="">
+          <ProductCard :product="p" />
+        </div>
+          
       </SwiperSlide>
 
       <SwiperNext class=" absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
@@ -64,13 +64,11 @@
 
       <SwiperPrev class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
-      <SwiperSlide
-        v-for="(slide, any) in slides"
-        :key="any"
-        :style="`background-color: ${slide.bg}`"
-        :class="['swiper-cards', 'rounded-sm']"
-      >
-        {{ any }}
+      <SwiperSlide v-for="p in merchant.products">
+        <div class="">
+          <ProductCard :product="p" />
+        </div>
+          
       </SwiperSlide>
 
       <SwiperNext class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
@@ -100,13 +98,11 @@
 
       <SwiperPrev class=" absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
-      <SwiperSlide
-        v-for="(slide, any) in slides"
-        :key="any"
-        :style="`background-color: ${slide.bg}`"
-        :class="['swiper-cards', 'rounded-sm']"
-      >
-        {{ any }}
+      <SwiperSlide v-for="p in merchant.products">
+        <div class=""> 
+          <ProductCard :product="p" />
+        </div>
+          
       </SwiperSlide>
 
       <SwiperNext class=" absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
@@ -130,8 +126,8 @@
     font-family: 'Roboto', sans-serif;
   }
   .swiper-wrapper {
-    margin-left: 5rem;
-    width: 200px;
+
+    width: 100vh;
   }
   .swiper-cards {
     height: 150px;

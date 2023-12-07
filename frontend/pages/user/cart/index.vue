@@ -30,6 +30,10 @@
 <template>
     <div class="bg-gray-100 ">
         <Header />
+        <div class="container mx-auto flex justify-center mt-2">
+            <div class="hidden sm:hidden lg:flex">
+            <SideBar />
+        </div>
         <div class="container mx-auto justify-center items-center w-full mt-[4em] lg:pr-48 lg:pl-48">
             <div class="" v-if="pending">loading</div>
             <div v-else v-for="item in userData.cart" class="mt-4">
@@ -69,11 +73,16 @@
                     </div>
                 </div>
             </footer>
+<<<<<<< HEAD
         </div>
         <div class="flex items-center justify-end mr-8">
             <button @click="checkout" class="button mt-4 bg-blue-800 text-white font-bold px-4 py-2 rounded-full mb-4">Checkout</button>
         </div>
             
+=======
+            </div>
+        </div>
+>>>>>>> upstream/main
         </div>
     </div>
   </template>
