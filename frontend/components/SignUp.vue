@@ -4,7 +4,7 @@ import { reactive, watch } from 'vue';
 const errorMessage = ref<Array<any>>([]);
 const successMessage = ref<string>("");
 const formDataRegister = reactive({
-  username: '',
+  email: '',
   password: '',
   confirmPassword: ''
 });
@@ -14,13 +14,13 @@ interface registerFetchData {
   errors: [string]
 }
 const API = useRuntimeConfig().public.API;
-async function signup(username:string,password:string):Promise<registerFetchData> {
+async function signup(email:string,password:string):Promise<registerFetchData> {
   const result:registerFetchData =  await $fetch<registerFetchData>(`${API}/user`,{
     method:'POST',
     headers:{
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({username,password}),
+    body: JSON.stringify({email,password}),
   })
   .then(res => res)
   .catch((errors:{data:{message:[string]}})=> {
@@ -36,7 +36,7 @@ async function handler() {
   if (formDataRegister.password !== formDataRegister.confirmPassword) {
     errorMessage.value = ["Confirm Password doesn't match"];
   }
-  const result = await signup(formDataRegister.username,formDataRegister.password);
+  const result = await signup(formDataRegister.email,formDataRegister.password);
   if (result) {
     const castedResult = result as registerFetchData
     if (castedResult.errors) {
@@ -53,24 +53,21 @@ async function handler() {
 
 <template>
   <div class="container mx-auto">
-    <NuxtLink to="/">
-      <h1 class="text-[#282F7A] flex-none font-bold text-3xl mt-6 ml-6 absolute">Cart & Tell</h1>
-    </NuxtLink>
     <div class="flex justify-center items-center flex-col h-screen p-4">
       <h3 class="text-2xl font-bold text-black mb-6">Sign up with <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
         <input
-          v-model="formDataRegister.username"
+          v-model="formDataRegister.email"
           type="text"
-          id="username"
+          id="email"
           required
           class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-[2rem]"
         />
         <label
-          for="username"
+          for="email"
           class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-[2rem] text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-1/2 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
         >
-          Username
+          Email
         </label>
       </div>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">

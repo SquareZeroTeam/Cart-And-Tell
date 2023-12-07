@@ -1,6 +1,6 @@
 export const useUserObj = () => useState("userObj", () => {
     return {
-        username:"",
+        email:"",
         id:NaN,
         cartCount:0,
         loggedIn:false,
