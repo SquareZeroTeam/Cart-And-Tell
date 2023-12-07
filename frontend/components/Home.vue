@@ -4,8 +4,6 @@ const items = ref(Array.from({ length: 16 }, (_, index) => ({
     text: `Item ${index + 1}`,
 })));
 </script>
-
-
 <template>
     <div class="w-full bg-white lg:mr-12">
         <div class="flex flex-col gap-4">  
@@ -32,10 +30,7 @@ const items = ref(Array.from({ length: 16 }, (_, index) => ({
             </div>
             <div class="bg-[#282F7A] flex flex-col justify-center">
                 <p class="text-white mt-2  text-2xl text-center">Partner Merchants</p>
-   
-                <SlidePartnerMerchant/>
-          
-                
+                <SlidePartnerMerchant/> 
             </div>
             <div class="bg-[#282F7A]">
                 <div class="flex justify-center">
@@ -46,12 +41,9 @@ const items = ref(Array.from({ length: 16 }, (_, index) => ({
                     <div class="bg-white h-32 w-64"></div>
                     <div class="bg-white h-32 w-64"></div>
                     <div class="bg-white h-32 w-64"></div>
-
                 </div>
             </div>
-
         </div>
-
     </div>
 </template>
 
