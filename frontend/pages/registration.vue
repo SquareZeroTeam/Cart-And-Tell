@@ -7,15 +7,15 @@
 
     // Data to store form values
     const formData = ref({
-    selectedBrand: '',
-    brand: '',
+    selectedmerchant: '',
+    merchant: '',
     selectedRelationship: '',
     firstDate: '',
     secondDate: '',
     selectedCategory: '',
     });
 
-    const selectBrands = ref([
+    const selectmerchants = ref([
     { label: "qwe 1", value: "qwe 1" },
     { label: "asd 2", value: "asd 2" },
     { label: "zxc 3", value: "zxc 3" },
@@ -28,7 +28,7 @@
     ]);
 
     const relationshipOptions = ref([
-    { label: "Brand Owner", value: "Brand Owner" },
+    { label: "merchant Owner", value: "merchant Owner" },
     { label: "Exclusive Distributor", value: "Exclusive Distributor" },
     { label: "Non-Exclusive Distributor", value: "Non-Exclusive Distributor" },
     ]);
@@ -45,7 +45,7 @@
     };
 
     const handleSelect = (value) => {
-    formData.value.selectedBrand = value;
+    formData.value.selectedmerchant = value;
     };
 
 </script>
@@ -60,20 +60,20 @@
                 <div class="flex flex-col mt-4 mb-4 bg-gray-200 rounded-sm mx-auto mr-24 ml-24">
                     <div class="flex justify-start">
                     <p class="text-xl font-semibold mt-4 ml-5">
-                        Join Cart & Tell with your Brand
+                        Join Cart & Tell as a Merchant
                     </p>
                     </div>
                     <div class="bg-white m-4 gap-4">
                     <div class="flex">
-                        <p class="m-4 mb-2 font-bold text-lg">Your Brand Information</p>
+                        <p class="m-4 mb-2 font-bold text-lg">Your Merchant Information</p>
                     </div>
                     <div class="flex flex-col m-4">
-                        <p class="font-semibold"><span class="text-red-500">*</span> Brand Name</p>
+                        <p class="font-semibold"><span class="text-red-500">*</span> Merchant Name</p>
                         <div class="flex">
                         <v-select
-                            v-model="selectedBrand"
-                            :options="selectBrands"
-                            placeholder="Select a Brand"
+                            v-model="selectedmerchant"
+                            :options="selectmerchants"
+                            placeholder=""
                             @input="handleSelect"
                             filterable
                             class="w-full border-gray-300 rounded-sm"
@@ -85,7 +85,7 @@
                         Profile Link
                         </p>
                         <input
-                        v-model="brand"
+                        v-model="merchant"
                         type="text"
                         id="textInput"
                         name="textInput"
@@ -95,7 +95,7 @@
                     </div>
                     <div class="m-4">
                         <p class="font-semibold">
-                            <span class="text-red-500 font-bold">*</span> Relationship with the brand
+                            <span class="text-red-500 font-bold">*</span> Relationship with the Merchant
                         </p>
                         <div class="flex flex-col sm:flex-row md:flex-row gap-4 mt-2 text-black">
                             <div v-for="(relationship, index) in relationshipOptions" :key="index">
@@ -110,11 +110,11 @@
                     </div>
                         </div>
                     <div class="m-4">
-                        <p class="text-gray-80 text-sm">You have been authorized by the brand
+                        <p class="text-gray-80 text-sm">You have been authorized by the merchant
                         owner of the products to be listed on your store, as the non-exclusive
                         distributor on Cart & Tell. You must provide a letter of Authorization
                         stating non-exclusive rights to distribute on e-Commerce platform(s)
-                        from the brand owner of your products to be sold.
+                        from the merchant owner of your products to be sold.
                         </p>
                         <p class="font-semibold mt-4"><span class="text-red-500 font-bold">*</span>
                         Upload Proof of Authenticity
@@ -125,7 +125,7 @@
                     </div>
                     <div class="m-4">
                         <p class="font-semibold mt-4">
-                            <span class="text-red-500 font-bold">*</span> Brand Authorization Validity Date
+                            <span class="text-red-500 font-bold">*</span> merchant Authorization Validity Date
                         </p>
                         <div class="w-full sm:w-[26rem] flex flex-col sm:flex-row md:flex-row gap-4 mt-1 text-black">
                             <VueDatePicker v-model="firstDate" :flow="flow" placeholder="mm/dd/yyyy"></VueDatePicker>
