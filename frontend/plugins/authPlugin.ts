@@ -7,7 +7,7 @@ export default defineNuxtPlugin( async () => {
     // Verify token
     let isInvalidToken = null;
     const result:any = await $fetch<{
-        username:string,
+        email:string,
         id:number,
         cartCount: number,
     }>(`${API}/auth/validate`,{

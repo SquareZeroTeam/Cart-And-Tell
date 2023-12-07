@@ -18,7 +18,7 @@
                     <div class="flex items-center ml-auto gap-6">
                         <div class="flex items-center">
                             <span class="material-symbols-outlined text-5xl">account_circle</span>
-                            <p class="text-lg font-medium text-black">{{ userObj.username }}</p>   
+                            <p class="text-lg font-medium text-black">{{ userObj.email }}</p>   
                         </div> 
                         <div class="w-[2px] h-10 bg-gray-300 opacity-80"></div>
                         <div>

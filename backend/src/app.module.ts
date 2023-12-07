@@ -12,9 +12,13 @@ import { SupabaseService } from './microservices/supabase/supabase.service';
 import { ProductsModule } from './products/products.module';
 import { PrismaModule } from './db/prisma/prisma.module';
 import { CartModule } from './user/cart/cart.module';
+import { SupabaseModule } from './microservices/supabase/supabase.module';
+import { NodemailerModule } from './nodemailer/nodemailer.module';
+import { CategoryModule } from './category/category.module';
+import { BrandModule } from './brand/brand.module';
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule],
+  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule, SupabaseModule, NodemailerModule, CategoryModule, BrandModule],
   controllers: [AppController],
-  providers: [AppService, SupabaseService],
+  providers: [AppService],
 })
 export class AppModule {}

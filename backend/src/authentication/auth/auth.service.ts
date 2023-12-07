@@ -11,9 +11,9 @@ export class AuthService {
         private jwtService:JwtService,
         private prisma:PrismaService
         ){}
-    // Authenticates Username and Password
-    async validateUser(username:string, password:string):Promise<any> {
-        const user = await this.UserService.findOneByUsername(username);
+    // Authenticates email and Password
+    async validateUser(email:string, password:string):Promise<any> {
+        const user = await this.UserService.findOneByEmail(email);
         const result = (user) ? bcrypt.compareSync(password, user.password): false;
         if (user && result) {
             const {password, ...result} = user;
@@ -23,7 +23,7 @@ export class AuthService {
     }
     // Returns JWT Bearer Token
     async login(user:any) {
-        const payload = {username: user.username, id: user.id};
+        const payload = {email: user.email, id: user.id};
         return {
             // Calls Passport JWTStrategy
             access_token: this.jwtService.sign(payload)
