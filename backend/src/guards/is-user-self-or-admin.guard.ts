@@ -16,7 +16,7 @@ export class IsUserSelfOrAdminGuard implements CanActivate {
     // Checks if the the id in the JWT Token matches the user 'Admin' or if the JWT Token matches the user id in the request
     if (userObj.id == request.params.userId) {
       return true;
-    } else if (userObj.email == "cartandtell@gmail.com"){
+    } else if (userObj.email == process.env.ADMIN_EMAIL){
       return true;
     }
     else {

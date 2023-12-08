@@ -26,25 +26,26 @@ model Category {
   icon String? 
   merchant Merchant[]
 }
-model Brand {
-  id Int @id @default(autoincrement())
-  name String @unique
-  icon String? 
-  merchant Merchant[]
-}
+// model Brand {
+//   id Int @id @default(autoincrement())
+//   name String @unique
+//   icon String? 
+//   merchant Merchant[]
+// }
 model Merchant {
   id Int @id @default(autoincrement())
   name String @unique
+  website String @unique
+  description String?
   // email String @unique   //Might move it to User model later
   category Category? @relation(fields: [categoryId],references: [id])
   categoryId Int?
-  brand Brand? @relation(fields: [brandId],references: [id])
-  brandId Int?
+  // brand Brand? @relation(fields: [brandId],references: [id])
+  // brandId Int?
   proofOfAuthenticity String?
-  brandRelationship BrandRelation @default(BrandOwner)
-  brandStartValidity DateTime?
-  brandEndValidity DateTime?
-  website String @unique
+  merchantRelationship MerchantRelation @default(MerchantOwner)
+  merchantStartValidity DateTime?
+  merchantEndValidity DateTime?
   image String?
   products Product[]
   user User? @relation(fields: [userId], references: [id])
@@ -54,8 +55,8 @@ model Merchant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
-enum BrandRelation {
-  BrandOwner
+enum MerchantRelation {
+  MerchantOwner
   ExclusiveDistributor
   NonExclusiveDistributor
 }

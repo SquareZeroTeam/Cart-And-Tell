@@ -6,10 +6,11 @@ import { JwtStrategy } from 'src/authentication/auth/jwt.strategy';
 import { PaymongoService } from 'src/microservices/paymongo/paymongo.service';
 import { PrismaModule } from 'src/db/prisma/prisma.module';
 import { CartModule } from './cart/cart.module';
+import { JwtService } from 'src/authentication/jwt/jwt.service';
 @Module({
 
   controllers: [UserController],
-  providers: [UserService,JwtStrategy],
+  providers: [UserService,JwtStrategy,JwtService],
   exports: [UserService],
   imports: [PrismaModule,CartModule]
 })

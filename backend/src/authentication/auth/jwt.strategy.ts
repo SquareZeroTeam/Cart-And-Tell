@@ -16,14 +16,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         const updatedUser = await prisma.user.findFirst({
             where:{id:payload.id},
             include:{
-                cart:{include:{product:true},}
-                ,_count:{select:{cart:true}}
+                cart:{include:{product:true},},
+                merchant:{select:{id:true,userId:true}},
+                _count:{select:{cart:true}}
             }})
         return {
             id: payload.id,
             email: payload.email,
             cart:updatedUser.cart,
-            cartCount: updatedUser._count.cart
+            cartCount: updatedUser._count.cart,
+            isMerchant:updatedUser.isMerchant,
+            merchant:updatedUser.merchant
         };
     }
 }

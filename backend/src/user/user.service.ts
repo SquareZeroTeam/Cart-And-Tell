@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/db/prisma/prisma.service';
@@ -25,8 +25,12 @@ export class UserService {
     return await this.prisma.user.findMany({select:{id:true,email:true,cart:true,_count:{select:{cart:true}}}})
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(id: number) {
+    const user = await this.prisma.user.findUnique({where:{id}});
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
+    return user;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
@@ -37,8 +41,8 @@ export class UserService {
     return `This action removes a #${id} user`;
   }
 
-
+  // Non CRUD actions
   async findOneByEmail(email:string) {
-    return await this.prisma.user.findUnique({where:{email},include: {cart:true,_count:{select:{cart:true}}}});
+    return await this.prisma.user.findUnique({where:{email},include: {merchant:{select:{id:true}},cart:true,_count:{select:{cart:true}}}});
   }
 }

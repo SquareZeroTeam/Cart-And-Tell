@@ -1,7 +1,8 @@
-import { IsEmail, Length, IsUrl, IsInt, IsEnum } from "class-validator";
+import { IsEmail, Length, IsUrl, IsInt, IsEnum, IsDate, IsDateString } from "class-validator";
 import { Prisma } from "@prisma/client";
-enum BrandRelation {
-    BrandOwner = 'BrandOwner',
+import { Transform } from "class-transformer";
+enum MerchantRelation {
+    MerchantOwner = 'MerchantOwner',
     ExclusiveDistributor = 'ExclusiveDistributor',
     NonExclusiveDistributor = 'NonExclusiveDistributor'
 }
@@ -10,18 +11,18 @@ export class CreateMerchantDto {
     name: string;
     @IsUrl()
     website: string;
+    @Length(16, 256)
+    description:string;
+
     @IsInt()
+    @Transform(({value}) => parseInt(value))
     categoryId:number;
-    @IsInt()
-    @Length(4,32)
-    brandName:string; // If brand is not present then this field will be used
-    brandId:number; 
-    proofOfAuthenticity:string;
-    @IsEnum(BrandRelation)
-    brandRelationship:BrandRelation;
-    brandStartValidity:Date;
-    brandEndValidity:Date;
-    image:string;
+    @IsEnum(MerchantRelation)
+    merchantRelationship:MerchantRelation;
+    @IsDateString()
+    merchantStartValidity:Date;
+    @IsDateString()
+    merchantEndValidity:Date;
     userId:number;
 }
 
@@ -31,12 +32,12 @@ export class CreateMerchantDto {
 //     // email String @unique   //Might move it to User model later
 //     category Category? @relation(fields: [categoryId],references: [id])
 //     categoryId Int?
-//     brand Brands? @relation(fields: [brandId],references: [id])
-//     brandId Int?
+//     merchant Merchants? @relation(fields: [merchantId],references: [id])
+//     merchantId Int?
 //     proofOfAuthenticity String?
-//     brandRelationship BrandRelation @default(BrandOwner)
-//     brandStartValidity DateTime?
-//     brandEndValidity DateTime?
+//     merchantRelationship MerchantRelation @default(MerchantOwner)
+//     merchantStartValidity DateTime?
+//     merchantEndValidity DateTime?
 //     website String @unique
 //     image String?
 //     products Product[]
