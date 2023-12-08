@@ -49,15 +49,25 @@ async function handler() {
     await navigateTo('/');
   }
   else {
+<<<<<<< HEAD
+    const errorMSG = (result.message === "Unauthorized") ? "Provide email and Password":result.message; 
+=======
     const errorMSG = (result.message === "Unauthorized") ? "Provide Email and Password":result.message; 
+>>>>>>> upstream/main
     errorMessage.value = errorMSG;
   }
 }
 </script>
 
 <template>
+<<<<<<< HEAD
+  <div class="">
+    <Header/>
+    <div class="container mx-auto flex justify-center items-center flex-col h-screen p-4">
+=======
   <div class="container mx-auto">
     <div class="flex justify-center items-center flex-col h-screen p-4">
+>>>>>>> upstream/main
       <h3 class="text-2xl font-bold text-black mb-6">Log In to <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
         <input
@@ -111,6 +121,7 @@ async function handler() {
       >
         Register
         </NuxtLink>
+        <p class="text-md">Want to become part of part of Cart & Tell? Register Now!</p>
 
       
     </div>
