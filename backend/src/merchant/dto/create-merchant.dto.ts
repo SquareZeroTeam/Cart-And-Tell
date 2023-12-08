@@ -17,14 +17,12 @@ export class CreateMerchantDto {
     @IsInt()
     @Transform(({value}) => parseInt(value))
     categoryId:number;
-    proofOfAuthenticity:string;
     @IsEnum(MerchantRelation)
     merchantRelationship:MerchantRelation;
     @IsDateString()
     merchantStartValidity:Date;
     @IsDateString()
     merchantEndValidity:Date;
-    image:string;
     userId:number;
 }
 
