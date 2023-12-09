@@ -9,7 +9,7 @@
     const API = useRuntimeConfig().public.API;
     const { data: categories } = useFetch(`${API}/category`, { lazy: true });
     const {data:merchant} = useFetch(`${API}/merchant/4`);
-    console.log(merchant.value);
+    //console.log(merchant.value);
 
     // Data to store form values
     const formData = ref({
@@ -44,7 +44,10 @@
 
     const submitForm = () => {
 
-        console.log(formData.value);
+        const userObj = useUserObj();
+        userObj.isMerchant = true
+        //console.log(userObj.isMerchant);
+
     };
 
     const handleSelect = (value) => {
