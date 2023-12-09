@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="rounded-md block sm:flex justify-between mb-4">
-                            <p class="w-[50rem] px-4 text-justify text-white mt-12">We build in settings that favor the future. Learn how we defy modern luxury, comfort, and convenience to originate lifestyle options for the coming generations.</p>
+                            <p class="w-[50rem] px-4 text-justify text-white mt-12">{We build in settings that favor the future. Learn how we defy modern luxury, comfort, and convenience to originate lifestyle options for the coming generations.}</p>
                             <div class="flex flex-none mr-8 mb-8 justify-center items-center">
                                 <div class="h-[10rem]" v-for="(product, index) in merchant.products">
                                     <NuxtLink :to="`/products/${product.id}`">

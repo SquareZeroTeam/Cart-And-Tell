@@ -4,6 +4,7 @@
     function modalToggle() {
         isModalVisible.value = !isModalVisible.value;
     }
+    const userObj = useUserObj().value;
 </script>
 <template>
     <header class="shadow-sm pb-4 w-full bg-[#282F7A] m-0 p-0">
@@ -28,57 +29,74 @@
 
                     <div class="flex flex-col items-center gap-2 bg-white p-2  ">
                         <NuxtLink to="/">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Home</p>
-                        </button>   
-                        </NuxtLink>
-                        <NuxtLink to="/login">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Log in</p>
-                        </button>
-                        </NuxtLink>
-                        
-                        <NuxtLink to="/registration">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Registration</p>
-                        </button>
-                        </NuxtLink>
+                <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                <p>Home</p>
+            </button>
+            </NuxtLink>
+ 
+            
+            <div v-if="!userObj.loggedIn">
+                <NuxtLink to="/user/cart">
+                    <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                        <p>Log in</p>
+                    </button>
+                </NuxtLink>
+            </div>
+            
 
-                        <NuxtLink to="/aboutus">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>About Us</p>
-                        </button>
-                        </NuxtLink>
+            <div v-if="userObj.loggedIn">
+                <NuxtLink to="/registration">
+                    <button class="w-44 h-[4rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                        <p>Register as Merchant</p>
+                    </button>
+                </NuxtLink>
+            </div>
 
-                        <NuxtLink to="/contactus">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Contact Us</p>
-                        </button>
-                        </NuxtLink>
+            <NuxtLink to="/aboutus">
+                <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                <p>About Us</p>
+            </button>
+            </NuxtLink>
 
-                        <NuxtLink to="/policy">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Policy</p>
-                        </button>
-                        </NuxtLink>
+            <NuxtLink to="/contactus">
+                <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                <p>Contact Us</p>
+            </button>
+            </NuxtLink>
 
-                        <NuxtLink to="/certifications">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Certifications</p>
-                        </button>
-                        </NuxtLink>
+            <NuxtLink to="/policy">
+                <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                <p>Policy</p>
+            </button>
+            </NuxtLink>
 
-                        <NuxtLink to="/ratings">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Ratings</p>
-                        </button>
-                        </NuxtLink>
+            <NuxtLink to="/certifications">
+                <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                <p>Certifications</p>
+            </button>
+            </NuxtLink>
 
-                        <NuxtLink to="/user/cart">
-                            <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
-                            <p>Your Cart</p>
-                        </button>
-                        </NuxtLink>
+            <NuxtLink to="/ratings">
+                <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                <p>Ratings</p>
+            </button>
+            </NuxtLink>
+
+            <div v-if="userObj.loggedIn">
+                <NuxtLink to="/user/cart">
+                    <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                        <p>Your Cart</p>
+                    </button>
+                </NuxtLink>
+            </div>
+            
+            <div v-if="userObj.loggedIn"><!-- and registered -->
+                <NuxtLink to="/profile">
+                    <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                        <p>Merchant Profile</p>
+                    </button>
+                </NuxtLink>
+            </div>
                     </div>
             </div>
         </div>

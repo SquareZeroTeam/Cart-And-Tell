@@ -1,6 +1,7 @@
 <script setup>
     const API = useRuntimeConfig().public.API;
     const {data:categories}= useFetch(`${API}/category`,{lazy:true});
+    //console.log(categories);
 // const categories = [
 //   'Electronics',
 //   'Clothing',
