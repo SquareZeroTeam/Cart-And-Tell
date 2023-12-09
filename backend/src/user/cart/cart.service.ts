@@ -19,14 +19,12 @@ export class CartService {
     }
     const productItem = await this.prisma.productItem.findFirst({where:{productId:createCartDto.products[0],userId}});
     if (!productItem) {
-      console.log("this is called");
       const newProduct = await this.prisma.productItem.create({
         data:{
           quantity:createCartDto.quantity,
           productId:createCartDto.products[0],
           userId:userId
         }})
-        console.log(newProduct);
     }
     else {
       await this.prisma.productItem.update({
@@ -89,7 +87,6 @@ export class CartService {
   async remove(deleteCarDto:DeleteCarDto,userId:number) {
     // Removed many product from productID list
     const deletedProducts = await this.prisma.productItem.deleteMany({where:{userId:userId,productId:{in:deleteCarDto.products}}});
-    console.log(deletedProducts);
-    return `Successfully Removed products:${deleteCarDto.products} from cart of user:${userId}`;
+    return deletedProducts;
   }
 }

@@ -1,27 +1,29 @@
 <script setup>
-const categories = [
-  'Electronics',
-  'Clothing',
-  'Home & Garden',
-  'Books & Literature',
-  'Beauty & Personal Care',
-  'Sports & Outdoors',
-  'Toys & Games',
-  'Automotive',
-  'Health & Wellness',
-  'Jewelry',
-  'Food & Grocery',
-  'Music & Instruments',
-  'Pets',
-  'Art & Collectibles',
-  'Office & School Supplies',
-  'Travel & Luggage',
-];
-
-const items = ref(categories.map((category, index) => ({
-  link: `/category/${index + 1}`,
-  text: category,
-})));
+    const API = useRuntimeConfig().public.API;
+    const {data:categories}= useFetch(`${API}/category`);
+    console.log(categories.value);
+// const categories = [
+//   'Electronics',
+//   'Clothing',
+//   'Home & Garden',
+//   'Books & Literature',
+//   'Beauty & Personal Care',
+//   'Sports & Outdoors',
+//   'Toys & Games',
+//   'Automotive',
+//   'Health & Wellness',
+//   'Jewelry',
+//   'Food & Grocery',
+//   'Music & Instruments',
+//   'Pets',
+//   'Art & Collectibles',
+//   'Office & School Supplies',
+//   'Travel & Luggage',
+// ];
+// const items = ref(categories.value.map((category, index) => ({
+//   link: `/category/${index + 1}`,
+//   text: category,
+// })));
 </script>
 <template>
     <div class="w-full bg-white lg:mr-12">
@@ -34,14 +36,21 @@ const items = ref(categories.map((category, index) => ({
             </div>
             <div class="bg-[#282F7A]">
                 <div class="flex justify-center">
-                    <p class="text-white m-2 text-2xl">16 Categories</p>
+                    <p class="text-white m-2 text-2xl">{{ categories.length }} Categories</p>
                 </div>
                 <div class="mx-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-40">
                     <div class="gap-4 flex flex-wrap justify-center ">
-                        <NuxtLink v-for="(item, index) in items" :key="index" to="/merchants"><!-- test muna -->
+                        <!-- <NuxtLink v-for="(item, index) in items" :key="index" to="/merchants">
                             <button class="flex flex-col items-center max-w-[80px] ">
                                 <div class="w-20 h-16 bg-white mb-2"></div>
                                 <p class="text-white text-center ">{{ item.text }}</p>
+                            </button>
+                        </NuxtLink> -->
+                        <NuxtLink v-for="category in categories" :key="category.id" :to="`/merchant/${category.name}`">
+                            <button class="flex flex-col items-center max-w-[80px] ">
+                                <!-- <div class="w-20 h-16 bg-white mb-2"></div> -->
+                                <img class="bg-white h-20 w-20" :src="category.image" alt="">
+                                <p class="text-white text-center ">{{ category.name }}</p> 
                             </button>
                         </NuxtLink>
                     </div>
@@ -52,9 +61,7 @@ const items = ref(categories.map((category, index) => ({
    
                 <div class="m-4">
                     <SlidePartnerMerchant/>
-                </div>
-          
-                
+                </div>      
             </div>
             <div class="bg-[#282F7A]">
                 <div class="flex justify-center">

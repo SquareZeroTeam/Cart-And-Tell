@@ -23,7 +23,6 @@ async function login(email:string, password:string):Promise<loginFetchData> {
   return data;
 }
 async function handler() {
-  console.log("TEST");
   errorMessage.value = "";
   const result:loginFetchData = await login(formData.email, formData.password);
   if (result.access_token) {
@@ -112,8 +111,6 @@ async function handler() {
         Register
         </NuxtLink>
         <p class="text-md">Want to become part of part of Cart & Tell? Register Now!</p>
-
-      
     </div>
   </div>
 </template>
