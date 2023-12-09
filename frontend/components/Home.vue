@@ -1,7 +1,6 @@
 <script setup>
     const API = useRuntimeConfig().public.API;
-    const {data:categories}= useFetch(`${API}/category`);
-    console.log(categories.value);
+    const {data:categories}= useFetch(`${API}/category`,{lazy:true});
 // const categories = [
 //   'Electronics',
 //   'Clothing',
@@ -36,7 +35,7 @@
             </div>
             <div class="bg-[#282F7A]">
                 <div class="flex justify-center">
-                    <p class="text-white m-2 text-2xl">{{ categories.length }} Categories</p>
+                    <p class="text-white m-2 text-2xl">{{(categories)? Object.keys(categories).length: ""}} Categories</p>
                 </div>
                 <div class="mx-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-40">
                     <div class="gap-4 flex flex-wrap justify-center ">
@@ -54,11 +53,10 @@
                             </button>
                         </NuxtLink>
                     </div>
-                </div>
+                </div>  
             </div>
             <div class="bg-[#282F7A] flex flex-col justify-center">
                 <p class="text-white mt-2  text-2xl text-center">Partner Merchants</p>
-   
                 <div class="m-4">
                     <SlidePartnerMerchant/>
                 </div>      
