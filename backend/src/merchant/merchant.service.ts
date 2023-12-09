@@ -37,7 +37,10 @@ export class MerchantService {
     return newMerchant;
   }
   
-  async findAll() {
+  async findAll(category:string) {
+    if (category) {
+      return await this.prisma.merchant.findMany({where:{category:{name:category}},include:{products:true}});
+    }
     return await this.prisma.merchant.findMany({include:{products:true}}); 
   }
 
@@ -50,8 +53,6 @@ export class MerchantService {
   }
 
   async update(id: number, updateMerchantDto: UpdateMerchantDto,image:Express.Multer.File|null, proofOfAuthenticity:Express.Multer.File|null) {
-    (!image) ? console.log("Image is empty") :"";
-    (!proofOfAuthenticity) ? console.log("ProofOfAuthenticity is empty") : "";
     const merchant = await this.prisma.merchant.findUnique({where:{id}});
     if (!merchant) {
       throw new NotFoundException("Merchant not found");
@@ -104,13 +105,11 @@ export class MerchantService {
     return updatedMerchant;
   }
 
-  //To-do add Guards Here
   async remove(id: number) {
     const merchant = await this.prisma.merchant.findUnique({where:{id}});
     if (!merchant) {
       throw new NotFoundException("Merchant not found");
     }
-    await this.prisma.merchant.delete({where:{id}});
-    return {message:`Successfully deleted Merchant ${merchant.name}`};
+    return await this.prisma.merchant.delete({where:{id}});
   }
 }

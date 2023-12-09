@@ -23,7 +23,6 @@ async function login(email:string, password:string):Promise<loginFetchData> {
   return data;
 }
 async function handler() {
-  console.log("TEST");
   errorMessage.value = "";
   const result:loginFetchData = await login(formData.email, formData.password);
   if (result.access_token) {
@@ -57,7 +56,7 @@ async function handler() {
 <template>
   <div class="container mx-auto">
     <div class="flex justify-center items-center flex-col h-screen p-4">
-      <h3 class="text-2xl font-bold text-black mb-6">Log In to <span class="text-[#282F7A]">Cart &amp; Tell</span></h3>
+      <h3 class="text-2xl font-bold text-black mb-6">Log In to <span class="text-[#282F7A]">Cart & Tell</span></h3>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
         <input
           v-model="formData.email"
@@ -109,8 +108,8 @@ async function handler() {
         class="text-center flex justify-center items-center w-full md:w-[70%] lg:w-[50%] xl:w-[40%] h-[3rem] border-2 bg-[#282F7A] rounded-[0.5rem] text-white font-bold text-xl mt-0.5"
       >
         Register
-      </NuxtLink>
-      <p class="text-md">Want to become part of part of Cart &amp; Tell? Register Now!</p>
+        </NuxtLink>
+        <p class="text-md">Want to become part of part of Cart & Tell? Register Now!</p>
     </div>
   </div>
 </template>

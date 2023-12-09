@@ -1,46 +1,46 @@
 <script setup lang="ts">
-const filesData = ref<{ name: string; size: number; type: string; lastModified: number }[]>([]);
-const pdfFileUrl = ref<string | null>(null); 
-const dropZoneRef = ref<HTMLElement>();
+  const filesData = ref<{ name: string; size: number; type: string; lastModified: number }[]>([]);
+  const pdfFileUrl = ref<string | null>(null); 
+  const dropZoneRef = ref<HTMLElement>();
 
-const onDrop = (files: File[] | null) => {
-  filesData.value = [];
-  if (files && files.length > 0) {
-    const pdfFile = files[0];
-    
-    pdfFileUrl.value = URL.createObjectURL(pdfFile);
-
-    // file details
-    filesData.value = [{
-      name: pdfFile.name,
-      size: pdfFile.size,
-      type: pdfFile.type,
-      lastModified: pdfFile.lastModified,
-    }];
-  }
-};
-
-const openFileDialog = () => {
-  const fileInput = document.createElement('input');
-  fileInput.type = 'file';
-  fileInput.accept = 'application/pdf';
-  fileInput.multiple = false;
-
-  fileInput.addEventListener('change', (event) => {
-    const input = event.target as HTMLInputElement;
-    const files = input.files;
+  const onDrop = (files: File[] | null) => {
+    filesData.value = [];
     if (files && files.length > 0) {
-      onDrop(Array.from(files));
+      const pdfFile = files[0];
+      
+      pdfFileUrl.value = URL.createObjectURL(pdfFile);
+
+      // file details
+      filesData.value = [{
+        name: pdfFile.name,
+        size: pdfFile.size,
+        type: pdfFile.type,
+        lastModified: pdfFile.lastModified,
+      }];
     }
-  });
+  };
 
-  fileInput.click();
-};
+  const openFileDialog = () => {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'application/pdf';
+    fileInput.multiple = false;
 
-const resetFiles = () => {
-  filesData.value = [];
-  pdfFileUrl.value = null;
-};
+    fileInput.addEventListener('change', (event) => {
+      const input = event.target as HTMLInputElement;
+      const files = input.files;
+      if (files && files.length > 0) {
+        onDrop(Array.from(files));
+      }
+    });
+
+    fileInput.click();
+  };
+
+  const resetFiles = () => {
+    filesData.value = [];
+    pdfFileUrl.value = null;
+  };
 </script>
 
 <template>
@@ -73,7 +73,7 @@ const resetFiles = () => {
         </div>
         </div>
 
-        <!-- Reset Files button -->
+
         <button
         type="button"
         @click="resetFiles"
@@ -82,7 +82,7 @@ const resetFiles = () => {
         Reset Files
         </button>
 
-        <!-- Responsive PDF display -->
+
         
     </div>
     <div class="m-4 flex justify-center items-center">

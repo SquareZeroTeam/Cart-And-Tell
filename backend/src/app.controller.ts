@@ -17,7 +17,6 @@ export class AppController {
     // Simulate a delay of 5 seconds
     await delay(5000);
 
-    console.log('done');
     return { message: 'ok' };
   }
   // @Get('createproducts')

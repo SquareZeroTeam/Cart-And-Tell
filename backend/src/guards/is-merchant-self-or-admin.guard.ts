@@ -11,7 +11,7 @@ export class IsMerchantSelfOrAdminGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization.split(" ")[1];
     const userObj = this.jwt.decode(token);
-    if (userObj.isMerchant && (userObj.merchant.id == request.params.id)) {
+    if (userObj.isMerchant && (userObj.merchant.id == request.params.id) || userObj.email == process.env.ADMIN_EMAIL) {
       return true
     }
     return false;
