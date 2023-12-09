@@ -2,7 +2,6 @@
     const API = useRuntimeConfig().public.API;
     const {data:merchants} = await useFetch<any>(`${API}/merchant`);
     console.log(merchants.value);
-    console.log("test")
 </script>
 <template>
     <div clas="container">

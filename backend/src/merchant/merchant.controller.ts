@@ -35,8 +35,10 @@ export class MerchantController {
   }
 
   @Get()
-  findAll() {
-    return this.merchantService.findAll();
+  findAll(
+    @Param('category') category: string
+  ) {
+    return this.merchantService.findAll(category);
   }
 
   @Get(':id')

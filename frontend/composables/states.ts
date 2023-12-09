@@ -4,5 +4,6 @@ export const useUserObj = () => useState("userObj", () => {
         id:NaN,
         cartCount:0,
         loggedIn:false,
+        isMerchant:false,
     }
 });

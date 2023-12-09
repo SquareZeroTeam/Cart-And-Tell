@@ -68,6 +68,14 @@
                         <p class="m-4 mb-2 font-bold text-lg">Your Merchant Information</p>
                     </div>
                     <div class="flex flex-col m-4">
+                        <p class="font-semibold"><span class="text-red-500">*</span> Merchant Image</p>  
+                        <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer" aria-describedby="file_input_help" id="file_input" type="file">
+                        <p class="mt-1 text-sm" id="file_input_help">SVG, PNG, JPG or GIF (MAX. 800x400px).</p>
+                        <div class="flex justify-center">
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                    <div class="flex flex-col m-4">
                         <p class="font-semibold"><span class="text-red-500">*</span> Merchant Name</p>
                         <div class="flex">
                         <v-select
@@ -181,6 +189,8 @@
   
   
 <style scoped>
-  
+    input[type=file]::-webkit-file-upload-button {
+        visibility: hidden;
+    }
 </style>
   

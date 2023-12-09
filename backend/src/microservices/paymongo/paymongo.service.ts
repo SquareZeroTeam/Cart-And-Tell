@@ -30,7 +30,6 @@ export class PaymongoService implements OnModuleInit{
         // description:item.product.description,
       }
     });
-    console.log(filteredData);
     const checkoutData = {
       data:{
         attributes:{
@@ -40,7 +39,6 @@ export class PaymongoService implements OnModuleInit{
         }
       }
     }
-    console.log(process.env.PayMongo_Secret_Key);
     const paymongoRes = await axios.post("https://api.paymongo.com/v1/checkout_sessions",checkoutData,{
       headers:{
         "Content-Type": "application/json",
@@ -52,7 +50,6 @@ export class PaymongoService implements OnModuleInit{
     })
     .then(res => res.data)
     .catch(err => err.response.data);
-    console.log(paymongoRes);
     return {checkoutLink:paymongoRes.data.attributes.checkout_url}
   }
 }
