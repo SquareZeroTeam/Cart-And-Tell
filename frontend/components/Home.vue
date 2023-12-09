@@ -1,4 +1,5 @@
 <script setup>
+
 const categories = [
   'Electronics',
   'Clothing',

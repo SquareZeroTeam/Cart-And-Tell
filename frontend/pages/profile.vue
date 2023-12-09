@@ -16,14 +16,6 @@
                 <div class="flex flex-col gap-4">  
                     <div class="bg-[#282F7A] flex  items-center">
                         <div class="m-6 flex">
-                            <img class="w-48 h-auto rounded-md" :src="merchant.image" alt="Introduction Image">
-                            <div>
-                                <p class="text-white ml-6 text-3xl font-bold  mt-2 hidden sm:block">{{merchant.name}}</p>
-                                <NuxtLink :to="merchant.website" class="flex gap-2 text-white mt-4 ml-6">
-                                    <span class="material-symbols-outlined">storefront</span>
-                                    <p class="hidden sm:block">Visit Website</p>
-                                </NuxtLink>
-                            </div>
                         
                         </div>
                         
