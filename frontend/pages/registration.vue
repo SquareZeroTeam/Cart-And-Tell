@@ -1,14 +1,13 @@
 <script setup>
     import { ref } from 'vue';
-    import vSelect from "vue-select";
     import "vue-select/dist/vue-select.css";
     import VueDatePicker from "@vuepic/vue-datepicker";
     import "@vuepic/vue-datepicker/dist/main.css";
     import {useFileDialog} from '@vueuse/core';
     
     const API = useRuntimeConfig().public.API;
-    const { data: categories } = useFetch(`${API}/category`, { lazy: true });
-    const {data:merchant} = useFetch(`${API}/merchant/4`);
+    const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
+    const {data:merchant} = await useFetch(`${API}/merchant/4`);
     //console.log(merchant.value);
 
     // Data to store form values

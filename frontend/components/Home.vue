@@ -1,6 +1,6 @@
 <script setup>
     const API = useRuntimeConfig().public.API;
-    const {data:categories}= useFetch(`${API}/category`,{lazy:true});
+    const {data:categories}= await useFetch(`${API}/category`,{lazy:true});
     //console.log(categories);
 // const categories = [
 //   'Electronics',
@@ -46,7 +46,7 @@
                                 <p class="text-white text-center ">{{ item.text }}</p>
                             </button>
                         </NuxtLink> -->
-                        <NuxtLink v-for="category in categories" :key="category.id" :to="`/merchant/${category.name}`">
+                        <NuxtLink v-for="category in categories" :key="category.id" :to="`/merchants?category=${category.name}`">
                             <button class="flex flex-col items-center max-w-[80px] ">
                                 <!-- <div class="w-20 h-16 bg-white mb-2"></div> -->
                                 <img class="bg-white h-20 w-20" :src="category.image" alt="">
