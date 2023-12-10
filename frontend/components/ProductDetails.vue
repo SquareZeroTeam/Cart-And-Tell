@@ -26,10 +26,10 @@ const { product } = defineProps(['product']);
       <div class="lg:flex lg:items-center lg:justify-center lg:ml-8">
         <img :src="product.image" alt="product" class="hidden lg:block w-1/2 h-96 object-contain mb-0 lg:mb-0" />
 
-        <div class="lg:ml-16">
-          <p class="text-3xl font-bold">{{ product.title }}</p>
+        <div class="lg:ml-16 mt-4">
+          <p class="text-4xl font-bold">{{ product.name }}</p>
           <p class="text-xl font-semibold text-gray-700 mb-6">{{ product.category }}</p>
-          <p class="text-4xl text-[#282F7A] font-bold mb-12">₱{{ product.amount }}</p>
+          <p class="text-3xl text-[#282F7A] font-bold mb-12">₱{{ product.amount }}</p>
           <p class="text-lg text-gray-600 leading-relaxed mb-6">{{ product.description }}</p>
 
           <div class="flex items-center mb-8 lg:mt-40">

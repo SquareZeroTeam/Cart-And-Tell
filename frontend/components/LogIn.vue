@@ -53,7 +53,6 @@ async function handler() {
   }
 }
 </script>
-
 <template>
   <div class="container mx-auto">
     <div class="flex justify-center items-center flex-col h-screen p-4">
@@ -74,36 +73,36 @@ async function handler() {
         </label>
       </div>
       <div class="relative group mb-6 w-full md:w-[70%] lg:w-[50%] xl:w-[40%]">
-          <input
-            v-model="formData.password"
-            type="password"
-            id="password"
-            required
-            class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-[2rem]"
-          />
-          <label
-            for="password"
-            class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-[2rem] text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-8 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
-          >
-            Password
-          </label>
-          <p class="text-sm text-[#282F7A] font-semibold cursor-pointer mb-1.5 mt-0.25">Forgot Password?</p>
-        </div>
-        <button
-          @click="handler"
-          type="button"
-          class="w-full md:w-[70%] lg:w-[50%] xl:w-[40%] h-[3rem] border-2 bg-[#282F7A] rounded-[0.5rem] text-white font-bold text-xl mt-0.5"
+        <input
+          v-model="formData.password"
+          type="password"
+          id="password"
+          required
+          class="peer w-full h-[3rem] mb-1.5 text-xl bg-gray-200 bg-opacity-20 rounded-[0.5rem] border-2 border-[#2563EB] pl-[2rem]"
+        />
+        <label
+          for="password"
+          class="transform transition-all absolute top-0 left-0 h-[3rem] flex items-center pl-[2rem] text-lg group-focus-within:text-xs peer-valid:text-xs group-focus-within:h-6 peer-valid:h-8 group-focus-within:-translate-y-full peer-valid:-translate-y-full group-focus-within:pl-0 peer-valid:pl-0"
         >
-          Log In
-        </button>
-        
-        <div class="">
-            <ul>
-              <li class="mt-4 font-bold">{{ errorMessage }}</li>
-            </ul>
-        </div>
+          Password
+        </label>
+        <p class="text-sm text-[#282F7A] font-semibold cursor-pointer mb-1.5 mt-0.25">Forgot Password?</p>
+      </div>
+      <button
+        @click="handler"
+        type="button"
+        class="w-full md:w-[70%] lg:w-[50%] xl:w-[40%] h-[3rem] border-2 bg-[#282F7A] rounded-[0.5rem] text-white font-bold text-xl mt-0.5"
+      >
+        Log In
+      </button>
+      
+      <div class="">
+        <ul>
+          <li class="mt-4 font-bold">{{ errorMessage }}</li>
+        </ul>
+      </div>
 
-        <NuxtLink
+      <NuxtLink
         to="/signup"
         type="button"
         class="text-center flex justify-center items-center w-full md:w-[70%] lg:w-[50%] xl:w-[40%] h-[3rem] border-2 bg-[#282F7A] rounded-[0.5rem] text-white font-bold text-xl mt-0.5"
