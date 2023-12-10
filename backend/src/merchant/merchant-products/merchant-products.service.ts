@@ -44,18 +44,32 @@ export class MerchantProductsService {
     return product;
   }
 
-  async update(id: number, image:Express.Multer.File|null, updateMerchantProductDto: UpdateMerchantProductDto) {
-    const merchant = await this.prisma.merchant.findUnique({where:{id}});
-    const updateForm:{} = {...updateMerchantProductDto,merchantId:id}
+  async update(merchantId:number,id: number, image:Express.Multer.File|null, updateMerchantProductDto: UpdateMerchantProductDto) {
+    const merchant = await this.prisma.merchant.findUnique({where:{id:merchantId}});
+    const updateForm:{} = {...updateMerchantProductDto}
     if (!merchant) {
       throw new NotFoundException("Merchant not found");
+    }
+    const product = await this.prisma.product.findUnique({where:{id}});
+    if (!product) {
+      throw new NotFoundException("Product not found");
     }
     if (image) {
       const imageLink = await this.supabase.uploadImage(image);
       updateForm['image'] = imageLink;
     }
-    updateMerchantProductDto.amount = parseFloat(updateMerchantProductDto.amount.toString());
+    if (updateMerchantProductDto.amount) {
+      updateForm['amount'] = parseFloat(updateMerchantProductDto.amount.toString());
+    }
+    if (updateMerchantProductDto.description) {
+      updateForm['description'] = updateMerchantProductDto.description;
+    }
+    if (updateMerchantProductDto.name) {
+      updateForm['name'] = updateMerchantProductDto.name;
+    }
+    console.log(updateForm);
     const updatedProduct = this.prisma.product.update({where:{id:id},data:updateForm})
+    return updatedProduct;
   }
 
   async remove(merchantId:number, id: number) {
