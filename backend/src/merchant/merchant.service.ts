@@ -11,7 +11,11 @@ export class MerchantService {
     private readonly supabase:SupabaseService
   ) {}
   async create(createMerchantDto: CreateMerchantDto,image:Express.Multer.File,proofOfAuthenticity:Express.Multer.File) {
-    const user = await this.prisma.user.findUnique({where:{id:createMerchantDto.userId},include:{merchant:true}});
+    console.log(createMerchantDto.categoryId)
+    const user = await this.prisma.user.findUnique({where:{id:+createMerchantDto.userId},include:{merchant:true}});
+    if (!user) {
+      throw new NotFoundException("User not found");
+    }
     if (!user.isMerchant) {
       throw new BadRequestException("This User is not registered as Merchant");
     }
@@ -29,6 +33,7 @@ export class MerchantService {
     const imageLink:string = await this.supabase.uploadImage(image);
     const pdfLink:string = await this.supabase.uploadPDF(proofOfAuthenticity);
     createMerchantDto.categoryId = +createMerchantDto.categoryId //Converts to Int
+    createMerchantDto.userId = +createMerchantDto.userId //Converts to Int
     //Converts to ISO 8601 Date Format
     createMerchantDto.merchantStartValidity = new Date(createMerchantDto.merchantStartValidity)
     createMerchantDto.merchantEndValidity = new Date(createMerchantDto.merchantEndValidity)
@@ -39,9 +44,9 @@ export class MerchantService {
   
   async findAll(category:string) {
     if (category) {
-      return await this.prisma.merchant.findMany({where:{category:{name:category}},include:{products:true}});
+      return await this.prisma.merchant.findMany({where:{category:{name:category}},include:{products:true,user:true,category:true}});
     }
-    return await this.prisma.merchant.findMany({include:{products:true}}); 
+    return await this.prisma.merchant.findMany({include:{products:true,user:true,category:true}}); 
   }
 
   async findOne(id: number) {
@@ -67,6 +72,9 @@ export class MerchantService {
     })
     if (merchantExit) {
       throw new BadRequestException("Merchant Name or Merchant Website already exists");
+    }
+    if (updateMerchantDto.categoryId) {
+      updateMerchantDto.categoryId = +updateMerchantDto.categoryId //Converts to Int
     }
     //Supabase Image Upload implementation
     if (!image && proofOfAuthenticity) {
@@ -106,9 +114,15 @@ export class MerchantService {
   }
 
   async remove(id: number) {
-    const merchant = await this.prisma.merchant.findUnique({where:{id}});
+    const merchant = await this.prisma.merchant.findUnique({where:{id},include:{products:true,user:true}});
     if (!merchant) {
       throw new NotFoundException("Merchant not found");
+    }
+    if (merchant.products.length > 0) {
+      throw new BadRequestException("Merchant has products, please delete the products first");
+    }
+    if (merchant.user.email === process.env.ADMIN_EMAIL) {
+      throw new BadRequestException("Merchant is ADMIN, cannot be removed");
     }
     return await this.prisma.merchant.delete({where:{id}});
   }

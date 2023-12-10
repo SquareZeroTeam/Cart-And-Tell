@@ -14,8 +14,7 @@ export class CreateMerchantDto {
     @Length(16, 256)
     description:string;
 
-    @IsInt()
-    @Transform(({value}) => parseInt(value))
+    
     categoryId:number;
     @IsEnum(MerchantRelation)
     merchantRelationship:MerchantRelation;
