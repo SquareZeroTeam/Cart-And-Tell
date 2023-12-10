@@ -13,7 +13,7 @@ export class UserController {
   @Post()
   create(@Body(new ValidationPipe) createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
-  }
+  } 
   @Get()
   @UseGuards(JwtAuthGuard,IsAdminGuard)
   findAll() {
