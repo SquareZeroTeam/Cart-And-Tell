@@ -67,7 +67,6 @@ export class MerchantProductsService {
     if (updateMerchantProductDto.name) {
       updateForm['name'] = updateMerchantProductDto.name;
     }
-    console.log(updateForm);
     const updatedProduct = this.prisma.product.update({where:{id:id},data:updateForm})
     return updatedProduct;
   }

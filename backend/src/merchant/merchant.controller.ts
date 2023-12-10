@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UploadedFiles, UseGuards, Headers, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ValidationPipe, UseInterceptors, UploadedFile, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator, UploadedFiles, UseGuards, Headers, BadRequestException, Query } from '@nestjs/common';
 import { MerchantService } from './merchant.service';
 import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
@@ -31,14 +31,21 @@ export class MerchantController {
   ) {
     return this.merchantService.create(createMerchantDto,files.image[0],files.proofOfAuthenticity[0]);
   }
-
   @Get()
+  @UseGuards(JwtAuthGuard,IsAdminGuard)
   findAll(
-    @Param('category') category: string
   ) {
-    return this.merchantService.findAll(category);
+    return this.merchantService.findAll();
   }
-
+  @Get("/verified")
+  findAllVerfied(@Query('category') category:string) {
+    return this.merchantService.findAllVerified(category);
+  }
+  @Get("/unVerified")
+  @UseGuards(JwtAuthGuard,IsAdminGuard)
+  findAllUnVerfied(@Query('category') category:string) {
+    return this.merchantService.findAllUnVerified(category);
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.merchantService.findOne(+id);

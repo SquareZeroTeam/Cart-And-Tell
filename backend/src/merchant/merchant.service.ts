@@ -11,7 +11,6 @@ export class MerchantService {
     private readonly supabase:SupabaseService
   ) {}
   async create(createMerchantDto: CreateMerchantDto,image:Express.Multer.File,proofOfAuthenticity:Express.Multer.File) {
-    console.log(createMerchantDto.categoryId)
     const user = await this.prisma.user.findUnique({where:{id:+createMerchantDto.userId},include:{merchant:true}});
     if (!user) {
       throw new NotFoundException("User not found");
@@ -42,13 +41,21 @@ export class MerchantService {
     return newMerchant;
   }
   
-  async findAll(category:string) {
-    if (category) {
-      return await this.prisma.merchant.findMany({where:{category:{name:category}},include:{products:true,user:true,category:true}});
-    }
+  async findAll() {
     return await this.prisma.merchant.findMany({include:{products:true,user:true,category:true}}); 
   }
-
+  async findAllVerified(category:string) {
+    if (category) {
+      return await this.prisma.merchant.findMany({where:{isVerified:true,category:{name:category}},include:{products:true,user:true,category:true}}); 
+    }
+    return await this.prisma.merchant.findMany({where:{isVerified:true},include:{products:true,user:true,category:true}}); 
+  }
+  async findAllUnVerified(category:string) {
+    if (category) {
+      return await this.prisma.merchant.findMany({where:{isVerified:false,category:{name:category}},include:{products:true,user:true,category:true}}); 
+    }
+    return await this.prisma.merchant.findMany({where:{isVerified:false},include:{products:true,user:true,category:true}}); 
+  }
   async findOne(id: number) {
     const merchant = await this.prisma.merchant.findUnique({where:{id},include:{products:true}});
     if (!merchant) {
@@ -105,6 +112,9 @@ export class MerchantService {
         }
       })
       return updatedMerchant;
+    }
+    if (updateMerchantDto.isVerified) {
+      updateMerchantDto.isVerified = new RegExp("true").test(updateMerchantDto.isVerified.toString());
     }
     const updatedMerchant = await this.prisma.merchant.update({
       where:{id},
