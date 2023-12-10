@@ -1,5 +1,5 @@
 <script setup>
-        const API = useRuntimeConfig().public.API;
+    const API = useRuntimeConfig().public.API;
     const APILINK = `${API}/merchant/4`;
     const ADMINTOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcnRhbmR0ZWxsQGdtYWlsLmNvbSIsImlkIjozLCJpc01lcmNoYW50Ijp0cnVlLCJtZXJjaGFudCI6eyJpZCI6OH0sImlhdCI6MTcwMjE0Mzg1NywiZXhwIjoxNzAyNzQ4NjU3fQ.dVyvU80pretyEuIUxz6bJ8AMzb9ufQE6d_RWAEX-_GE';
     const { data: merchant } = await useFetch(APILINK, {
