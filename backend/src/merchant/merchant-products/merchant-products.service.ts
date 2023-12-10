@@ -10,7 +10,6 @@ export class MerchantProductsService {
     private readonly prisma:PrismaService,
     private readonly supabase:SupabaseService 
     ) {}
-  //To-do add Guards Here
   async create(id:number,image:Express.Multer.File,createMerchantProductDto:CreateMerchantProductDto) {
     const merchant = await this.prisma.merchant.findUnique({where:{id}});
     if (!merchant) {
@@ -20,10 +19,9 @@ export class MerchantProductsService {
       throw new BadRequestException("Please upload a image");
     }
     const imageLink = await this.supabase.uploadImage(image);
-    createMerchantProductDto.image = imageLink;
     createMerchantProductDto.amount = parseFloat(createMerchantProductDto.amount.toString());
-    const newProduct = await this.prisma.product.create({data:{...createMerchantProductDto,merchantId:id}});
-    return {message:`Successfully created product ${newProduct.name}`,data:newProduct};
+    const newProduct = await this.prisma.product.create({data:{...createMerchantProductDto,merchantId:id,image:imageLink}});
+    return newProduct;
   }
 
   async findAll(merchantId:number) {
@@ -46,8 +44,18 @@ export class MerchantProductsService {
     return product;
   }
 
-  update(id: number, updateMerchantProductDto: UpdateMerchantProductDto) {
-    return `This action updates a #${id} merchantProduct`;
+  async update(id: number, image:Express.Multer.File|null, updateMerchantProductDto: UpdateMerchantProductDto) {
+    const merchant = await this.prisma.merchant.findUnique({where:{id}});
+    const updateForm:{} = {...updateMerchantProductDto,merchantId:id}
+    if (!merchant) {
+      throw new NotFoundException("Merchant not found");
+    }
+    if (image) {
+      const imageLink = await this.supabase.uploadImage(image);
+      updateForm['image'] = imageLink;
+    }
+    updateMerchantProductDto.amount = parseFloat(updateMerchantProductDto.amount.toString());
+    const updatedProduct = this.prisma.product.update({where:{id:id},data:updateForm})
   }
 
   async remove(merchantId:number, id: number) {

@@ -29,8 +29,6 @@ export class MerchantController {
     })) files: {[keys:string]:Express.Multer.File},
     @Headers("Authorization") token:string
   ) {
-    const userObj = this.jwt.decode(token.split(' ')[1]);
-    createMerchantDto.userId = userObj.id;
     return this.merchantService.create(createMerchantDto,files.image[0],files.proofOfAuthenticity[0]);
   }
 

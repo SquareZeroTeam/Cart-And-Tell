@@ -37,7 +37,7 @@ model Merchant {
   name String @unique
   website String @unique
   description String
-  // email String @unique   //Might move it to User model later
+  // email String @unique   //Might move it to User model later, Note: I did
   category Category? @relation(fields: [categoryId],references: [id])
   categoryId Int
   // brand Brand? @relation(fields: [brandId],references: [id])

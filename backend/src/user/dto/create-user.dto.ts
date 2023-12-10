@@ -1,4 +1,4 @@
-import { IsEmail, IsStrongPassword, Length } from "class-validator";
+import { IsBoolean, IsBooleanString, IsEmail, IsStrongPassword, Length, isBoolean } from "class-validator";
 
 export class CreateUserDto {
     @IsEmail()
@@ -7,5 +7,6 @@ export class CreateUserDto {
     @Length(8,64)
     @IsStrongPassword()
     password:string;
-
+    @IsBoolean()
+    isMerchant: boolean;
 }
