@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from 'vue';
+    import { ref, reactive } from 'vue';
     import vSelect from "vue-select";
     import "vue-select/dist/vue-select.css";
     import VueDatePicker from "@vuepic/vue-datepicker";
@@ -9,10 +9,12 @@
     const API = useRuntimeConfig().public.API;
     const { data: categories } = useFetch(`${API}/category`, { lazy: true });
     const {data:merchant} = useFetch(`${API}/merchant/4`);
+    const ADMINTOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcnRhbmR0ZWxsQGdtYWlsLmNvbSIsImlkIjozLCJpc01lcmNoYW50Ijp0cnVlLCJtZXJjaGFudCI6eyJpZCI6OH0sImlhdCI6MTcwMjE0Mzg1NywiZXhwIjoxNzAyNzQ4NjU3fQ.dVyvU80pretyEuIUxz6bJ8AMzb9ufQE6d_RWAEX-_GE';
+
     //console.log(merchant.value);
 
     // Data to store form values
-    const formData = ref({
+    const formData = reactive({
         merchantName: '',
         merchantLink: '',
         selectedRelationship: '',
@@ -42,14 +44,38 @@
     ]);
 
 
-    const submitForm = () => {
-
+    const submitForm = async () => {
         const userObj = useUserObj();
-        userObj.isMerchant = true
-        //console.log(userObj.isMerchant);
+        //userObj.value.isMerchant = true;
+        localStorage.setItem('isMerchant', 'true'); 
+        console.log(userObj.value.isMerchant);
+        formDataCreated = new FormData();
+        formDataCreated.append('name', formData.merchantName)
 
+        try {
+            await $fetch(`${API}/merchant/4`, {
+                method: 'PATCH',
+                headers: {
+                    Authorization: `Bearer ${ADMINTOKEN}`,
+                },
+                body: userObj.value.isMerchant,
+            });
+
+            //console.log('Merchant data updated successfully!');
+        } catch (error) {
+            //console.error('Error updating merchant data:', error.data);
+        }
+        //console.log(merchant.value);
     };
 
+    // On page load, retrieve the value from local storage and set it in the userObj
+    onMounted(() => {
+        const isMerchant = localStorage.getItem('isMerchant');
+        if (isMerchant === 'true') {
+            const userObj = useUserObj();
+            userObj.value.isMerchant = true;
+        }
+    });
     const handleSelect = (value) => {
         formData.value.selectedmerchant = value;
     };
@@ -183,7 +209,10 @@
                             placeholder=""
                         />
                     </div>
-                    <button @click="submitForm" class="p-2 m-4 bg-[#6DB7FB] text-white rounded-sm">Register Now</button>
+                    <NuxtLink to="/">
+                        <button @click="submitForm" class="p-2 m-4 bg-[#6DB7FB] text-white rounded-sm">Register Now</button>
+                    </NuxtLink>
+                    
                    
                 </div>
             </div>

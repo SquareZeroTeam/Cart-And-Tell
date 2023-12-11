@@ -3,9 +3,10 @@
     const {id} = useRoute().params;
     const {data:merchant} = useFetch<any>(`${API}/merchant/4`);
 
-</script>
+    </script>
 
 <template><!--  d nako mabuhat nga responsive sya slides per view -->
+  
   <div class="hidden lg:block mb-4">
     <Swiper
       :modules="[SwiperAutoplay, SwiperEffectCreative]"
@@ -100,7 +101,7 @@
       
       <SwiperSlide v-for="p in merchant.products">
         <div class=""> 
-          <ProductCard :product="p" />
+          <ProductCard :product="p"/>
         </div>
           
       </SwiperSlide>

@@ -1,7 +1,6 @@
 <script setup>
 
     const userObj = useUserObj().value;
-    //console.log(userObj);
 
 
 </script>

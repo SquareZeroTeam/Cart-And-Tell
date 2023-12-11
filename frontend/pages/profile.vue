@@ -1,23 +1,31 @@
 <script setup lang="ts">
-        const API = useRuntimeConfig().public.API;
+    interface Merchant {
+        name: string;
+        description: string;
+        website: string;
+        image: string;
+        category: string;
+    }
+
+    const API = useRuntimeConfig().public.API;
     const APILINK = `${API}/merchant/4`;
     const ADMINTOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcnRhbmR0ZWxsQGdtYWlsLmNvbSIsImlkIjozLCJpc01lcmNoYW50Ijp0cnVlLCJtZXJjaGFudCI6eyJpZCI6OH0sImlhdCI6MTcwMjE0Mzg1NywiZXhwIjoxNzAyNzQ4NjU3fQ.dVyvU80pretyEuIUxz6bJ8AMzb9ufQE6d_RWAEX-_GE';
 
-    
-    const { data: merchant } = useFetch(APILINK, {
+    const { data: merchant } = useFetch<Merchant>(APILINK, {
         method: 'GET',
         headers: {
             Authorization: `Bearer ${ADMINTOKEN}`,
         },
     });
 
-    const { files, open, reset, onChange } = useFileDialog({
+    const { files, open, onChange } = useFileDialog({
         accept: 'image/*',
     });
 
     let isImageChange = false;
     onChange((files) => {
-                    const dataImage = new FormData();
+        if (files) {
+            const dataImage = new FormData();
             dataImage.append("image", files[0]);
             isImageChange = true;
             fetch(APILINK, {
@@ -30,13 +38,17 @@
                 .then(response => response.json())
                 .then(data => console.log(data))
                 .catch(error => console.error('Error updating image:', error.data));
-            });
+        }
+    });
+
+    
 
     const submitForm = async () => {
         const formData = new FormData();
         formData.append('name', merchant.value.name);
         formData.append('description', merchant.value.description);
         formData.append('website', merchant.value.website);
+        formData.append('category', merchant.value.category);
 
         try {
             await $fetch(APILINK, {
@@ -55,7 +67,7 @@
     };
 </script>
 <template>
-    <div class="container">
+    <div class="">
         <Header/>
         <div class="container mx-auto flex justify-center mt-2">
             <div class="hidden sm:hidden lg:flex">
@@ -82,6 +94,11 @@
                                     placeholder="Merchant Name"
                                     v-model="merchant.name"
                                 />
+                                <input
+                                    class="h-[3rem] w-[16rem] sm:w-auto text-black ml-6 text-3xl font-bold mt-2 rounded-md flex"
+                                    placeholder="Category"
+                                    v-model="merchant.category"
+                                />
                             </div>
                         </div>
 
@@ -104,14 +121,14 @@
                     <div class="bg-[#282F7A] flex flex-col justify-center">
                         <p class="text-white mt-2  text-2xl text-center">Products</p>
                         <SlideMerchantProduct/>
-                        <NuxtLink to="/addproduct">
+                        <NuxtLink to="/test">
                             <button class="flex justify-center items-center m-2  mx-auto">
                                 <p class="p-2 w-[20rem] bg-[#6DB7FB] text-white rounded-md text-4xl font-bold">Add Product Here</p>
                             </button>
                         </NuxtLink>
                         
                     </div>
-                    <button @click="submitForm" class="p-2 bg-[#6DB7FB] text-white rounded-sm text-4xl font-bold">Register Now</button>
+                    <button @click="submitForm" class="p-2 bg-[#6DB7FB] text-white rounded-sm text-4xl font-bold">Update Profile</button>
                 </div>
             </div>
 

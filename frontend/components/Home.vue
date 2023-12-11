@@ -1,30 +1,14 @@
 <script setup>
+    import { ref } from 'vue'; // Import the ref function from the Vue Composition API
     const API = useRuntimeConfig().public.API;
-    const {data:categories}= useFetch(`${API}/category`,{lazy:true});
-    //console.log(categories);
-// const categories = [
-//   'Electronics',
-//   'Clothing',
-//   'Home & Garden',
-//   'Books & Literature',
-//   'Beauty & Personal Care',
-//   'Sports & Outdoors',
-//   'Toys & Games',
-//   'Automotive',
-//   'Health & Wellness',
-//   'Jewelry',
-//   'Food & Grocery',
-//   'Music & Instruments',
-//   'Pets',
-//   'Art & Collectibles',
-//   'Office & School Supplies',
-//   'Travel & Luggage',
-// ];
-// const items = ref(categories.value.map((category, index) => ({
-//   link: `/category/${index + 1}`,
-//   text: category,
-// })));
+    const { data: categories } = useFetch(`${API}/category`, { lazy: true });
+    const slides = ref(Array.from({ length: 4 }, (_, index) => index + 1));
+
+
+    const images = Array.from({ length: 24 }, (_, index) => `category${index + 1}.jpg`);
+
 </script>
+
 <template>
     <div class="w-full bg-white lg:mr-12">
         <div class="flex flex-col gap-4">  
@@ -46,10 +30,10 @@
                                 <p class="text-white text-center ">{{ item.text }}</p>
                             </button>
                         </NuxtLink> -->
-                        <NuxtLink v-for="category in categories" :key="category.id" :to="`/merchant/${category.name}`">
+                         <NuxtLink v-for="(category, index) in categories" :key="category.id" to="/merchants" > <!--:to="`/merchant/${category.name}`" -->
                             <button class="flex flex-col items-center max-w-[80px] ">
                                 <!-- <div class="w-20 h-16 bg-white mb-2"></div> -->
-                                <img class="bg-white h-20 w-20" :src="category.image" alt="">
+                                <img class="bg-white h-20 w-20" :src="`/Categories/category${index+1}.jpg`" alt="">
                                 <p class="text-white text-center ">{{ category.name }}</p> 
                             </button>
                         </NuxtLink>
@@ -67,17 +51,18 @@
                     <p class="text-white m-2 text-2xl">Cart & Tell Market Place</p>
                 </div>
                 <div class="flex gap-4 m-6 justify-center items-center">
-                    <div class="bg-white h-32 w-64"></div>
-                    <div class="bg-white h-32 w-64"></div>
-                    <div class="bg-white h-32 w-64"></div>
-                    <div class="bg-white h-32 w-64"></div>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <div v-for="index in slides" :key="index" class="">
+                            <img class="h-32 w-64 object-contain" :src="`/Item/item${index}.png`" alt="">
+                        </div>
+                    </div>
                 </div>
+                
             </div>
         </div>
     </div>
 </template>
 
-
 <style scoped>
-
+    /* Rest of the style code */
 </style>

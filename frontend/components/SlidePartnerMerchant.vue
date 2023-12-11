@@ -1,7 +1,5 @@
 <script setup lang="ts">
-  const slides = ref(Array.from({ length: 10 }, () => {
-    return { bg: ' #FFFF' };
-  }));
+  const slides = ref(Array.from({ length: 9 }, (_, index) => index + 1));
 </script>
 
 <template>
@@ -30,12 +28,13 @@
       <SwiperPrev class="  absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
       <SwiperSlide
-        v-for="(slide, any) in slides"
-        :key="any"
-        :style="`background-color: ${slide.bg}`"
+        v-for="index in slides"
+        :key="index"
         :class="['swiper-cards', 'rounded-sm', 'border-t-2', 'border-b-2', 'border-[#282F7A]']"
       >
-        {{ any }}
+
+        <img :src="`/Partner/prodmerchant${index}.png`" alt="">
+
       </SwiperSlide>
 
       <SwiperNext class=" absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
@@ -66,12 +65,13 @@
       <SwiperPrev class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
       <SwiperSlide
-        v-for="(slide, any) in slides"
-        :key="any"
-        :style="`background-color: ${slide.bg}`"
-        :class="['swiper-cards', 'rounded-sm', 'border-t-2', 'border-red-500']"
+        v-for="index in slides"
+        :key="index"
+        :class="['swiper-cards', 'rounded-sm', 'border-t-2', 'border-b-2', 'border-[#282F7A]']"
       >
-        {{ any }}
+
+        <img :src="`/Partner/prodmerchant${index}.png`" alt="">
+
       </SwiperSlide>
 
       <SwiperNext class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
@@ -102,12 +102,13 @@
       <SwiperPrev class=" absolute left-0 top-1/2 transform -translate-y-1/2 z-10"/>
       
       <SwiperSlide
-        v-for="(slide, any) in slides"
-        :key="any"
-        :style="`background-color: ${slide.bg}`"
-        :class="['swiper-cards', 'rounded-sm']"
+        v-for="index in slides"
+        :key="index"
+        :class="['swiper-cards', 'rounded-sm', 'border-t-2', 'border-b-2', 'border-[#282F7A]']"
       >
-        {{ any }}
+
+        <img :src="`/Partner/prodmerchant${index}.png`" alt="">
+
       </SwiperSlide>
 
       <SwiperNext class=" absolute right-0 top-1/2 transform -translate-y-1/2 z-10"/>
