@@ -79,7 +79,7 @@
             </div>
             
             <div v-if="userObj.loggedIn && userObj.merchant"><!-- and registered -->
-                <NuxtLink to="/profile">
+                <NuxtLink :to="`/profile/${userObj.merchant.id}`">
                     <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                         <p>Merchant Profile</p>
                     </button>

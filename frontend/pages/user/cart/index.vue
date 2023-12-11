@@ -3,13 +3,16 @@
     const checkedItems = ref([]);
     const API = useRuntimeConfig().public.API;
     const token = useCookie('token').value;
+    const userObj = useUserObj().value;
     const {data:userData,pending, refresh} = await useLazyFetch<any>(`${API}/auth/validate`,{
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         }
     });
-    console.log(userData.value);
+    if (!userObj.loggedIn) {
+        await navigateTo('/login');
+    }
     watch(checkedItems, () => {
         console.log(checkedItems.value);
     })
@@ -25,7 +28,12 @@
         if (link) {
             await navigateTo(link,{external:true});
         } 
-    }   
+    }
+    async function updateProduct(e:Event) {
+        const target = e.target as HTMLElement
+        const operation = target.id;
+        
+    }
 </script>
 <template>
     <div class="bg-gray-100 ">
