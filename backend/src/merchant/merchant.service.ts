@@ -45,6 +45,7 @@ export class MerchantService {
     return await this.prisma.merchant.findMany({include:{products:true,user:true,category:true}}); 
   }
   async findAllVerified(category:string) {
+    console.log(category);
     if (category) {
       return await this.prisma.merchant.findMany({where:{isVerified:true,category:{name:category}},include:{products:true,user:true,category:true}}); 
     }
@@ -55,6 +56,17 @@ export class MerchantService {
       return await this.prisma.merchant.findMany({where:{isVerified:false,category:{name:category}},include:{products:true,user:true,category:true}}); 
     }
     return await this.prisma.merchant.findMany({where:{isVerified:false},include:{products:true,user:true,category:true}}); 
+  }
+  async findCartAndTell() {
+    const cartandtellUser = await this.prisma.user.findUnique({where:{email:process.env.ADMIN_EMAIL}});
+    if (!cartandtellUser) {
+      throw new NotFoundException("Cart and Tell User not found, Please Set Up");
+    }
+    const cartandtellMerchant = await this.prisma.merchant.findUnique({where:{userId:cartandtellUser.id},include:{products:true}});
+    if (!cartandtellMerchant) {
+      throw new NotFoundException("Cart and Tell Merchant not found, Please Set Up");
+    }
+    return cartandtellMerchant;
   }
   async findOne(id: number) {
     const merchant = await this.prisma.merchant.findUnique({where:{id},include:{products:true}});

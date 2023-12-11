@@ -1,5 +1,5 @@
 
-<script setup lang="ts">
+<script setup>
 
     const API = useRuntimeConfig().public.API;
     const APILINK = `${API}/merchant/5`;
@@ -7,7 +7,7 @@
     
     const newMerchantName = ref('');
     
-    const { data: merchant } = useFetch(APILINK, {
+    const { data: merchant } = await useFetch(APILINK, {
         method: 'GET',
         headers: {
         Authorization: `Bearer ${ADMINTOKEN}`,

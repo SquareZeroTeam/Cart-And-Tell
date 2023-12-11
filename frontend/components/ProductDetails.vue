@@ -1,9 +1,8 @@
 <script setup>
-import { ref } from 'vue';
 
 //I dont know if create ba object or nu hahah (e add yata sa user's cart schema?)
 const quantity = ref(1);
-
+const { id } = useRoute().params;
 const increment = () => {
   quantity.value += 1;
 };
@@ -13,7 +12,41 @@ const decrement = () => {
     quantity.value -= 1;
   }
 };
-
+const userObj = useUserObj().value; 
+async function addToCart() {
+  const API = useRuntimeConfig().public.API;
+  if(!userObj.loggedIn) {
+    await navigateTo('/login');
+  }
+  const data = await $fetch(`${API}/user/${userObj.id}/cart`,{
+    method:'POST',
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${useCookie('token').value}`
+    },
+    body: JSON.stringify({
+        products:[id],
+        quantity:quantity.value
+      })
+    })
+    .catch(error => {
+    throw createError({statusCode:error.statusCode, message:error.message});
+  })
+  await navigateTo('/user/cart');
+}
+async function buyNow() {
+  const API = useRuntimeConfig().public.API;
+  if(!userObj.loggedIn) {
+    await navigateTo('/login');
+  }
+  const paymentgatwaylink = await $fetch(`${API}/paymongo/buynow`,{
+    method:'POST',
+    body: JSON.stringify({
+      data:[id]
+    })
+  })
+  await navigateTo(paymentgatwaylink.checkoutLink,{external:true});
+}
 const { product } = defineProps(['product']);
 </script>
 
@@ -50,10 +83,10 @@ const { product } = defineProps(['product']);
           <div class="flex items-center space-x-4">
               <button @click="addToCart" class="flex justify-center items-center bg-[#d4d5e4] bg-opacity-70 border-2 border-[#282F7A] w-36 h-12 text-[#282F7A] mr-1rem">
               <span class="material-symbols-outlined text-[#282F7A]">add_shopping_cart</span>
-              <p class="text-md font-medium ml-2">Add to Cart</p>
+              <p @click="addToCart" class="text-md font-medium ml-2">Add to Cart</p>
             </button>
             <button class="flex justify-center items-center bg-[#282F7A] border-2 border-[#282F7A] w-36 h-12 text-white">
-              <p class="text-md font-normal">Buy Now</p>
+              <p @click="buyNow" class="text-md font-normal">Buy Now</p>
             </button>
           </div>
         </div>

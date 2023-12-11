@@ -1,7 +1,7 @@
 <script setup lang="ts">
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
-    const {data:merchant} = useFetch<any>(`${API}/merchant/${id}`);
+    const {data:merchant} = await useFetch<any>(`${API}/merchant/${id}`);
 
 </script>
 

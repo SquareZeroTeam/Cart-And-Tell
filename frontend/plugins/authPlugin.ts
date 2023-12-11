@@ -4,29 +4,31 @@ export default defineNuxtPlugin( async () => {
     if (token.value === undefined) {
         // return await navigateTo('/login'); 
     }
-    // Verify token
-    let isInvalidToken = null;
-    const result:any = await $fetch<{
-        email:string,
-        id:number,
-        cartCount: number,
-    }>(`${API}/auth/validate`,{
-        headers:{
-            Authorization: `Bearer ${token.value}`,
-            ContentType: 'application/json',
-        },
-        method: 'GET',
-    }).catch(async () => {
-        isInvalidToken = true;
-    });
-    if (isInvalidToken) {
-        const token = useCookie('token');
-        token.value = null;
-        // return await navigateTo('/login',{ redirectCode: 301 });
-    }
-    if (result) {
-        const userObj = useUserObj();
-        userObj.value = {...result,loggedIn:true};
+    else {
+            // Verify token
+        let isInvalidToken = null;
+        const result:any = await $fetch<{
+            email:string,
+            id:number,
+            cartCount: number,
+        }>(`${API}/auth/validate`,{
+            headers:{
+                Authorization: `Bearer ${token.value}`,
+                ContentType: 'application/json',
+            },
+            method: 'GET',
+        }).catch(async () => {
+            isInvalidToken = true;
+        });
+        if (isInvalidToken) {
+            const token = useCookie('token');
+            token.value = null;
+            // return await navigateTo('/login',{ redirectCode: 301 });
+        }
+        if (result) {
+            const userObj = useUserObj();
+            userObj.value = {...result,loggedIn:true};
+        }
     }
 });
 

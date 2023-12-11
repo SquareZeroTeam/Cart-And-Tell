@@ -46,6 +46,10 @@ export class MerchantController {
   findAllUnVerfied(@Query('category') category:string) {
     return this.merchantService.findAllUnVerified(category);
   }
+  @Get("/cartandtell")
+  findCartAndTell() {
+    return this.merchantService.findCartAndTell();
+  }
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.merchantService.findOne(+id);

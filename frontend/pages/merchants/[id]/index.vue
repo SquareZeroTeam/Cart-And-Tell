@@ -1,7 +1,10 @@
 <script setup lang="ts">
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
-    const {data:merchant} = useFetch<any>(`${API}/merchant/${id}`);
+    const {data:merchant,error} = await useFetch<any>(`${API}/merchant/${id}`,{key:id.toString()});
+    if (error.value?.statusCode == 404) {
+        throw createError({statusCode:404,statusMessage:"Merchant Not Found"});
+    }
 </script>
 <template>
     <div clas="container">
