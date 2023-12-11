@@ -1,15 +1,14 @@
-<!-- <script setup lang="ts">
+
+<script setup>
+
     const API = useRuntimeConfig().public.API;
-
-
-    const ADMINTOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcnRhbmR0ZWxsQGdtYWlsLmNvbSIsImlkIjozLCJpc01lcmNoYW50Ijp0cnVlLCJtZXJjaGFudCI6eyJpZCI6OH0sImlhdCI6MTcwMjE0Mzg1NywiZXhwIjoxNzAyNzQ4NjU3fQ.dVyvU80pretyEuIUxz6bJ8AMzb9ufQE6d_RWAEX-_GE'
-    const token = useCookie('token');
-    const { data: products } = await useFetch<[{
-        name: string,
-        amount: number,
-        description: string,
-        image: string,
-    }]>(`${API}/merchant/4/products/34`, {
+    const APILINK = `${API}/merchant/5`;
+    const ADMINTOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImNhcnRhbmR0ZWxsQGdtYWlsLmNvbSIsImlkIjozLCJpc01lcmNoYW50Ijp0cnVlLCJtZXJjaGFudCI6eyJpZCI6OH0sImlhdCI6MTcwMjE0Mzg1NywiZXhwIjoxNzAyNzQ4NjU3fQ.dVyvU80pretyEuIUxz6bJ8AMzb9ufQE6d_RWAEX-_GE';
+    
+    const newMerchantName = ref('');
+    
+    const { data: merchant } = await useFetch(APILINK, {
+        method: 'GET',
         headers: {
             'Authorization': `Bearer ${token.value}`
         }

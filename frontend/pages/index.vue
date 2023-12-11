@@ -4,6 +4,7 @@
     // const { pending, data: result, error } = await useFetch(`${API}`, {
     //     lazy: true
     // });
+    console.log(useUserObj().value);
 </script>
 <template>
     <div clas="container">

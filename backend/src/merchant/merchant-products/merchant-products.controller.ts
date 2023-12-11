@@ -39,9 +39,12 @@ export class MerchantProductsController {
 
   @Patch(':id')
   @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminGuard)
+  @UseInterceptors(FileInterceptor('image'))
   update(
-    @Param('merchantId') id: string,
+    @Param('merchantId') merchantId: string,
+    @Param('id') id: string,
     @UploadedFile(new ParseFilePipe({
+      fileIsRequired:false,
       validators: [
         new MaxFileSizeValidator({ maxSize: 1024*1024*5 ,message(maxSize) {
           return `Maximum file size is ${maxSize/1024/1024}MB`;
@@ -50,7 +53,7 @@ export class MerchantProductsController {
       ],
     }),) image:Express.Multer.File,
     @Body() updateMerchantProductDto: UpdateMerchantProductDto) {
-    return this.merchantProductsService.update(+id, image,updateMerchantProductDto);
+    return this.merchantProductsService.update(+merchantId,+id, image,updateMerchantProductDto);
   }
 
   @Delete(':id')

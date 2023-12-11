@@ -1,7 +1,10 @@
 <script setup lang="ts">
 const { id } = useRoute().params;
 const API = useRuntimeConfig().public.API;
-const { data: product } = await useFetch(`${API}/products/${id}`,{key:id as string});
+const { data: product,error } = await useFetch(`${API}/products/${id}`,{key:id as string});
+if (error.value) {
+    throw createError({statusCode:404,statusMessage:"Product Not Found"});
+}
 </script>
 
 
@@ -12,8 +15,7 @@ const { data: product } = await useFetch(`${API}/products/${id}`,{key:id as stri
     <div class="hidden sm:hidden lg:flex">
             <SideBar />
             </div>
-
-    <ProductDetails :product="product"/>
+    <ProductDetails :product="product" />
   </div>
 
 </template>

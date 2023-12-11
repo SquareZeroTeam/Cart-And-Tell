@@ -10,19 +10,19 @@ export class CartService {
   constructor(private readonly prisma:PrismaService){}
   async create(createCartDto: CreateCartDto,userId:number) {
     const user = await this.prisma.user.findUnique({where:{id:userId}});
-    const product = await this.prisma.product.findUnique({where:{id:createCartDto.products[0]}});
+    const product = await this.prisma.product.findUnique({where:{id:+createCartDto.products[0]}});
     if (!user) {
       throw new NotFoundException("User not found");
     }
     if (!product) {
       throw new NotFoundException("Product not found");
     }
-    const productItem = await this.prisma.productItem.findFirst({where:{productId:createCartDto.products[0],userId}});
+    const productItem = await this.prisma.productItem.findFirst({where:{productId:+createCartDto.products[0],userId}});
     if (!productItem) {
       const newProduct = await this.prisma.productItem.create({
         data:{
           quantity:createCartDto.quantity,
-          productId:createCartDto.products[0],
+          productId:+createCartDto.products[0],
           userId:userId
         }})
     }

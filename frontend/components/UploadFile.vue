@@ -100,12 +100,3 @@
     </div>
     
 </template>
-
-
-    <!-- <div class="">
-        <object v-if="pdfFileUrl" :data="pdfFileUrl" type="application/pdf" class="h-[297mm] w-[210mm]">
-            <p>Your browser does not support PDFs. <a :href="pdfFileUrl" target="_blank">Download the PDF</a> instead.</p>
-        </object>
-    </div>
-    
-</template> -->

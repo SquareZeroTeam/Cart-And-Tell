@@ -19,6 +19,8 @@ export class PaymongoService implements OnModuleInit{
       });
   }
   async checkout(createPaymongoDto:CreatePaymongoDto) {
+    createPaymongoDto.data = createPaymongoDto.data.map(item => +item); //Converts to Int
+    console.log(createPaymongoDto.data);
     const productItems = await this.prisma.productItem.findMany({where:{id:{in:createPaymongoDto.data}},include:{product:true}});
     const filteredData = productItems.map( item => {
       return {
@@ -30,6 +32,44 @@ export class PaymongoService implements OnModuleInit{
         // description:item.product.description,
       }
     });
+    console.log(filteredData);
+    const checkoutData = {
+      data:{
+        attributes:{
+          line_items:filteredData,
+          payment_method_types:["card","gcash","paymaya"],
+          send_email_receipt:true
+        }
+      }
+    }
+    const paymongoRes = await axios.post("https://api.paymongo.com/v1/checkout_sessions",checkoutData,{
+      headers:{
+        "Content-Type": "application/json",
+      },
+      auth:{
+        username:process.env.PayMongo_Secret_Key,
+        password:""
+      }
+    })
+    .then(res => res.data)
+    .catch(err => err.response.data);
+    return {checkoutLink:paymongoRes.data.attributes.checkout_url}
+  }
+  async buynow(createPaymongoDto:CreatePaymongoDto) {
+    createPaymongoDto.data = createPaymongoDto.data.map(item => +item); //Converts to Int
+    console.log(createPaymongoDto.data);
+    const productItems = await this.prisma.product.findMany({where:{id:{in:createPaymongoDto.data}}});
+    const filteredData = productItems.map( item => {
+      return {
+        name:item.name,
+        amount:item.amount * 100,
+        quantity:1,
+        currency:"PHP",
+        image:item.image,
+        // description:item.product.description,
+      }
+    });
+    console.log(filteredData);
     const checkoutData = {
       data:{
         attributes:{

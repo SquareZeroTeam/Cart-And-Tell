@@ -50,7 +50,6 @@ model Merchant {
   products Product[]
   user User @relation(fields: [userId], references: [id])
   userId Int @unique
-  published Boolean @default(false)
   isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())

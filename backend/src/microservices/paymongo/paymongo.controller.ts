@@ -11,4 +11,8 @@ export class PaymongoController {
   checkout(@Body(new ValidationPipe) createPaymongoDto: CreatePaymongoDto) {
     return this.paymongoService.checkout(createPaymongoDto);
   }
+  @Post('buynow')
+  buynow(@Body(new ValidationPipe) createPaymongoDto: CreatePaymongoDto) {
+    return this.paymongoService.buynow(createPaymongoDto);
+  }
 }
