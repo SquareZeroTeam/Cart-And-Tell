@@ -23,9 +23,7 @@
                 <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                 <p>Home</p>
             </button>
-            </NuxtLink>
- 
-            
+            </NuxtLink>     
             <div v-if="!userObj.loggedIn">
                 <NuxtLink to="/login">
                     <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
@@ -78,8 +76,8 @@
                 </NuxtLink>
             </div>
             
-            <div v-if="userObj.loggedIn && userObj.merchant"><!-- and registered -->
-                <NuxtLink to="/profile">
+            <div v-if="userObj.loggedIn && userObj.merchant">
+                <NuxtLink :to="`/profile/${userObj.merchant.id}`">
                     <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                         <p>Merchant Profile</p>
                     </button>
