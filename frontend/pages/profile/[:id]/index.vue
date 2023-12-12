@@ -55,11 +55,13 @@
                         </div>  
                     </div>
                     <div class="bg-[#282F7A] flex flex-col justify-center">
-                        <p class="text-white mt-2  text-2xl text-center">Products</p>
-                        
+                        <div class="flex justify-between items-center p-4">
+                            <p class="text-white mt-2  text-2xl text-center font-bold">Products</p>
+                            <NuxtLink :to="`${id}/products/create`">
+                                <button class="font-bold text-blue-600 rounded-full px-4 py-2 border-transparent border-2 bg-white">Add Product</button>
+                            </NuxtLink>
+                        </div>
                         <SlideProduct/>
-                
-                        
                     </div>
                     <div class="bg-[#282F7A]">
                         <div class="flex justify-center">
