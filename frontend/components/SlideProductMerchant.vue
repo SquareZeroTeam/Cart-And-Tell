@@ -36,7 +36,7 @@
       
       <SwiperSlide v-for="p in products">
         <div class="">
-          <NuxtLink :to="`/products/${p.id}`">
+          <NuxtLink :to="`${id}/products/${p.id}`">
             <ProductCard :product="p" />
           </NuxtLink>
         </div>

@@ -61,9 +61,9 @@
                                 <button class="font-bold text-blue-600 rounded-full px-4 py-2 border-transparent border-2 bg-white">Add Product</button>
                             </NuxtLink>
                         </div>
-                        <SlideProduct/>
+                        <SlideProductMerchant :products="merchant.products"/>
                     </div>
-                    <div class="bg-[#282F7A]">
+                    <!-- <div class="bg-[#282F7A]">
                         <div class="flex justify-center">
                             <p class="text-white m-2 text-2xl">Cart & Tell Market Place</p>
                         </div>
@@ -73,7 +73,7 @@
                             <div class="bg-white h-32 w-64"></div>
                             <div class="bg-white h-32 w-64"></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             
