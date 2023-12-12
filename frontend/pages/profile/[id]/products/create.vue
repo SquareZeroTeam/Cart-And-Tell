@@ -1,10 +1,6 @@
 <script setup lang="ts">
     const { id } = useRoute().params;
     const API = useRuntimeConfig().public.API;
-    const { data: product,error } = await useFetch(`${API}/products/22`,{key:id as string});
-    if (error.value) {
-        throw createError({statusCode:404,statusMessage:"Product Not Found"});
-    }
     import { useFileDialog } from '@vueuse/core'
     const formData = reactive<{name:string,image:File|null,merchantId:number,description:string,amount:number}>({
         name: "",
@@ -40,7 +36,7 @@ const prevImage = ref("");
             formDataCreate.append('amount',formData.amount.toString());
 
             const token = useCookie('token');
-            const data = await $fetch<{message:string}>(`${API}/merchant/${formData.merchantId}/products`,{
+            const data = await $fetch<{message:string,id:number}>(`${API}/merchant/${formData.merchantId}/products`,{
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token.value}`
@@ -52,7 +48,7 @@ const prevImage = ref("");
                 return;
             })
             if (!isError) {
-                await navigateTo(`/profile/${formData.merchantId}`);
+                await navigateTo(`/profile/${formData.merchantId}/products/${data!.id}`);
             }
         }
 </script>
