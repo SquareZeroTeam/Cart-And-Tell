@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
     import { ref, reactive } from 'vue';
     import vSelect from "vue-select";
     import "vue-select/dist/vue-select.css";
