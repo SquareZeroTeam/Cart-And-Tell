@@ -6,14 +6,16 @@ import { ExpressPeerServer } from 'peer';
 import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.use(logger('dev'));
+  // Enable CORS using the cors middleware
   app.use(
-    '/peer-server',
     cors({
       origin: '*', // Replace with your frontend origin
       methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
       credentials: true,
     }),
+  );
+  app.use(logger('dev'));
+  app.use(
     ExpressPeerServer(app.getHttpServer())
   );
   app.use(helmet()); //protect against common backend vulnerability
