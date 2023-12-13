@@ -5,19 +5,10 @@ import * as logger from "morgan"
 import { ExpressPeerServer } from 'peer';
 import * as cors from 'cors';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  // Enable CORS using the cors middleware
-  app.use(
-    cors({
-      origin: '*', // Replace with your frontend origin
-      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-      credentials: true,
-    }),
-  );
+  const app = await NestFactory.create(AppModule, {cors:true});
   app.use(logger('dev'));
-  app.use(
-    ExpressPeerServer(app.getHttpServer())
-  );
+  app.use('/peer-server', cors()); // Enable CORS only for the /peer-server route
+  app.use('/peer-server', ExpressPeerServer(app.getHttpServer()));
   app.use(helmet()); //protect against common backend vulnerability
   app.enableCors()
   
