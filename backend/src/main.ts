@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import helmet from 'helmet';
 import * as logger from "morgan"
 import { ExpressPeerServer } from 'peer';
-import cors from 'cors';
+import * as cors from 'cors';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(logger('dev'));
