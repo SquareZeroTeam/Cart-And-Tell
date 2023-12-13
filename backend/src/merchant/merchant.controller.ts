@@ -63,7 +63,7 @@ export class MerchantController {
   ])) 
   update(
     @Param('id') id: string, 
-    @Body() updateMerchantDto: UpdateMerchantDto,
+    @Body(new ValidationPipe()) updateMerchantDto: UpdateMerchantDto,
     @UploadedFiles(
     ) files:{[keys:string]:Express.Multer.File}
   ) {
