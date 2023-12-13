@@ -1,5 +1,5 @@
 import { Transform } from "class-transformer";
-import { Length, IsNumber, Min, Max, min, IsInt, IsNumberString } from "class-validator";
+import { Length, IsNumber, Min, Max, min, IsInt, IsNumberString, IsUrl } from "class-validator";
 
 export class CreateMerchantProductDto {
     @Length(4,32)
@@ -12,4 +12,7 @@ export class CreateMerchantProductDto {
     
     @Length(16,256)
     description:string;
+
+    @IsUrl()
+    website:string;
 }
