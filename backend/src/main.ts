@@ -8,7 +8,7 @@ async function bootstrap() {
   app.use(logger('dev'));
   app.use('/peer-server', ExpressPeerServer(app.getHttpServer())); /// PeerJS Server 
   app.use(helmet()); //protect against common backend vulnerability
-  app.enableCors();
+  app.enableCors({allowedHeaders: ['Access-Control-Allow-Origin']});
   
   await app.listen(8080);
 }
