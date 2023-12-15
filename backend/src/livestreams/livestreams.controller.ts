@@ -1,16 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { LivestreamsService } from './livestreams.service';
 import { CreateLivestreamDto } from './dto/create-livestream.dto';
 import { UpdateLivestreamDto } from './dto/update-livestream.dto';
+import { IsMerchantSelfOrAdminGuard } from 'src/guards/is-merchant-self-or-admin.guard';
 
 @Controller('livestreams')
 export class LivestreamsController {
   constructor(private readonly livestreamsService: LivestreamsService) {}
 
-  @Post()
-  create(@Body() createLivestreamDto: CreateLivestreamDto) {
-    return this.livestreamsService.create(createLivestreamDto);
-  }
+  // @Post()
+  // create(@Body() createLivestreamDto: CreateLivestreamDto) {
+  //   return this.livestreamsService.create(createLivestreamDto);
+  // }
 
   @Get()
   findAll() {
@@ -22,13 +23,13 @@ export class LivestreamsController {
     return this.livestreamsService.findOne(roomId);
   }
 
-  @Patch(':roomId')
-  update(@Param('roomId') roomId: string, @Body() updateLivestreamDto: UpdateLivestreamDto) {
-    return this.livestreamsService.update(+roomId, updateLivestreamDto);
-  }
+  // @Patch(':roomId')
+  // update(@Param('roomId') roomId: string, @Body() updateLivestreamDto: UpdateLivestreamDto) {
+  //   return this.livestreamsService.update(+roomId, updateLivestreamDto);
+  // }
 
-  @Delete(':roomId')
-  remove(@Param('roomId') roomId: string) {
-    return this.livestreamsService.remove(+roomId);
-  }
+  // @Delete(':roomId')
+  // remove(@Param('roomId') roomId: string) {
+  //   return this.livestreamsService.remove(+roomId);
+  // }
 }

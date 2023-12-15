@@ -3,6 +3,8 @@
 
 generator client {
   provider = "prisma-client-js"
+  // Remove the deprecated "referentialActions" preview feature
+  // previewFeatures = ["referentialActions"]
 }
 
 datasource db {
@@ -55,7 +57,7 @@ model Merchant {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 
-  livestream LiveStream?
+  livestream LiveStream[]
 }
 enum MerchantRelation {
   MerchantOwner
@@ -108,7 +110,7 @@ model ClientConnected {
 model LiveStream {
   roomId String @id @default(uuid())
   merchant Merchant @relation(fields: [merchantId], references: [id])
-  merchantId Int @unique
+  merchantId Int 
   product Product? @relation(fields: [productId],references: [id])
   productId Int? @unique
   Messages Message[]

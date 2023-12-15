@@ -22,11 +22,11 @@ export class LivestreamsService {
     return liveStream;
   }
 
-  update(roomId: number, updateLivestreamDto: UpdateLivestreamDto) {
-    return `This action updates a #${roomId} livestream`;
-  }
+  // update(roomId: number, updateLivestreamDto: UpdateLivestreamDto) {
+  //   return `This action updates a #${roomId} livestream`;
+  // }
 
-  remove(roomId: number) {
-    return `This action removes a #${roomId} livestream`;
-  }
+  // remove(roomId: number) {
+  //   return `This action removes a #${roomId} livestream`;
+  // }
 }

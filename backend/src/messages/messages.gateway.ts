@@ -82,6 +82,27 @@ export class MessagesGateway implements OnGatewayConnection{
     console.log(viewers)
     return viewers;
   }
+  @SubscribeMessage('endLivestream')
+  async endLivestream(
+    @MessageBody('roomId') roomId:string,
+    @ConnectedSocket() client:Socket
+  ) {
+    let userObj:userObj = null ;
+    const livestream = await this.prisma.liveStream.findUnique({where:{roomId}});
+    console.log(livestream);
+    try {
+      userObj = this.jwt.decode(client.request.headers.authorization.split(' ')[1]) as userObj;
+      console.log(userObj);
+    } catch (error) {
+      throw new ForbiddenException('You are not authorized to access this resource');
+    }
+    if (userObj.merchant.id != livestream.merchantId) {
+      throw new ForbiddenException('You are not authorized to access this resource');
+    } 
+    this.server.to(roomId).emit('endLivestreamDisconnect');
+    await this.prisma.message.deleteMany({where:{liveStreamRoomId:roomId}});
+    await this.prisma.liveStream.delete({where:{roomId}});
+  }
   // @SubscribeMessage('findOneMessage')
   // findOne(@MessageBody() id: number) {
   //   return this.messagesService.findOne(id);
