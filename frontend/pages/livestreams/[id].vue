@@ -4,10 +4,15 @@
     import {useDevicesList, useUserMedia } from "@vueuse/core";
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
-    const peer = new Peer({config:{iceServers:[
-        {urls:'stun:stun.l.google.com:19302'},
-        {urls:'stun:stun1.l.google.com:19302'}
-    ]}});
+    // @ts-ignore
+    const peer = new Peer(undefined 
+    ,{
+  config: {
+    iceServers: [
+      { urls: 'stun:stun.l.google.com:19302' },
+    ],
+  },
+});
     const expand = ref<boolean>(false);
     const {
         videoInputs:cameras,
@@ -140,7 +145,7 @@
                     </div>
                     <div class="w-[500px] border-2 h-full rounded-xl bg-white border-transparent flex flex-col">
                         <p class="p-4 font-bold text-2xl">Chat</p>
-                        <div  v-if="!expand" class="m-4 rounded-lg flex flex-col border-2 p-4">
+                        <!-- <div  v-if="!expand" class="m-4 rounded-lg flex flex-col border-2 p-4">
                             <div @click="expand = true" class="flex justify-between items-center">
                                 <p class="font-bold text-lg">Vans Shoes</p>
                                 <span class="material-symbols-outlined">chevron_right</span>
@@ -152,7 +157,7 @@
                             </div>
                             <img src="/sample.jpg" class="h-[185px] object-contain" alt="">
                             <p class="font-bold text-lg">Vans Shoes</p>
-                        </div>
+                        </div> -->
 
                         <div class="p-4 mt-4 overflow-y-scroll h-full">
                             <div v-for="message in messagesArray">
