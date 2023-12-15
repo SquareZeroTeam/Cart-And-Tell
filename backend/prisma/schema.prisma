@@ -9,23 +9,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 // User can be Normal-user or Merchant-user
 model User {
-  id Int @id @default(autoincrement())
-  email String @unique
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
-  cart ProductItem[]
-  isMerchant Boolean @default(false)
-  merchant Merchant?
+  id         Int           @id @default(autoincrement())
+  email      String        @unique
+  password   String
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @default(now()) @updatedAt
+  cart       ProductItem[]
+  isMerchant Boolean       @default(false)
+  merchant   Merchant?
 }
+
 model Category {
-  id Int @id @default(autoincrement())
-  name String @unique
-  icon String? 
+  id       Int        @id @default(autoincrement())
+  name     String     @unique
+  icon     String?
   merchant Merchant[]
 }
+
 // model Brand {
 //   id Int @id @default(autoincrement())
 //   name String @unique
@@ -33,53 +36,56 @@ model Category {
 //   merchant Merchant[]
 // }
 model Merchant {
-  id Int @id @default(autoincrement())
-  name String @unique
-  website String @unique
-  description String
+  id                    Int              @id @default(autoincrement())
+  name                  String           @unique
+  website               String           @unique
+  description           String
   // email String @unique   //Might move it to User model later, Note: I did
-  category Category? @relation(fields: [categoryId],references: [id])
-  categoryId Int
+  category              Category?        @relation(fields: [categoryId], references: [id])
+  categoryId            Int
   // brand Brand? @relation(fields: [brandId],references: [id])
   // brandId Int?
-  proofOfAuthenticity String
-  merchantRelationship MerchantRelation @default(MerchantOwner)
+  proofOfAuthenticity   String?
+  merchantRelationship  MerchantRelation @default(MerchantOwner)
   merchantStartValidity DateTime
-  merchantEndValidity DateTime
-  image String
-  products Product[]
-  user User @relation(fields: [userId], references: [id])
-  userId Int @unique
-  isVerified Boolean @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  merchantEndValidity   DateTime
+  image                 String
+  products              Product[]
+  user                  User             @relation(fields: [userId], references: [id])
+  userId                Int              @unique
+  isVerified            Boolean          @default(false)
+  isNotified            Boolean          @default(false)
+  createdAt             DateTime         @default(now())
+  updatedAt             DateTime         @default(now()) @updatedAt
 }
+
 enum MerchantRelation {
   MerchantOwner
   ExclusiveDistributor
   NonExclusiveDistributor
 }
+
 model Product {
-  id Int @id @default(autoincrement())
-  name String
-  amount Float
-  description String
-  image String?
-  rating Int @default(0)
+  id            Int           @id @default(autoincrement())
+  name          String
+  amount        Float
+  description   String
+  image         String?
+  rating        Int           @default(0)
   productItemId ProductItem[]
-  merchant Merchant @relation(fields: [merchantId], references: [id])
-  merchantId Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  merchant      Merchant      @relation(fields: [merchantId], references: [id])
+  merchantId    Int
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @default(now()) @updatedAt
 }
 
 model ProductItem {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userId],references: [id])
-  userId Int
-  quantity Int
-  product Product @relation(fields: [productId],references: [id])
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  quantity  Int
+  product   Product  @relation(fields: [productId], references: [id])
   productId Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
