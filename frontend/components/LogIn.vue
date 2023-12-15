@@ -46,6 +46,7 @@ async function handler() {
         console.log(response);
         userObj.value = {...response,loggedIn:true};
     }
+    console.log("TEST");
     await navigateTo('/');
   }
   else {

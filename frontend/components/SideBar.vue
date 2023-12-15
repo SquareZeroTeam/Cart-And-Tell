@@ -2,9 +2,13 @@
 
     const userObj = useUserObj().value;
     const API = useRuntimeConfig().public.API;
-    const {data:merchant} = await useFetch<any>(`${API}/merchant/${userObj.merchant!.id}`);
-    //console.log(merchant);
-    //console.log(userObj);
+
+
+    const {data:merchant} = await useFetch<any>(`${API}/merchant/${userObj.merchant?.id}`);
+
+    
+    
+
     async function logout() {
         userObj.email= "";
         userObj.id = NaN;   
@@ -35,7 +39,7 @@
                     </button>
                 </NuxtLink>
             </div>
-            <div v-if="userObj.loggedIn && userObj.isMerchant && !userObj.merchant && !merchant.isVerified">
+            <div v-if="userObj.loggedIn && userObj.isMerchant && !userObj.merchant">
                 <NuxtLink to="/registration">
                     <button class="w-44 h-[4rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                         <p>Create Merchant Profile</p>

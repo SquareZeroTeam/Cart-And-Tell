@@ -128,6 +128,9 @@ export class MerchantService {
     if (updateMerchantDto.isVerified) {
       updateMerchantDto.isVerified = new RegExp("true").test(updateMerchantDto.isVerified.toString());
     }
+    if (updateMerchantDto.isNotified) {
+      updateMerchantDto.isNotified = new RegExp("true").test(updateMerchantDto.isNotified.toString());
+    }
     const updatedMerchant = await this.prisma.merchant.update({
       where:{id},
       data:{...updateMerchantDto}

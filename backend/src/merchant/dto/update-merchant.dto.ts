@@ -34,4 +34,5 @@ export class UpdateMerchantDto {
     @IsDateString()
     merchantEndValidity:Date;
     isVerified:boolean;
+    isNotified:boolean;
 }

@@ -1,38 +1,45 @@
 <script setup lang="ts">
+    import { ref } from 'vue';
+    
     let isModalVisible = ref(false);
     const API = useRuntimeConfig().public.API;
     const userObj = useUserObj().value;
-    const {data:merchant} = await useFetch<any>(`${API}/merchant/${userObj.merchant!.id}`);
+    // console.log(userObj.merchant!.id)
+
+
+    const {data:merchant} = await useFetch<any>(`${API}/merchant/${userObj.merchant?.id}`);
+    console.log(userObj);
+    console.log(merchant.value);
 
     function modalToggle() {
         isModalVisible.value = !isModalVisible.value;
     }
-    function notify(){
-        if(merchant.isNotified && merchant.isVerified){
-            alert("You're now verified Merchant")
-            merchant
-        }
-    }
-    async function toggle() {
+
+    async function notify() {
+        
+        let isError = false;
         const token = useCookie('token');
         const formData = new FormData();
         formData.append('isNotified', 'false');
-        await $fetch<{message:string}>(`${API}/merchant/${userObj.merchant!.id}`,{
+        
+        const data = await $fetch<{message:string}>(`${API}/merchant/${userObj.merchant.id}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${token.value}`
             },
-            body:formData
+            body: formData
         }).catch(error => {
             alert(error.data.message);
+            isError = true
             return;
-        })
+        });
         if (!isError) {
-            alert("You are now verified Merchant");
+            alert("You are now a verified Merchant");
         }
+        console.log(merchant.value);
     }
-    
 </script>
+
 <template>
     <header class="shadow-sm pb-4 w-full bg-[#282F7A] m-0 p-0">
         <div class="flex justify-center items-center pt-4">
@@ -44,10 +51,10 @@
                     <NuxtLink :to="`/profile/${merchant.id}`">
                         <div class="text-white font-semibold text-xl ml-2">{{ merchant.name }}</div>
                     </NuxtLink>
-                    <div v-if="merchant.isNotified">
+                    <button v-if="!merchant.isNotified">
                         <span class="material-symbols-outlined text-white text-4xl ml-3">notifications</span>
-                    </div>
-                    <button @click="notify" v-if="!merchant.isNotified">
+                    </button>
+                    <button @click="notify" v-if="merchant.isNotified">
                         <span class="material-symbols-outlined text-white text-4xl ml-3">notifications_active</span>
                     </button>
                 </div>
