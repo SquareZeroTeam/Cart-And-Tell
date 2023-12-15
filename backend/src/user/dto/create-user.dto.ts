@@ -7,6 +7,7 @@ export class CreateUserDto {
     @Length(8,64)
     @IsStrongPassword()
     password:string;
+    
     @IsBoolean()
     isMerchant: boolean;
 }

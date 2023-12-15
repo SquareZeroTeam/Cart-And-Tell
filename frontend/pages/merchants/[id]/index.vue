@@ -36,7 +36,7 @@
                     <div class="bg-[#282F7A] flex flex-col justify-center">
                         <p class="text-white mt-2  text-2xl text-center">Products</p>
                         
-                        <SlideProduct/>
+                        <SlideProduct :products="merchant.products"/>
                 
                         
                     </div>

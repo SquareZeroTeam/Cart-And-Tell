@@ -63,7 +63,7 @@
         if (formData.image) {
             formDataCreate.append('image',formData.image!);
         }
-
+        console.log(formData);
         const token = useCookie('token');
         const data = await $fetch<{message:string}>(`${API}/merchant/${id}`,{
             method: 'PATCH',
@@ -95,7 +95,7 @@
                             <div>
                                 <!-- <img class="w-48 h-auto rounded-md" :src="merchant.image" alt="Introduction Image"> -->
                                 <div class="flex items-center justify-center w-full relative">
-                                    <img :src="prevImage" alt="" class="absolute w-48">
+                                    <img @click="(open1 as any)" :src="prevImage" alt="" class="absolute w-48 cursor-pointer">
                                     <label class="flex flex-col  w-48 h-32 border-4 border-dashed hover:bg-gray-100 hover:border-gray-300">
                                         <div class="flex flex-col items-center justify-center pt-7">
                                             <svg xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <div class="flex items-start justify-between w-full">
-                                <input v-model="formData.name" type="text" class="rounded-md text-3xl font-bold ml-6 mt-2 p-2">
+                                <input v-model="formData.name" type="text" class="rounded-md text-3xl font-bold ml-6 mt-2 p-2" :placeholder="merchant.name">
                                 <button @click="update" class="h-[52px] bg-green-500 text-white font-bold  px-4 py-2 text-lg rounded-full">Apply Changes</button>
                                 <!-- <p class="text-white ml-6 text-3xl font-bold  mt-2">{{merchant.name}}</p> -->
                             </div>
@@ -123,19 +123,19 @@
                         <div class="flex flex-col gap-4">
                             <div class="p-6">
                                 <p class="text-white  text-2xl font-bold">Description:</p>
-                                <textarea v-model="formData.description" class="w-full p-4 rounded-md"></textarea>
+                                <textarea v-model="formData.description" class="w-full p-4 rounded-md" :placeholder="merchant.description"></textarea>
                             </div>
                             <div class="p-6">
                                 <p class="text-white  text-2xl font-bold">Website Link:</p>
-                                <input type="text" v-model="formData.website" class="w-full p-4 rounded-md"/>
+                                <input type="text" v-model="formData.website" class="w-full p-4 rounded-md" :placeholder="merchant.website"/>
                             </div> 
                         </div>  
                     </div>
-                    <div class="bg-[#282F7A] flex flex-col justify-center">
+                    <!-- <div class="bg-[#282F7A] flex flex-col justify-center">
                         <p class="text-white mt-2  text-2xl text-center">Products</p>
-                        <SlideProduct/>        
-                    </div>
-                    <div class="bg-[#282F7A]">
+                        <SlideProduct :products="merchant.products"/>        
+                    </div> -->
+                    <!-- <div class="bg-[#282F7A]">
                         <div class="flex justify-center">
                             <p class="text-white m-2 text-2xl">Cart & Tell Market Place</p>
                         </div>
@@ -145,7 +145,7 @@
                             <div class="bg-white h-32 w-64"></div>
                             <div class="bg-white h-32 w-64"></div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             
