@@ -20,14 +20,14 @@
     }
 
     // const expand = ref<boolean>(false);
-    if (userObj.isMerchant && userObj.merchant?.id == livestream.value?.merchant.id) {
+    // if (userObj.isMerchant && userObj.merchant?.id == livestream.value?.merchant.id) {
         var {
             videoInputs:cameras,
             audioInputs:microphones,
         } = useDevicesList({
             requestPermissions:true,
         })
-    }
+    // }
     
     const currentCamera = computed(() => cameras.value[0]?.deviceId)
     const currentMicrophone = computed(() => microphones.value[0]?.deviceId)
