@@ -2,24 +2,32 @@
     import  {io} from "socket.io-client" 
     import {Peer} from 'peerjs'
     import {useDevicesList, useUserMedia } from "@vueuse/core";
+    const userObj = useUserObj().value;
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
     // @ts-ignore
     const peer = new Peer(undefined 
     ,{
   config: {
-    iceServers: [
-      { urls: 'stun:stun.l.google.com:19302' },
-    ],
+    iceServers: [{"urls":"stun:stun.relay.metered.ca:80"},{"urls":"turn:a.relay.metered.ca:80","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"},{"urls":"turn:a.relay.metered.ca:80?transport=tcp","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"},{"urls":"turn:a.relay.metered.ca:443","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"},{"urls":"turn:a.relay.metered.ca:443?transport=tcp","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"}]
   },
 });
-    const expand = ref<boolean>(false);
-    const {
-        videoInputs:cameras,
-        audioInputs:microphones,
-    } = useDevicesList({
-        requestPermissions:true,
+    const {data:livestream,error} = await useFetch<{roomId:string,merchant:{id:number,name:string,image:string,category:{name:string}}}>(`${API}/livestreams/${id}`,{
+        key:id.toString()
     })
+    if (error.value) {
+        throw createError({statusCode:404,message:error.value.data.message});
+    }
+
+    // const expand = ref<boolean>(false);
+    if (userObj.isMerchant && userObj.merchant?.id == livestream.value?.merchant.id) {
+        var {
+            videoInputs:cameras,
+            audioInputs:microphones,
+        } = useDevicesList({
+            requestPermissions:true,
+        })
+    }
     
     const currentCamera = computed(() => cameras.value[0]?.deviceId)
     const currentMicrophone = computed(() => microphones.value[0]?.deviceId)
@@ -41,13 +49,8 @@
 
     const message = ref("");
 
-    const userObj = useUserObj().value;
-    const {data:livestream,error} = await useFetch<{roomId:string,merchant:{name:string,image:string,category:{name:string}}}>(`${API}/livestreams/${id}`,{
-        key:id.toString()
-    })
-    if (error.value) {
-        throw createError({statusCode:404,message:error.value.data.message});
-    }
+
+
 
     const socket = io(`${API}/messages`,{
         extraHeaders:{

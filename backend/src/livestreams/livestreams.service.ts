@@ -15,7 +15,7 @@ export class LivestreamsService {
   }
 
   async findOne(roomId: string) {
-    const liveStream = await this.prisma.liveStream.findUnique({where:{roomId},include:{merchant:{select:{name:true,image:true,category:true}}}});
+    const liveStream = await this.prisma.liveStream.findUnique({where:{roomId},include:{merchant:{select:{id:true,name:true,image:true,category:true}}}});
     if (!liveStream) {
       throw new NotFoundException('Live stream not found');
     }
