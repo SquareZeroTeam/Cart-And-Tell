@@ -5,6 +5,7 @@ import { UpdateMessageDto } from './dto/update-message.dto';
 import { Server, Socket } from 'socket.io';
 import { JwtService } from 'src/authentication/jwt/jwt.service';
 import { ForbiddenException } from '@nestjs/common';
+import { PrismaService } from 'src/db/prisma/prisma.service';
 
 interface userObj {
   id:number;
@@ -22,13 +23,16 @@ interface userObj {
   namespace:'messages'
 })
 
-export class MessagesGateway implements OnGatewayConnection,OnGatewayDisconnect{ 
+export class MessagesGateway implements OnGatewayConnection{ 
   @WebSocketServer() server: Server;
-  constructor(private readonly messagesService: MessagesService, private readonly jwt:JwtService) {}
-  handleConnection() {
+  constructor(private readonly messagesService: MessagesService, private readonly jwt:JwtService,private readonly prisma:PrismaService) {}
+  async handleConnection(client: Socket, ...args: any[]) {
+    client.on('disconnecting',async () => {
+      console.log(`${client.id} disconnected from room ${Array.from(client.rooms.values())}`)
+      await this.prisma.clientConnected.deleteMany({where:{socketId:client.id}});
+    })
     console.log('User is connected');
   }
-
   @SubscribeMessage('createMessage')
   async create(@MessageBody() createMessageDto: CreateMessageDto, @ConnectedSocket() client:Socket) {
     let userObj:userObj = null ;
@@ -52,16 +56,32 @@ export class MessagesGateway implements OnGatewayConnection,OnGatewayDisconnect{
 
   @SubscribeMessage('join')
   async joinRoom(
-    @MessageBody() data: { userId: number; roomId: string },
+    @MessageBody() data: { userId: number; roomId: string},
     @ConnectedSocket() client:Socket ) {
-      await client.join(data.roomId);
+      client.join(data.roomId);
       return await this.messagesService.joinRoom(data.roomId,data.userId);
   }
-  handleDisconnect(@ConnectedSocket() client: Socket) {
-    const clientRooms = Array.from(client.rooms.values());
-    console.log(`Client ${client.id} disconnected from rooms: ${clientRooms}`);
+
+  @SubscribeMessage('joinLivestream')
+  async userConnected(
+    @MessageBody() data: { clientId; roomId: string},
+    @ConnectedSocket() client:Socket
+  ) {
+    console.log('user connected to livestream')
+    client.broadcast.to(data.roomId).emit('connectlivestream',data);
+    const liveStream = await this.prisma.liveStream.findUnique({where:{roomId:data.roomId}});
+    await this.prisma.clientConnected.create({data:{liveStreamId:liveStream.roomId,socketId:client.id,peerId:data.clientId}})
   }
-  
+  @SubscribeMessage('liveStreamViewers')
+  async liveStreamViewers(
+    @MessageBody() data: { roomId: string},
+    @ConnectedSocket() client:Socket
+  ) {
+    const liveStream = await this.prisma.liveStream.findUnique({where:{roomId:data.roomId}});
+    const viewers = await this.prisma.clientConnected.findMany({where:{liveStreamId:liveStream.roomId}});
+    console.log(viewers)
+    return viewers;
+  }
   // @SubscribeMessage('findOneMessage')
   // findOne(@MessageBody() id: number) {
   //   return this.messagesService.findOne(id);

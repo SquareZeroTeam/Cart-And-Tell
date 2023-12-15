@@ -98,11 +98,19 @@ model Message {
   livestream LiveStream @relation(fields: [liveStreamRoomId], references: [roomId])
   liveStreamRoomId String
 }
+model ClientConnected {
+  id Int @id @default(autoincrement())
+  socketId String
+  peerId String
+  liveStream LiveStream @relation(fields: [liveStreamId], references: [roomId])
+  liveStreamId String
+}
 model LiveStream {
   roomId String @id @default(uuid())
   merchant Merchant @relation(fields: [merchantId], references: [id])
   merchantId Int @unique
   product Product? @relation(fields: [productId],references: [id])
   productId Int? @unique
-  Messages Message[] 
+  Messages Message[]
+  viewers ClientConnected[]
 }
