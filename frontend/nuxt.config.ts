@@ -2,7 +2,8 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   routeRules :{
-    '/': {ssr:false}
+    '/': {ssr:false},
+    '/livestreams/:id': {ssr:false},
   },
   spaLoadingTemplate:"./spa-loading-template.html",
   build: {

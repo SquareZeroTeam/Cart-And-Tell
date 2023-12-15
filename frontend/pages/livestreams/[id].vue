@@ -1,8 +1,30 @@
 <script setup lang="ts">
     import  {io} from "socket.io-client" 
+    import {Peer} from 'peerjs'
+    import {useDevicesList, useUserMedia } from "@vueuse/core";
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
+    const peer = new Peer();
+    const expand = ref<boolean>(false);
+    const {
+        videoInputs:cameras,
+        audioInputs:microphones,
+    } = useDevicesList({
+        requestPermissions:true,
+    })
     
+    const currentCamera = computed(() => cameras.value[0]?.deviceId)
+    const currentMicrophone = computed(() => microphones.value[0]?.deviceId)
+    const {stream, start,stop} = useUserMedia({
+        constraints:{
+            video:{deviceId: currentCamera.value as any },
+            audio:{deviceId:currentMicrophone.value as any}
+        },
+    });
+    start();
+
+    const videoGrid = ref<HTMLVideoElement>();
+
     const messagesArray = ref<Array<{
         id:number,
         text:string,
@@ -18,24 +40,62 @@
     if (error.value) {
         throw createError({statusCode:404,message:error.value.data.message});
     }
-    const expand = ref<boolean>(false);
+
     const socket = io(`${API}/messages`,{
         extraHeaders:{
             'Authorization': `Bearer ${useCookie('token').value}`
         }
     });
+    watchEffect(() => {
+        if (videoGrid.value && stream.value && userObj.isMerchant) {
+            videoGrid.value!.srcObject = stream.value || null;
+            videoGrid.value.muted = true;
+            peer.on('open', (streamerId) => {
+                console.log('Peer is ready');
+                socket.emit('join',{userId:userObj.id,roomId:id},() =>{});
+                socket.emit('findAllMessages',{roomId:id},(messages:any) => {
+                messagesArray.value = messages; 
+                socket.on('message',(message:any) => {
+                    messagesArray.value.push(message);
+                    })
+                }) 
+                socket.on('connectlivestream',(data:{clientId:string,roomId:string}) => {
+                    console.log('user conected');
+                    peer.call(data.clientId,stream.value as MediaStream);
+                })  
+            })
+        }
+    })
     onBeforeMount(() => {
-        socket.emit('findAllMessages',{roomId:id},(messages:any) => {
-            messagesArray.value = messages; 
-        })
-        socket.emit('join',{userId:userObj.id,roomId:id},() =>{});
-        socket.on('message',(message:any) => {
-            console.log(message);
-            messagesArray.value.push(message);
-        })
+        if (!userObj.isMerchant) {
+            peer.on('open', (clientId) => {
+                socket.emit('join',{userId:userObj.id,roomId:id},() =>{});
+                socket.emit('joinLivestream',{roomId:id,clientId})
+                socket.emit('findAllMessages',{roomId:id},(messages:any) => {
+                messagesArray.value = messages; 
+                socket.on('message',(message:any) => {
+                    messagesArray.value.push(message);
+                    })
+                })
+            })
+            peer.on('call', (call) => {
+                call.answer()
+                call.on('stream',(stream) => {
+                    videoGrid.value!.srcObject = stream;
+                })
+                call.on('close', () => {
+                    videoGrid.value!.srcObject = null;
+                })
+            })
+        }
+
+
+
     })
     onBeforeRouteLeave(() => {
         socket.disconnect();
+        peer.disconnect();
+        stop();
     })
 
     function createMessage() {
@@ -46,6 +106,7 @@
         },() =>{});
         message.value = "";
     }
+
 </script>
 <template>
     <div clas="container">
@@ -68,7 +129,10 @@
                             </div>
                         </div>
                         <div class="w-full h-full border-2 rounded-xl overflow-hidden border-transparent">
-                            <img src="/samplelivestream.jpg" class="h-full w-full object-cover" alt="">
+                            <div class="bg-white h-full w-full" id="videoGrid">
+                                <video ref="videoGrid" autoplay class="h-full w-full object-cover" />
+                            </div>
+                            <!-- <img src="/samplelivestream.jpg" class="h-full w-full object-cover" alt=""> -->
                         </div>
                         <div class="h-[100px] rounded-full flex justify-center">
                             <button class="bg-red-600 text-white px-4 py-2 rounded-full h-16 w-48 font-bold border-2 border-red-600 hover:bg-white hover:text-red-600" type="button">End Session</button>
