@@ -1,55 +1,55 @@
 <script setup lang="ts">
-import { reactive, watch } from 'vue';
+  import { reactive, watch } from 'vue';
 
-const errorMessage = ref<Array<any>>([]);
-const successMessage = ref<string>("");
-const formDataRegister = reactive({
-  email: '',
-  password: '',
-  confirmPassword: '',
-  isMerchant:false,
-});
+  const errorMessage = ref<Array<any>>([]);
+  const successMessage = ref<string>("");
+  const formDataRegister = reactive({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    isMerchant:false,
+  });
 
-interface registerFetchData {
-  message: [string]
-  errors: [string]
-}
-const API = useRuntimeConfig().public.API;
-async function signup(email:string,password:string,isMerchant:boolean):Promise<registerFetchData> {
-  const result:registerFetchData =  await $fetch<registerFetchData>(`${API}/user`,{
-    method:'POST',
-    headers:{
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({email,password,isMerchant}),
-  })
-  .then(res => res)
-  .catch((errors:{data:{message:[string]}})=> {
-    return {
-      message:[""],
-      errors:errors.data.message
+  interface registerFetchData {
+    message: [string]
+    errors: [string]
+  }
+  const API = useRuntimeConfig().public.API;
+  async function signup(email:string,password:string,isMerchant:boolean):Promise<registerFetchData> {
+    const result:registerFetchData =  await $fetch<registerFetchData>(`${API}/user`,{
+      method:'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email,password,isMerchant}),
+    })
+    .then(res => res)
+    .catch((errors:{data:{message:[string]}})=> {
+      return {
+        message:[""],
+        errors:errors.data.message
+      }
+    }
+    );
+    return result;
+  }
+  async function handler() {
+    if (formDataRegister.password !== formDataRegister.confirmPassword) {
+      errorMessage.value = ["Confirm Password doesn't match"];
+    }
+    const result = await signup(formDataRegister.email,formDataRegister.password,formDataRegister.isMerchant);
+    if (result) {
+      const castedResult = result as registerFetchData
+      if (castedResult.errors) {
+        errorMessage.value = castedResult.errors;
+      }
+      else {
+        errorMessage.value = [];
+        successMessage.value = castedResult.message[0];
+        setTimeout(async () => await navigateTo("/login"),2000);
+      }
     }
   }
-  );
-  return result;
-}
-async function handler() {
-  if (formDataRegister.password !== formDataRegister.confirmPassword) {
-    errorMessage.value = ["Confirm Password doesn't match"];
-  }
-  const result = await signup(formDataRegister.email,formDataRegister.password,formDataRegister.isMerchant);
-  if (result) {
-    const castedResult = result as registerFetchData
-    if (castedResult.errors) {
-      errorMessage.value = castedResult.errors;
-    }
-    else {
-      errorMessage.value = [];
-      successMessage.value = castedResult.message[0];
-      setTimeout(async () => await navigateTo("/login"),5000);
-    }
-  }
-}
 </script>
 
 <template>

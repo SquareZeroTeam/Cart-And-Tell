@@ -1,18 +1,22 @@
 <script setup lang="ts">
 
     const userObj = useUserObj().value;
+    const API = useRuntimeConfig().public.API;
+    const {data:merchant} = await useFetch<any>(`${API}/merchant/${userObj.merchant!.id}`);
+    //console.log(merchant);
     //console.log(userObj);
     async function logout() {
         userObj.email= "";
-        userObj.id = NaN;
+        userObj.id = NaN;   
         userObj.cartCount = 0;
         userObj.loggedIn = false;
         userObj.isMerchant= false;
         userObj.merchant = null;
         const token = useCookie('token');
         token.value = null;
-        await navigateTo('/');
+        setTimeout(async () => await navigateTo("/login"),2000);
     }    
+
 </script>
 
 <template>
@@ -31,7 +35,7 @@
                     </button>
                 </NuxtLink>
             </div>
-            <div v-if="userObj.loggedIn && userObj.isMerchant && !userObj.merchant">
+            <div v-if="userObj.loggedIn && userObj.isMerchant && !userObj.merchant && !merchant.isVerified">
                 <NuxtLink to="/registration">
                     <button class="w-44 h-[4rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                         <p>Create Merchant Profile</p>
@@ -76,7 +80,7 @@
                 </NuxtLink>
             </div>
             
-            <div v-if="userObj.loggedIn && userObj.merchant"><!-- and registered -->
+            <div v-if="userObj.loggedIn && userObj.merchant && merchant.isVerified"><!-- and registered -->
                 <NuxtLink :to="`/profile/${userObj.merchant.id}`">
                     <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                         <p>Merchant Profile</p>

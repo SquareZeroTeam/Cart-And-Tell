@@ -17,7 +17,7 @@
         throw createError({statusCode: 403,message:"Forbidden User Permission"})
     }
     if (userObj.merchant) {
-        await navigateTo('/Profile');
+        await navigateTo('/confirm');
     }
     const API = useRuntimeConfig().public.API;
     const { data: categories } = await useFetch<[{name:string,id:number}]>(`${API}/category`, { lazy: true });
@@ -124,7 +124,7 @@
         if (!isError) {
             data = data as {id:number}
             userObj.merchant = {id:data.id};
-            navigateTo('/Profile');
+            navigateTo('/confirm');
         }
     };
 
