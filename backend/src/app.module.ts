@@ -11,8 +11,10 @@ import { PrismaModule } from './db/prisma/prisma.module';
 import { SupabaseModule } from './microservices/supabase/supabase.module';
 import { NodemailerModule } from './nodemailer/nodemailer.module';
 import { CategoryModule } from './category/category.module';
+import { MessagesModule } from './messages/messages.module';
+import { LivestreamsModule } from './livestreams/livestreams.module';
 @Module({
-  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule, SupabaseModule, NodemailerModule, CategoryModule],
+  imports: [ConfigModule.forRoot(), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule, SupabaseModule, NodemailerModule, CategoryModule, MessagesModule, LivestreamsModule],
   controllers: [AppController],
   providers: [AppService],
 })

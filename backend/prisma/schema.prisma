@@ -19,6 +19,7 @@ model User {
   cart ProductItem[]
   isMerchant Boolean @default(false)
   merchant Merchant?
+  messages Message[]
 }
 model Category {
   id Int @id @default(autoincrement())
@@ -53,6 +54,8 @@ model Merchant {
   isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
+
+  livestream LiveStream?
 }
 enum MerchantRelation {
   MerchantOwner
@@ -71,6 +74,7 @@ model Product {
   merchantId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
+  livestream LiveStream?
 }
 
 model ProductItem {
@@ -82,4 +86,31 @@ model ProductItem {
   productId Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
+}
+
+model Message {
+  id Int @id @default(autoincrement())
+  text String
+  user User @relation(fields: [userId],references: [id])
+  userId Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+  livestream LiveStream @relation(fields: [liveStreamRoomId], references: [roomId])
+  liveStreamRoomId String
+}
+model ClientConnected {
+  id Int @id @default(autoincrement())
+  socketId String
+  peerId String
+  liveStream LiveStream @relation(fields: [liveStreamId], references: [roomId])
+  liveStreamId String
+}
+model LiveStream {
+  roomId String @id @default(uuid())
+  merchant Merchant @relation(fields: [merchantId], references: [id])
+  merchantId Int @unique
+  product Product? @relation(fields: [productId],references: [id])
+  productId Int? @unique
+  Messages Message[]
+  viewers ClientConnected[]
 }

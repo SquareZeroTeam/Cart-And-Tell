@@ -85,6 +85,14 @@
                     </button>
                 </NuxtLink>
             </div>
+
+            <div>
+                <NuxtLink to="/livestreams">
+                    <button class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
+                        <p>Live Streams</p>
+                    </button>
+                </NuxtLink>
+            </div>
             <button v-if="userObj.loggedIn" @click="logout" class="w-44 h-[3rem] bg-[#6DB7FB] rounded-sm text-white font-bold text-xl mt-0.5">
                 <p>Log out</p>
             </button>
