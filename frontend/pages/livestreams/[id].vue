@@ -4,7 +4,10 @@
     import {useDevicesList, useUserMedia } from "@vueuse/core";
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
-    const peer = new Peer();
+    const peer = new Peer({config:{iceServers:[
+        {urls:'stun:stun.l.google.com:19302'},
+        {urls:'stun:stun1.l.google.com:19302'}
+    ]}});
     const expand = ref<boolean>(false);
     const {
         videoInputs:cameras,
@@ -58,7 +61,7 @@
                 socket.on('message',(message:any) => {
                     messagesArray.value.push(message);
                     })
-                }) 
+                })
                 socket.on('connectlivestream',(data:{clientId:string,roomId:string}) => {
                     console.log('user conected');
                     peer.call(data.clientId,stream.value as MediaStream);
@@ -88,9 +91,6 @@
                 })
             })
         }
-
-
-
     })
     onBeforeRouteLeave(() => {
         socket.disconnect();
