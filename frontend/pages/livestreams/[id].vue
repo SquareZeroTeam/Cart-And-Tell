@@ -2,64 +2,72 @@
     import  {io} from "socket.io-client" 
     import {Peer} from 'peerjs'
     import {useDevicesList, useUserMedia } from "@vueuse/core";
+    const userObj = useUserObj().value;
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
+    const videoGrid = ref<HTMLVideoElement>();
+    const peerActive = ref(false);
     // @ts-ignore
     const peer = new Peer(undefined 
     ,{
   config: {
     iceServers: [
-      { urls: 'stun:stun.l.google.com:19302' },
-    ],
+        {"urls":"stun:stun.relay.metered.ca:80"},
+        {"urls":"turn:a.relay.metered.ca:80","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"},
+        {"urls":"turn:a.relay.metered.ca:80?transport=tcp","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"},
+        {"urls":"turn:a.relay.metered.ca:443","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"},
+        // {"urls":"turn:a.relay.metered.ca:443?transport=tcp","username":"b128fb44b291e1fe3d9baa0d","credential":"TuZQEwTNlVaaOeHG"}
+    ]
   },
 });
-    const expand = ref<boolean>(false);
-    const {
-        videoInputs:cameras,
-        audioInputs:microphones,
-    } = useDevicesList({
-        requestPermissions:true,
-    })
-    
-    const currentCamera = computed(() => cameras.value[0]?.deviceId)
-    const currentMicrophone = computed(() => microphones.value[0]?.deviceId)
-    const {stream, start,stop} = useUserMedia({
-        constraints:{
-            video:{deviceId: currentCamera.value as any },
-            audio:{deviceId:currentMicrophone.value as any}
-        },
+const socket = io(`${API}/messages`,{
+        extraHeaders:{
+            'Authorization': `Bearer ${useCookie('token').value}`
+        }
     });
-    start();
-
-    const videoGrid = ref<HTMLVideoElement>();
-
+    
+    const {data:livestream,error} = await useFetch<{roomId:string,merchant:{id:number,name:string,image:string,category:{name:string}}}>(`${API}/livestreams/${id}`,{
+        key:id.toString()
+    })
+    if (error.value) {
+        await navigateTo('/')
+        throw createError({statusCode:404, message:'Livestream not found'})
+    }
     const messagesArray = ref<Array<{
         id:number,
         text:string,
         user:{id:number,email:string}
     }>>([]);
-
     const message = ref("");
+    const expand = ref<boolean>(false);
 
-    const userObj = useUserObj().value;
-    const {data:livestream,error} = await useFetch<{roomId:string,merchant:{name:string,image:string,category:{name:string}}}>(`${API}/livestreams/${id}`,{
-        key:id.toString()
-    })
-    if (error.value) {
-        throw createError({statusCode:404,message:error.value.data.message});
-    }
-
-    const socket = io(`${API}/messages`,{
-        extraHeaders:{
-            'Authorization': `Bearer ${useCookie('token').value}`
-        }
-    });
-    watchEffect(() => {
+    let mediaStream = ref<MediaStream|null>(null);
+    if (userObj.isMerchant && userObj.merchant?.id == livestream.value?.merchant.id) {
+        console.log('this is called');
+        var {
+            videoInputs:cameras,
+            audioInputs:microphones,
+        } = useDevicesList({
+            requestPermissions:true,
+        })
+        const currentCamera = computed(() => cameras.value[0]?.deviceId)
+        const currentMicrophone = computed(() => microphones.value[0]?.deviceId)
+        const {stream, start,stop,restart,enabled} = useUserMedia({
+            constraints:{
+                video:{deviceId: currentCamera.value as any },
+                audio:{deviceId:currentMicrophone.value as any}
+            },
+        });
+        
+        start();
+        watchEffect(() => {
+        mediaStream.value = stream.value as MediaStream;
         if (videoGrid.value && stream.value && userObj.isMerchant) {
             videoGrid.value!.srcObject = stream.value || null;
             videoGrid.value.muted = true;
             peer.on('open', (streamerId) => {
                 console.log('Peer is ready');
+                peerActive.value = true;
                 socket.emit('join',{userId:userObj.id,roomId:id},() =>{});
                 socket.emit('findAllMessages',{roomId:id},(messages:any) => {
                 messagesArray.value = messages; 
@@ -67,13 +75,40 @@
                     messagesArray.value.push(message);
                     })
                 })
+                socket.emit('liveStreamViewers',{roomId:id},(viewers:[{id:number,socketId:string,peerId:string,liveStreamId:string}]) => {
+                    console.log(viewers);
+                    console.log(mediaStream.value);
+                    viewers.forEach((viewer) => {
+                        peer.call(viewer.peerId,mediaStream.value  as MediaStream);
+                    })
+                })
                 socket.on('connectlivestream',(data:{clientId:string,roomId:string}) => {
                     console.log('user conected');
-                    peer.call(data.clientId,stream.value as MediaStream);
-                })  
+                    peer.call(data.clientId,mediaStream.value  as MediaStream);
+                }) 
+                socket.on('endLivestreamDisconnect', async () => {
+                    console.log('stream ended');
+                    stop();
+                    socket.disconnect();
+                    peer.disconnect();
+                    videoGrid.value!.srcObject = null;
+                    await navigateTo('/');
+                })
             })
         }
     })
+    }
+    
+
+    
+
+
+
+
+
+
+
+
     onBeforeMount(() => {
         if (!userObj.isMerchant) {
             peer.on('open', (clientId) => {
@@ -85,14 +120,30 @@
                     messagesArray.value.push(message);
                     })
                 })
+                socket.on('endLivestreamDisconnect', async () => {
+                    console.log('stream ended'); // Might install modal
+                    stop();
+                    socket.disconnect();
+                    peer.disconnect();
+                    videoGrid.value!.srcObject = null;
+                    await navigateTo('/');
+                })
             })
             peer.on('call', (call) => {
                 call.answer()
                 call.on('stream',(stream) => {
-                    videoGrid.value!.srcObject = stream;
+                    if (!stream) {
+                        call.close();
+                    }
+                    if (videoGrid.value) {
+                        videoGrid.value!.srcObject = stream;
+                        videoGrid.value!.play();
+                    }
                 })
                 call.on('close', () => {
-                    videoGrid.value!.srcObject = null;
+                    if (videoGrid.value) {
+                        videoGrid.value!.srcObject = null;
+                    }
                 })
             })
         }
@@ -100,7 +151,15 @@
     onBeforeRouteLeave(() => {
         socket.disconnect();
         peer.disconnect();
-        stop();
+        peer.destroy();
+        if (mediaStream.value) {
+            mediaStream.value!.getTracks().forEach((track:any) => {
+                track.stop();
+            })
+        }
+        if (videoGrid.value) {
+            videoGrid.value!.srcObject = null;
+        }
     })
 
     function createMessage() {
@@ -111,7 +170,12 @@
         },() =>{});
         message.value = "";
     }
-
+    function Delete() {
+        if (peerActive.value) {
+            peerActive.value = false;
+            socket.emit('endLivestream',{roomId:id},() => {});
+        }
+    }
 </script>
 <template>
     <div clas="container">
@@ -140,7 +204,7 @@
                             <!-- <img src="/samplelivestream.jpg" class="h-full w-full object-cover" alt=""> -->
                         </div>
                         <div class="h-[100px] rounded-full flex justify-center">
-                            <button class="bg-red-600 text-white px-4 py-2 rounded-full h-16 w-48 font-bold border-2 border-red-600 hover:bg-white hover:text-red-600" type="button">End Session</button>
+                            <button @click="Delete" v-if="userObj.isMerchant && userObj.merchant?.id == livestream?.merchant.id" class="bg-red-600 text-white px-4 py-2 rounded-full h-16 w-48 font-bold border-2 border-red-600 hover:bg-white hover:text-red-600" type="button">End Session</button>
                         </div>
                     </div>
                     <div class="w-[500px] border-2 h-full rounded-xl bg-white border-transparent flex flex-col">

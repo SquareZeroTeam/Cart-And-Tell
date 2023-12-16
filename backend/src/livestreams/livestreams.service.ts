@@ -15,18 +15,18 @@ export class LivestreamsService {
   }
 
   async findOne(roomId: string) {
-    const liveStream = await this.prisma.liveStream.findUnique({where:{roomId},include:{merchant:{select:{name:true,image:true,category:true}}}});
+    const liveStream = await this.prisma.liveStream.findUnique({where:{roomId},include:{merchant:{select:{id:true,name:true,image:true,category:true}}}});
     if (!liveStream) {
       throw new NotFoundException('Live stream not found');
     }
     return liveStream;
   }
 
-  update(roomId: number, updateLivestreamDto: UpdateLivestreamDto) {
-    return `This action updates a #${roomId} livestream`;
-  }
+  // update(roomId: number, updateLivestreamDto: UpdateLivestreamDto) {
+  //   return `This action updates a #${roomId} livestream`;
+  // }
 
-  remove(roomId: number) {
-    return `This action removes a #${roomId} livestream`;
-  }
+  // remove(roomId: number) {
+  //   return `This action removes a #${roomId} livestream`;
+  // }
 }
