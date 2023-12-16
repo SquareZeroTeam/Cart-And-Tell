@@ -17,7 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             where:{id:payload.id},
             include:{
                 cart:{include:{product:true},},
-                merchant:{select:{id:true,userId:true}},
+                merchant:{select:{id:true,userId:true,isVerified:true}},
                 _count:{select:{cart:true}}
             }})
         return {

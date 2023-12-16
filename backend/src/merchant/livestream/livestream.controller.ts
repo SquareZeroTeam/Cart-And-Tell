@@ -2,14 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Validatio
 import { LivestreamService } from './livestream.service';
 import { CreateLivestreamDto } from './dto/create-livestream.dto';
 import { UpdateLivestreamDto } from './dto/update-livestream.dto';
-import { IsMerchantSelfOrAdminGuard } from 'src/guards/is-merchant-self-or-admin.guard';
-
-@Controller('merchant/:merchantId/livestreams')
+import { IsMerchantSelfOrAdminProductsGuard } from 'src/guards/is-merchant-self-or-admin-products.guard';
+@Controller('merchant/:merchantId/livestream')
 export class LivestreamController {
   constructor(private readonly livestreamService: LivestreamService) {}
 
   @Post()
-  @UseGuards(IsMerchantSelfOrAdminGuard)
+  @UseGuards(IsMerchantSelfOrAdminProductsGuard)
   create(@Body(new ValidationPipe()) createLivestreamDto: CreateLivestreamDto, @Param('merchantId') merchantId:string) {
     return this.livestreamService.create(+merchantId,createLivestreamDto);
   }
@@ -25,13 +24,13 @@ export class LivestreamController {
   }
 
   @Patch(':id')
-  @UseGuards(IsMerchantSelfOrAdminGuard)
+  @UseGuards(IsMerchantSelfOrAdminProductsGuard)
   update(@Param('merchantId') merchantId:string,@Param('id') id: string, @Body() updateLivestreamDto: UpdateLivestreamDto) {
     return this.livestreamService.update(+merchantId,id, updateLivestreamDto);
   }
 
   @Delete(':id')
-  @UseGuards(IsMerchantSelfOrAdminGuard)
+  @UseGuards(IsMerchantSelfOrAdminProductsGuard)
   remove(@Param('merchantId') merchantId:string, @Param('id') id: string) {
     return this.livestreamService.remove(+merchantId,id);
   }

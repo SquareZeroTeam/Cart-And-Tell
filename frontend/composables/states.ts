@@ -6,6 +6,7 @@ interface UserObj {
     isMerchant:boolean,
     merchant: {
         id:number,
+        isVerified:boolean
     }|null
 }
 export const useUserObj = () => useState<UserObj>("userObj", () => {
@@ -17,6 +18,7 @@ export const useUserObj = () => useState<UserObj>("userObj", () => {
         isMerchant:false,
         merchant: {
             id:NaN,
+            isVerified:false,
         }
     }
 });

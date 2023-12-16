@@ -6,6 +6,7 @@
     const API = useRuntimeConfig().public.API;
     const {id} = useRoute().params;
     const videoGrid = ref<HTMLVideoElement>();
+    const peerActive = ref(false);
     // @ts-ignore
     const peer = new Peer(undefined 
     ,{
@@ -66,6 +67,7 @@ const socket = io(`${API}/messages`,{
             videoGrid.value.muted = true;
             peer.on('open', (streamerId) => {
                 console.log('Peer is ready');
+                peerActive.value = true;
                 socket.emit('join',{userId:userObj.id,roomId:id},() =>{});
                 socket.emit('findAllMessages',{roomId:id},(messages:any) => {
                 messagesArray.value = messages; 
@@ -169,7 +171,10 @@ const socket = io(`${API}/messages`,{
         message.value = "";
     }
     function Delete() {
-        socket.emit('endLivestream',{roomId:id},() => {});
+        if (peerActive.value) {
+            peerActive.value = false;
+            socket.emit('endLivestream',{roomId:id},() => {});
+        }
     }
 </script>
 <template>
