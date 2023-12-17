@@ -17,6 +17,11 @@ model EmailVerification {
   user User @relation(fields: [userId], references: [id])
   userId Int @unique
 }
+enum UserStatus {
+  Active
+  Removed
+  Banned
+}
 model User {
   id Int @id @default(autoincrement())
   email String @unique
@@ -29,7 +34,9 @@ model User {
   merchant Merchant?
   messages Message[]
   emailVerification EmailVerification?
+  status UserStatus @default(Active)
 }
+
 model Category {
   id Int @id @default(autoincrement())
   name String @unique
@@ -42,6 +49,13 @@ model Category {
 //   icon String? 
 //   merchant Merchant[]
 // }
+enum merchantStatus {
+  Pending
+  Accepted
+  Rejected
+  Removed
+  Banned
+}
 model Merchant {
   id Int @id @default(autoincrement())
   name String @unique
@@ -63,8 +77,8 @@ model Merchant {
   isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-
   livestream LiveStream[]
+  status merchantStatus @default(Pending)
 }
 enum MerchantRelation {
   MerchantOwner

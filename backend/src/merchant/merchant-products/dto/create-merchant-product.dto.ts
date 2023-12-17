@@ -12,7 +12,4 @@ export class CreateMerchantProductDto {
     
     @Length(16,256)
     description:string;
-
-    @IsUrl()
-    website:string;
 }
