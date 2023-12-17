@@ -5,6 +5,7 @@ export default defineNuxtPlugin( async () => {
         // return await navigateTo('/login'); 
     }
     else {
+        console.log('refresh token')
             // Verify token
         let isInvalidToken = null;
         const result:any = await $fetch<{
