@@ -27,4 +27,35 @@ export class NestMailerService {
             }
         })
     }
+    public async sendMerchantApproved(merchantId:number) {
+        const merchant = await this.prisma.merchant.findUnique({where:{id:merchantId},include:{user:true}});
+        if (!merchant) {
+            throw new NotFoundException("Merchant not found");
+        }
+        this.mailerService.sendMail({
+            to:merchant.user.email,
+            from:`${process.env.SMTP_EMAIL}`,
+            subject:"Cart & Tell Merchant Profile Request",
+            template:'merchantApproved',
+            context:{
+                name:merchant.name,
+                link:`${process.env.FRONTEND_URL}/merchant/${merchant.id}`
+            }
+        })
+    }
+    public async sendMerchantRejected(merchantId:number) {
+        const merchant = await this.prisma.merchant.findUnique({where:{id:merchantId},include:{user:true}});
+        if (!merchant) {
+            throw new NotFoundException("Merchant not found");
+        }
+        this.mailerService.sendMail({
+            to:merchant.user.email,
+            from:`${process.env.SMTP_EMAIL}`,
+            subject:"Cart & Tell Merchant Profile Request",
+            template:'merchantRejected',
+            context: {
+                name:merchant.name,
+            }
+        })
+    }
 }
