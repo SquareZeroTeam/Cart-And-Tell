@@ -241,6 +241,7 @@ const socket = io(`${API}/messages`,{
                         </div>
                         <div class="h-[75px] border-t-2 p-4 shrink-0">
                             <p v-if="!userObj.id">Please Log in to post message</p>
+                            <p v-else-if="!userObj.isEmailVerified">Please Verify your email to post a message</p>
                             <input @keyup.enter="createMessage" v-else v-model="message" type="text" class="h-full w-full outline-none font-medium" placeholder="Write your message...">
                         </div>
                     </div>

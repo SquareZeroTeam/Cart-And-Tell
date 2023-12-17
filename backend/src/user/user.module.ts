@@ -7,10 +7,11 @@ import { PaymongoService } from 'src/microservices/paymongo/paymongo.service';
 import { PrismaModule } from 'src/db/prisma/prisma.module';
 import { CartModule } from './cart/cart.module';
 import { JwtService } from 'src/authentication/jwt/jwt.service';
+import { NestMailerService } from 'src/nest-mailer/nest-mailer.service';
 @Module({
 
   controllers: [UserController],
-  providers: [UserService,JwtStrategy,JwtService],
+  providers: [UserService,JwtStrategy,JwtService,NestMailerService],
   exports: [UserService],
   imports: [PrismaModule,CartModule]
 })

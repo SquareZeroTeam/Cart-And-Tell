@@ -12,6 +12,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 // User can be Normal-user or Merchant-user
+model EmailVerification {
+  id String @id @default(uuid())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+}
+enum UserStatus {
+  Active
+  Removed
+  Banned
+}
 model User {
   id Int @id @default(autoincrement())
   email String @unique
@@ -20,9 +30,13 @@ model User {
   updatedAt DateTime @updatedAt @default(now())
   cart ProductItem[]
   isMerchant Boolean @default(false)
+  isEmailVerified Boolean @default(false)
   merchant Merchant?
   messages Message[]
+  emailVerification EmailVerification?
+  status UserStatus @default(Active)
 }
+
 model Category {
   id Int @id @default(autoincrement())
   name String @unique
@@ -35,6 +49,13 @@ model Category {
 //   icon String? 
 //   merchant Merchant[]
 // }
+enum merchantStatus {
+  Pending
+  Accepted
+  Rejected
+  Removed
+  Banned
+}
 model Merchant {
   id Int @id @default(autoincrement())
   name String @unique
@@ -56,8 +77,8 @@ model Merchant {
   isVerified Boolean @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
-
   livestream LiveStream[]
+  status merchantStatus @default(Pending)
 }
 enum MerchantRelation {
   MerchantOwner
@@ -78,7 +99,6 @@ model Product {
   updatedAt DateTime @updatedAt @default(now())
   livestream LiveStream?
 }
-
 model ProductItem {
   id Int @id @default(autoincrement())
   user User @relation(fields: [userId],references: [id])
@@ -89,7 +109,6 @@ model ProductItem {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
 }
-
 model Message {
   id Int @id @default(autoincrement())
   text String

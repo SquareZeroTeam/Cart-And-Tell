@@ -17,8 +17,4 @@ export class UpdateMerchantProductDto  {
     @IsOptional()
     @Length(16,256)
     description:string;
-
-    @IsOptional()
-    @IsUrl()
-    website:string;
 }

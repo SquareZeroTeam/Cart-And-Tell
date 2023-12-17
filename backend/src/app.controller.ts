@@ -2,13 +2,14 @@ import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
 import { promisify } from 'util';
 import { PrismaService } from './db/prisma/prisma.service';
+import { NestMailerService } from './nest-mailer/nest-mailer.service';
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService,private readonly prisma:PrismaService ) {}
+  constructor(private readonly appService: AppService,private readonly prisma:PrismaService,private readonly nestMailer:NestMailerService ) {}
 
   @Get()
   hello() {
-    return 'Cart-And-Tell API v1.0.0'
+    return {message:'Cart-And-Tell API v1.0.0'}
   }
   @Get('throttle')
   async throttle() {
@@ -52,4 +53,9 @@ export class AppController {
 //     name:category
 //   }
 // })
+  @Get('testMail')
+  async testEmail() {
+    await this.nestMailer.sendEmailVerification(18);
+    return {message:"Sending Email"}
+  }
 }

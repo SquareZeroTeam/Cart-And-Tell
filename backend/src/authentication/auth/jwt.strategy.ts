@@ -23,6 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         return {
             id: payload.id,
             email: payload.email,
+            isEmailVerified:updatedUser.isEmailVerified,
             cart:updatedUser.cart,
             cartCount: updatedUser._count.cart,
             isMerchant:updatedUser.isMerchant,
