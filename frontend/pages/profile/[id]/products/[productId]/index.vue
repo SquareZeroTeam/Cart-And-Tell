@@ -27,7 +27,7 @@ async function Delete() {
         await navigateTo(`/profile/${id}`);
     }
 }
-const modal =ref(true);
+const modal =ref(false);
 </script>
 <template>
     <div class="absolute flex justify-center items-center h-[100%] w-[100%] bg-[rgba(255,255,255,0.2)] " v-if="modal" @click="() => modal = false">
@@ -54,13 +54,13 @@ const modal =ref(true);
           <p class="text-lg text-gray-600 leading-relaxed mb-6">{{ product!.description }}</p>
 
           <div class="flex items-center space-x-4">
-            <NuxtLink :to="`${productId}/edit`">
+            <NuxtLink v-if="useUserObj().value.merchant?.isVerified" :to="`${productId}/edit`">
                 <button class="flex justify-center items-center bg-[#d4d5e4] bg-opacity-70 border-2 border-[#282F7A] w-36 h-12 text-[#282F7A] mr-1rem">
                 <span class="material-symbols-outlined text-[#282F7A]">edit</span>
                 <p class="text-md font-medium ml-2">Edit Product</p>
               </button>
             </NuxtLink>
-            <button @click="() => {modal = true}" class="flex justify-center items-center bg-[#d4d5e4] bg-opacity-70 border-2 border-red-500 px-2    h-12 text-red-500 mr-1rem">
+            <button v-if="useUserObj().value.merchant?.isVerified" @click="() => {modal = true}" class="flex justify-center items-center bg-[#d4d5e4] bg-opacity-70 border-2 border-red-500 px-2    h-12 text-red-500 mr-1rem">
                 <span class="material-symbols-outlined ">delete</span>
                 <p class="text-md font-medium ml-2">Delete Product</p>
               </button>

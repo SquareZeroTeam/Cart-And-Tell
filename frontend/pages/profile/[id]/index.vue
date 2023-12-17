@@ -35,10 +35,10 @@
                                         <h2 class="font-bold text-white">Verified</h2>
                                     </div>
                                     <div class="ml-6" v-else>
-                                        <h2 class="font-bold text-white">Not Verified</h2>
+                                        <h2 class="font-bold text-white">Not Verified/Pending</h2>
                                     </div>
                                 </div>
-                                <NuxtLink :to="`${id}/edit`">
+                                <NuxtLink v-if="merchant.isVerified" :to="`${id}/edit`">
                                     <button class="font-bold text-blue-600 rounded-full px-4 py-2 border-transparent border-2 bg-white">Edit Profile</button>
                                 </NuxtLink>
                             </div> 
@@ -57,7 +57,7 @@
                     <div class="bg-[#282F7A] flex flex-col justify-center">
                         <div class="flex justify-between items-center p-4">
                             <p class="text-white mt-2  text-2xl text-center font-bold">Products</p>
-                            <NuxtLink :to="`${id}/products/create`">
+                            <NuxtLink v-if="merchant.isVerified" :to="`${id}/products/create`">
                                 <button class="font-bold text-blue-600 rounded-full px-4 py-2 border-transparent border-2 bg-white">Add Product</button>
                             </NuxtLink>
                         </div>
