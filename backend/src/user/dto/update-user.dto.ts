@@ -1,7 +1,12 @@
 import { PartialType } from '@nestjs/mapped-types';
 import { CreateUserDto } from './create-user.dto';
-import { IsBoolean, IsEmail, IsOptional, IsStrongPassword, Length } from 'class-validator';
+import { IsBoolean, IsEmail, IsEnum, IsOptional, IsStrongPassword, Length, isEnum } from 'class-validator';
 
+enum userStatus {   
+    Active = "Active",
+    Removed = "Removed",
+    Banned = "Banned"
+}
 export class UpdateUserDto {
     @IsOptional()
     @IsEmail()
@@ -15,4 +20,8 @@ export class UpdateUserDto {
     @IsOptional()
     @IsBoolean()
     isMerchant: boolean;
+
+    @IsOptional()
+    @IsEnum(userStatus)
+    status:userStatus;
 }

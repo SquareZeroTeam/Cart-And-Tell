@@ -64,7 +64,7 @@ model Category {
 // }
 enum merchantStatus {
   Pending
-  Accepted
+  Approved
   Rejected
   Removed
   Banned

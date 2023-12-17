@@ -8,6 +8,7 @@ import { JwtAuthGuard } from 'src/authentication/auth/jwt.auth.guard';
 import { IsMerchantSelfOrAdminGuard } from 'src/guards/is-merchant-self-or-admin.guard';
 import { JwtService } from 'src/authentication/jwt/jwt.service';
 import { IsAdminGuard } from 'src/guards/is-admin.guard';
+import { merchantStatus } from '@prisma/client';
 
 @Controller('merchant')
 export class MerchantController {
@@ -34,8 +35,9 @@ export class MerchantController {
   @Get()
   @UseGuards(JwtAuthGuard,IsAdminGuard)
   findAll(
+    @Query('status') status:merchantStatus,
   ) {
-    return this.merchantService.findAll();
+    return this.merchantService.findAll(status);
   }
   @Get("/verified")
   findAllVerfied(@Query('category') category:string) {
@@ -54,7 +56,16 @@ export class MerchantController {
   findOne(@Param('id') id: string) {
     return this.merchantService.findOne(+id);
   }
-  
+  @Patch(':id/approve')
+  @UseGuards(JwtAuthGuard,IsAdminGuard)
+  approve(@Param('id') id: string) {
+    return this.merchantService.approve(+id);
+  }
+  @Patch(':id/reject')
+  @UseGuards(JwtAuthGuard,IsAdminGuard)
+  reject(@Param('id') id: string) {
+    return this.merchantService.reject(+id);
+  }
   @Patch(':id')
   @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminGuard)
   @UseInterceptors(FileFieldsInterceptor([
@@ -101,4 +112,5 @@ export class MerchantController {
   remove(@Param('id') id: string) {
     return this.merchantService.remove(+id);
   }
+
 }
