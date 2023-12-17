@@ -3,9 +3,10 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/db/prisma/prisma.service';
 import * as bcrypt from "bcryptjs"
+import { NestMailerService } from 'src/nest-mailer/nest-mailer.service';
 @Injectable()
 export class UserService {
-  constructor(private prisma:PrismaService){};
+  constructor(private prisma:PrismaService, private readonly nestMailer:NestMailerService){};
   async create(createUserDto: CreateUserDto) {
     const trueRegEx = new RegExp("true");
     createUserDto.isMerchant = trueRegEx.test(createUserDto.isMerchant.toString());
@@ -20,6 +21,7 @@ export class UserService {
       createUserDto.password = hash;
       const newUser = await this.prisma.user.create({data:{...createUserDto}});
       await this.prisma.emailVerification.create({data:{userId:newUser.id}});
+      this.nestMailer.sendEmailVerification(newUser.id);
     })
     return {message:[`Successfully created user ${createUserDto.email}`]};
   }
@@ -37,6 +39,7 @@ export class UserService {
       createUserDto.password = hash;
       const newUser = await this.prisma.user.create({data:{...createUserDto,isMerchant:true}});
       await this.prisma.emailVerification.create({data:{userId:newUser.id}});
+
     })
     return {message:[`Successfully created user ${createUserDto.email}`]};
   }

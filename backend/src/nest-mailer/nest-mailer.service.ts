@@ -17,8 +17,7 @@ export class NestMailerService {
 
         const url = `${process.env.FRONTEND_URL}/verify-email/${emailVerification.id}`;
         this.mailerService.sendMail({
-            // to: user.email,
-            to:'danvictor321@gmail.com',
+            to: user.email,
             from:`${process.env.SMTP_EMAIL}`,
             subject:"Cart & Tell User Email Verification",
             template:'emailVerification',

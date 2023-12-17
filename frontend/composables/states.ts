@@ -4,6 +4,7 @@ interface UserObj {
     cartCount:number,
     loggedIn:boolean,
     isMerchant:boolean,
+    isEmailVerified:boolean,
     merchant: {
         id:number,
         isVerified:boolean
@@ -16,6 +17,7 @@ export const useUserObj = () => useState<UserObj>("userObj", () => {
         cartCount:0,
         loggedIn:false,
         isMerchant:false,
+        isEmailVerified:false,
         merchant: {
             id:NaN,
             isVerified:false,
