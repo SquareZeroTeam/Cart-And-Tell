@@ -11,6 +11,7 @@ export class IsMerchantVerifiedOrAdmin implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = request.headers.authorization.split(" ")[1];
     const userObj = this.jwt.decode(token);
+    console.log(userObj);
     if (userObj.merchant.isVerified) {
       return true
     }
