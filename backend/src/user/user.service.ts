@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/db/prisma/prisma.service';
 import * as bcrypt from "bcryptjs"
 import { NestMailerService } from 'src/nest-mailer/nest-mailer.service';
+import { UserStatus } from '@prisma/client';
 @Injectable()
 export class UserService {
   constructor(private prisma:PrismaService, private readonly nestMailer:NestMailerService){};
@@ -44,8 +45,17 @@ export class UserService {
     return {message:[`Successfully created user ${createUserDto.email}`]};
   }
 
-  async findAll() {
-    return await this.prisma.user.findMany({select:{merchant:true,id:true,email:true,cart:true,isMerchant:true,password:true,_count:{select:{cart:true}}}})
+  async findAll(status:UserStatus) {
+
+    let query:{[any:string]:string} = {};
+    if (status) {
+      if (status !== UserStatus.Active && status !== UserStatus.Banned && status !== UserStatus.Removed) {
+        throw new BadRequestException('Invalid status')
+      }
+      query.status = status
+    }
+    console.log(status);
+    return await this.prisma.user.findMany({where:query,select:{merchant:true,id:true,email:true,cart:true,isMerchant:true,status:true,password:true,_count:{select:{cart:true}}}})
   }
 
   async findOne(id: number) {
@@ -57,8 +67,12 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
+    console.log(updateUserDto)
     const trueRegEx = new RegExp("true");
     const updateUserForm:{} = {}
+    if (updateUserDto.status) {
+      updateUserForm['status'] = updateUserDto.status;
+    }
     if (updateUserDto.email) {
       updateUserForm['email'] = updateUserDto.email;
       const userExists = await this.prisma.user.findFirst({where:{email:updateUserDto.email}});
@@ -85,7 +99,7 @@ export class UserService {
     else {
       await this.prisma.user.update({where:{id},data:{...updateUserForm}});
     }
-    return {message:[`Successfully updated user ${updateUserDto.email}`]};
+    return {message:[`Successfully updated user ${id}`]};
   }
 
   async remove(id: number) {

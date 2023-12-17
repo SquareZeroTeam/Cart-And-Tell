@@ -27,7 +27,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             cart:updatedUser.cart,
             cartCount: updatedUser._count.cart,
             isMerchant:updatedUser.isMerchant,
-            merchant:updatedUser.merchant
+            merchant:updatedUser.merchant,
+            status:updatedUser.status
         };
     }
 }

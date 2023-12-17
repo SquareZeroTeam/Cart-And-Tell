@@ -5,6 +5,7 @@ import { UpdateMerchantProductDto } from './dto/update-merchant-product.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/authentication/auth/jwt.auth.guard';
 import { IsMerchantSelfOrAdminProductsGuard } from 'src/guards/is-merchant-self-or-admin-products.guard';
+import { IsMerchantVerifiedOrAdmin } from 'src/guards/is-merchant-verified-or-admin.guards';
 
 @Controller('merchant/:merchantId/products')
 export class MerchantProductsController {
@@ -12,7 +13,7 @@ export class MerchantProductsController {
 
   @Post('')
   @UseInterceptors(FileInterceptor('image'))
-  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard)
+  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard,IsMerchantVerifiedOrAdmin)
   create(
     @Param('merchantId') id: string,
     @UploadedFile(new ParseFilePipe({
@@ -38,7 +39,7 @@ export class MerchantProductsController {
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard)
+  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard,IsMerchantVerifiedOrAdmin)
   @UseInterceptors(FileInterceptor('image'))
   update(
     @Param('merchantId') merchantId: string,
@@ -58,7 +59,7 @@ export class MerchantProductsController {
 
   @Delete(':id')
   @UseInterceptors(FileInterceptor('image'))
-  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard)
+  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard,IsMerchantVerifiedOrAdmin)
   remove(@Param('merchantId') merchantId: string,@Param('id') id: string) {
     return this.merchantProductsService.remove(+merchantId,+id);
   }

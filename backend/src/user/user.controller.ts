@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -6,6 +6,11 @@ import { JwtAuthGuard } from 'src/authentication/auth/jwt.auth.guard';
 import { IsUserSelfOrAdminGuard } from 'src/guards/is-user-self-or-admin.guard';
 import { IsAdminGuard } from 'src/guards/is-admin.guard';
 
+enum userStatus {   
+  Active = "Active",
+  Removed = "Removed",
+  Banned = "Banned"
+}
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -16,8 +21,8 @@ export class UserController {
   } 
   @Get()
   @UseGuards(JwtAuthGuard,IsAdminGuard)
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query('status') status:userStatus) {
+    return this.userService.findAll(status);
   }
   @UseGuards(JwtAuthGuard,IsUserSelfOrAdminGuard)
   @Get(':id')

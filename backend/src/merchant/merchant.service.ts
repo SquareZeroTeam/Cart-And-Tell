@@ -3,12 +3,15 @@ import { CreateMerchantDto } from './dto/create-merchant.dto';
 import { UpdateMerchantDto } from './dto/update-merchant.dto';
 import { PrismaService } from 'src/db/prisma/prisma.service';
 import { SupabaseService } from 'src/microservices/supabase/supabase.service';
+import { NestMailerService } from 'src/nest-mailer/nest-mailer.service';
+import { merchantStatus } from '@prisma/client';
 
 @Injectable()
 export class MerchantService {
   constructor(
     private readonly prisma:PrismaService,
-    private readonly supabase:SupabaseService
+    private readonly supabase:SupabaseService,
+    private readonly nestMailer:NestMailerService
   ) {}
   async create(createMerchantDto: CreateMerchantDto,image:Express.Multer.File,proofOfAuthenticity:Express.Multer.File) {
     const user = await this.prisma.user.findUnique({where:{id:+createMerchantDto.userId},include:{merchant:true}});
@@ -41,8 +44,17 @@ export class MerchantService {
     return newMerchant;
   }
   
-  async findAll() {
-    return await this.prisma.merchant.findMany({include:{products:true,user:true,category:true}}); 
+  async findAll(status:string) {
+    const query:{[any:string]:merchantStatus} = {};
+    console.log(status)
+    if (status) {
+      if (status !== merchantStatus.Approved && status !== merchantStatus.Pending && status !== merchantStatus.Rejected && status !== merchantStatus.Removed) {
+        throw new BadRequestException('Invalid status')
+      }
+      query.status = status;
+      console.log(query);
+    }
+    return await this.prisma.merchant.findMany({where:{status:query.status},include:{products:true,user:true,category:true}}); 
   }
   async findAllVerified(category:string) {
     console.log(category);
@@ -69,6 +81,7 @@ export class MerchantService {
     return cartandtellMerchant;
   }
   async findOne(id: number) {
+
     const merchant = await this.prisma.merchant.findUnique({where:{id},include:{products:true}});
     if (!merchant) {
       throw new NotFoundException("Merchant not found");
@@ -134,7 +147,36 @@ export class MerchantService {
     });
     return updatedMerchant;
   }
-
+  async approve(id:number) {
+    const merchant = await this.prisma.merchant.findUnique({where:{id},include:{user:true}});
+    if (!merchant) {
+      throw new NotFoundException("Merchant not found");
+    }
+    if (merchant.isVerified) {
+      throw new BadRequestException("Merchant is already verified");
+    }
+    const updatedMerchant = await this.prisma.merchant.update({
+      where:{id},
+      data:{isVerified:true,status:'Approved'}
+    });
+    this.nestMailer.sendMerchantApproved(merchant.id);
+    return updatedMerchant;
+  }
+  async reject(id:number) {
+    const merchant = await this.prisma.merchant.findUnique({where:{id},include:{user:true}});
+    const user = await this.prisma.user.findUnique({where:{id:merchant.user.id}});
+    if (!merchant) {
+      throw new NotFoundException("Merchant not found");
+    }
+    if (merchant.isVerified) {
+      throw new BadRequestException("Merchant is already verified");
+    }
+    await this.nestMailer.sendMerchantRejected(merchant.id);
+    const rejectedMerchant = await this.prisma.merchant.delete({
+      where:{id},
+    });
+    return rejectedMerchant;
+  }
   async remove(id: number) {
     const merchant = await this.prisma.merchant.findUnique({where:{id},include:{products:true,user:true}});
     if (!merchant) {

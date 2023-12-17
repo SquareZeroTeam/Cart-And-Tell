@@ -8,7 +8,8 @@ interface userObj {
     cart:Array<any>;
     cartCount:number;
     isMerchant:boolean;
-    merchant: {id:number,userId:number}
+    merchant: {id:number,userId:number,isVerified:boolean},
+    status:string
 }
 @Injectable()
 export class JwtService {

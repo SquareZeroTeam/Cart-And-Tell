@@ -8,10 +8,11 @@ import { SupabaseModule } from 'src/microservices/supabase/supabase.module';
 import { MerchantProductsModule } from './merchant-products/merchant-products.module';
 import { JwtService } from 'src/authentication/jwt/jwt.service';
 import { LivestreamModule } from './livestream/livestream.module';
+import { NestMailerService } from 'src/nest-mailer/nest-mailer.service';
 
 @Module({
   controllers: [MerchantController],
-  providers: [MerchantService,JwtService],
+  providers: [MerchantService,JwtService,NestMailerService],
   imports:[PrismaModule,SupabaseModule, MerchantProductsModule, LivestreamModule]
 })
 export class MerchantModule {}

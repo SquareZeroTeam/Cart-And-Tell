@@ -49,7 +49,7 @@
                         <NuxtLink v-for="category in categories" :key="category.id" :to="`/merchants?category=${category.name}`">
                             <button class="flex flex-col items-center max-w-[80px] ">
                                 <!-- <div class="w-20 h-16 bg-white mb-2"></div> -->
-                                <img class="bg-white h-20 w-20" :src="category.image" alt="">
+                                <img class="bg-white h-20 w-20" :src="category.icon" alt="">
                                 <p class="text-white text-center ">{{ category.name }}</p> 
                             </button>
                         </NuxtLink>
