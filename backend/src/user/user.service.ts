@@ -18,7 +18,8 @@ export class UserService {
         throw new HttpException(err,500);
       }
       createUserDto.password = hash;
-      await this.prisma.user.create({data:{...createUserDto}});
+      const newUser = await this.prisma.user.create({data:{...createUserDto}});
+      await this.prisma.emailVerification.create({data:{userId:newUser.id}});
     })
     return {message:[`Successfully created user ${createUserDto.email}`]};
   }
@@ -34,7 +35,8 @@ export class UserService {
         throw new HttpException(err,500);
       }
       createUserDto.password = hash;
-      await this.prisma.user.create({data:{...createUserDto,isMerchant:true}});
+      const newUser = await this.prisma.user.create({data:{...createUserDto,isMerchant:true}});
+      await this.prisma.emailVerification.create({data:{userId:newUser.id}});
     })
     return {message:[`Successfully created user ${createUserDto.email}`]};
   }
