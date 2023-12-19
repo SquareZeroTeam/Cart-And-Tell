@@ -62,7 +62,7 @@ const socket = io(`${API}/messages`,{
         start();
         watchEffect(() => {
         mediaStream.value = stream.value as MediaStream;
-        if (videoGrid.value && stream.value && userObj.isMerchant) {
+        if (videoGrid.value && stream.value && userObj.isMerchant && livestream.value?.merchant.id == userObj.merchant!.id ) {
             videoGrid.value!.srcObject = stream.value || null;
             videoGrid.value.muted = true;
             peer.on('open', (streamerId) => {
@@ -110,7 +110,7 @@ const socket = io(`${API}/messages`,{
 
 
     onBeforeMount(() => {
-        if (!userObj.isMerchant) {
+        if (!(livestream.value?.merchant.id == userObj.merchant!.id)) {
             peer.on('open', (clientId) => {
                 socket.emit('join',{userId:userObj.id,roomId:id},() =>{});
                 socket.emit('joinLivestream',{roomId:id,clientId})

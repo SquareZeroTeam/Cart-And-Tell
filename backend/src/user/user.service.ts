@@ -122,6 +122,6 @@ export class UserService {
 
   // Non CRUD actions
   async findOneByEmail(email:string) {
-    return await this.prisma.user.findUnique({where:{email},include: {merchant:{select:{id:true}},cart:true,_count:{select:{cart:true}}}});
+    return await this.prisma.user.findUnique({where:{email},include: {merchant:{select:{id:true,isVerified:true}},cart:true,_count:{select:{cart:true}}}});
   }
 }
