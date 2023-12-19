@@ -122,8 +122,8 @@
         })
         if (!isError) {
             data = data as {id:number}
-            userObj.merchant = {id:data.id};
-            navigateTo('/Profile');
+            userObj.merchant = {id:data.id,isVerified:false};
+            navigateTo(`/Profile/${userObj.merchant.id}`);
         }
     };
 

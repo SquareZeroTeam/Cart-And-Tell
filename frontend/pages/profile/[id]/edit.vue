@@ -3,7 +3,6 @@
     const userObj = useUserObj().value;
     const {id} = useRoute().params;
 
-
     if (!userObj.loggedIn || !userObj.isMerchant || !userObj.merchant) {
         await navigateTo('/login');
     }
@@ -11,6 +10,9 @@
         await navigateTo('/registration');
     }
     const {data:merchant,error} = await useFetch<any>(`${API}/merchant/${userObj.merchant!.id}`,{key:userObj.merchant!.id.toString()});
+    if (userObj.merchant?.isVerified != merchant.value.isVerified) {
+        userObj.merchant!.isVerified = merchant.value.isVerified;
+    }
     if (error.value?.statusCode == 404) {
         throw createError({statusCode:404,statusMessage:"Merchant Not Found"});
     }
@@ -80,6 +82,13 @@
             navigateTo(`/profile/${id}`);
         }
     }
+    onBeforeMount(() => {
+        const {token} = useRoute().query;
+        if (token) {
+            useCookie('token').value = token as string;
+        }
+        
+    })
 </script>
 <template>
     <div clas="container">

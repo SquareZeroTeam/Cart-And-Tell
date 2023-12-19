@@ -25,8 +25,13 @@
             }
         }
     })
+
+    const isLoading = ref(false);
 const prevImage = ref("");
     async function create() {
+            if (isLoading.value) {
+                return;}
+            isLoading.value = true;
             let isError = false;
             const formDataCreate = new FormData();
             formDataCreate.append('name',formData.name);
@@ -47,7 +52,7 @@ const prevImage = ref("");
                 isError = true
                 return;
             })
-            if (!isError) {
+            if (data) {
                 await navigateTo(`/profile/${formData.merchantId}/products/${data!.id}`);
             }
         }
@@ -96,6 +101,7 @@ const prevImage = ref("");
             <button class="flex justify-center items-center bg-[#282F7A] border-2 border-[#282F7A] w-36 h-12 text-white">
               <p @click="create" class="text-md font-bold rounded-full">Create Product</p>
             </button>
+            <p v-if="isLoading">Loading...</p>
           </div>
         </div>
       </div>
