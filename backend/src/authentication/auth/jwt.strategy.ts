@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     };
     async validate(payload:any) {
         const prisma:PrismaService = new PrismaService();
-        const updatedUser = await prisma.user.findFirst({
+        const updatedUser = await prisma.user.findUnique({
             where:{id:payload.id},
             include:{
                 cart:{include:{product:true},},
@@ -23,12 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         return {
             id: payload.id,
             email: payload.email,
-            isEmailVerified:updatedUser.isEmailVerified,
-            cart:updatedUser.cart,
-            cartCount: updatedUser._count.cart,
-            isMerchant:updatedUser.isMerchant,
-            merchant:updatedUser.merchant,
-            status:updatedUser.status
+            ...updatedUser,
         };
     }
 }

@@ -38,7 +38,7 @@ export class CartController {
   //   return this.cartService.update(+id, updateCartDto);
   // }
 
-  @Delete('')
+  @Delete()
   remove(@Body(new ValidationPipe) deleteCarDto:DeleteCarDto, @Param('userId',ParseIntPipe) userId: number) {
     return this.cartService.remove(deleteCarDto,userId);
   }

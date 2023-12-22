@@ -9,6 +9,7 @@ import { UserStatus } from '@prisma/client';
 export class UserService {
   constructor(private prisma:PrismaService, private readonly nestMailer:NestMailerService){};
   async create(createUserDto: CreateUserDto) {
+    createUserDto.email = createUserDto.email.toLowerCase(); // sets email to lowercase
     const trueRegEx = new RegExp("true");
     createUserDto.isMerchant = trueRegEx.test(createUserDto.isMerchant.toString());
     const userExists = await this.prisma.user.findFirst({where:{email:createUserDto.email}});
@@ -122,6 +123,7 @@ export class UserService {
 
   // Non CRUD actions
   async findOneByEmail(email:string) {
+    email = email.toLowerCase()
     return await this.prisma.user.findUnique({where:{email},include: {merchant:{select:{id:true,isVerified:true}},cart:true,_count:{select:{cart:true}}}});
   }
 }
