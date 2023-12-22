@@ -84,7 +84,7 @@ const { product } = defineProps(['product']);
           <div class="flex items-center space-x-4">
               <button @click="addToCart" class="flex justify-center items-center bg-[#d4d5e4] bg-opacity-70 border-2 border-[#282F7A] w-36 h-12 text-[#282F7A] mr-1rem">
               <span class="material-symbols-outlined text-[#282F7A]">add_shopping_cart</span>
-              <p @click="addToCart" class="text-md font-medium ml-2">Add to Cart</p>
+              <p class="text-md font-medium ml-2">Add to Cart</p>
             </button>
             <button class="flex justify-center items-center bg-[#282F7A] border-2 border-[#282F7A] w-36 h-12 text-white">
               <p @click="buyNow" class="text-md font-normal">Buy Now</p>

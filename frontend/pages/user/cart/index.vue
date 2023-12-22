@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-    const checkedItems = ref([]);
+    const checkedItems = ref<[number]|[]>([]);
     const API = useRuntimeConfig().public.API;
     const token = useCookie('token').value;
     const userObj = useUserObj().value;
@@ -75,20 +75,19 @@
             });
         }
     }
-    async function remove(e:Event) {
-        const buttonDiv = e.target as HTMLElement;
-        const id = buttonDiv.id;
+    async function remove() {
         const data = await $fetch<any>(`${API}/user/${userObj.id}/cart`,{
             method: 'DELETE',
             headers:{
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + token
             },
-            body:JSON.stringify({products:[id]})
+            body:JSON.stringify({products:[...checkedItems.value]})
         }).catch( error => alert(error.data.message));
         if (data) {
-            cart.value?.splice(cart.value?.findIndex((item:CartObj) => item.id === parseInt(id)),1);
+            cart.value = cart.value?.filter(product => !checkedItems.value.includes(product.id as never)) as [CartObj];
         }
+        checkedItems.value = [];
     }
 </script>
 <template>
@@ -125,20 +124,14 @@
                             </div>
                             <p class="mt-4 mb-4 mr-10 ml-10 text-[#2563EB] font-semibold">₱{{item.product.amount}}</p>
                         </div>
-                        <div class="hidden justify-end text-lg mr-4">
-                            <button :id="item.id.toString()" @click="remove" class="px-4 py-2 bg-gray-300 text-black">Remove</button>
-                        </div>
                     </div>
                 </div>
             </div>
-            <button @click="checkout" class="bg-blue-600 text-white font-bold px-6 py-2 border-2 border-transparent rounded-full my-4">Checkout</button>
+            <div class="flex justify-between">
+                <button @click="checkout" class="bg-blue-600 text-white font-bold px-6 py-2 border-2 border-transparent rounded-full my-4">Checkout</button>
+                <button v-if="checkedItems.length > 0 " @click="remove" class="bg-red-600 text-white font-bold px-6 py-2 border-2 border-transparent rounded-full my-4">Delete</button>
+            </div>
             </div>
         </div>
     </div>
   </template>
-  
-<style scoped>
-    .productItem:hover > .hidden {
-        display: flex;
-    }
-</style>
