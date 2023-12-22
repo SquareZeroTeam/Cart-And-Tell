@@ -32,6 +32,7 @@ async function addToCart() {
     .catch(error => {
     throw createError({statusCode:error.statusCode, message:error.message});
   })
+  console.log(data);
   await navigateTo('/user/cart');
 }
 async function buyNow() {
