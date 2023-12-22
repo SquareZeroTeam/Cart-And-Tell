@@ -9,8 +9,7 @@ export class IsMerchantSelfOrAdminProductsGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const token = request.headers.authorization.split(" ")[1];
-    const userObj = this.jwt.decode(token);
+    const userObj = request.user;
     if (userObj.isMerchant && (userObj.merchant.id == request.params.merchantId)) {
       return true
     }
