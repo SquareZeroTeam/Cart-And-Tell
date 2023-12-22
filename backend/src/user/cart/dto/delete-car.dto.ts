@@ -1,6 +1,6 @@
-import { Length } from "class-validator";
+import { ArrayNotEmpty, Length } from "class-validator";
 
 export class DeleteCarDto {
-    @Length(1)
+    @ArrayNotEmpty()
     products:number[];
 }

@@ -1,19 +1,18 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { JwtService } from 'src/authentication/jwt/jwt.service';
-
+import { PrismaService } from 'src/db/prisma/prisma.service';
+import { User } from '@prisma/client';
 @Injectable()
-export class IsAccountStatusActiveGuard implements CanActivate {
-  constructor(private readonly jwt:JwtService){}
-  canActivate(
+export class IsAccountStatusActiveGuard {
+  constructor(private readonly prisma:PrismaService){}
+  async canActivate(
     context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  ): Promise<boolean | Observable<boolean>> {
     const request = context.switchToHttp().getRequest();
-    const token = request.headers.authorization.split(' ')[1];
-    const userObj = this.jwt.decode(token);
-    console.log(userObj)
-    if (userObj.status !== 'Active')  {
-      return false;
+    const user = request.user as User;
+    if (user.status != 'Active') {
+      throw new ForbiddenException(`This account is ${user.status}`);
     }
     return true;
   }

@@ -4,10 +4,12 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt.auth.guard';
 import { IsAdminGuard } from 'src/guards/is-admin.guard';
 import { IsAccountStatusActiveGuard } from 'src/guards/is-account-status-active.guard';
+import { PrismaService } from 'src/db/prisma/prisma.service';
+import { UserService } from 'src/user/user.service';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor(private authService: AuthService,private readonly prisma:PrismaService,private readonly userService:UserService) {}
     @Post('login')
     @UseGuards(LocalAuthGuard)
     login(@Request() req):any {
@@ -15,13 +17,8 @@ export class AuthController {
     }
     @Get('validate')
     @UseGuards(JwtAuthGuard,IsAccountStatusActiveGuard)
-    protected(@Request() req):any {
-        if (req.user.status === 'Active') {
+    async protected(@Request() req):Promise<any> {
         return req.user;
-        }
-        else {
-            throw new ForbiddenException(`This Account is ${req.user.status}`)
-        }
     }
     @Get('validateAsAdmin')
     @UseGuards(JwtAuthGuard,IsAdminGuard)

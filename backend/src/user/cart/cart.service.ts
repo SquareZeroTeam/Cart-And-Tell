@@ -18,8 +18,9 @@ export class CartService {
       throw new NotFoundException("Product not found");
     }
     const productItem = await this.prisma.productItem.findFirst({where:{productId:+createCartDto.products[0],userId}});
+    let productCart;
     if (!productItem) {
-      const newProduct = await this.prisma.productItem.create({
+      productCart = await this.prisma.productItem.create({
         data:{
           quantity:createCartDto.quantity,
           productId:+createCartDto.products[0],
@@ -27,66 +28,62 @@ export class CartService {
         }})
     }
     else {
-      await this.prisma.productItem.update({
+      productCart = await this.prisma.productItem.update({
         where:{id:productItem.id},
         data:{
           quantity:{increment:createCartDto.quantity}
         }
       })
     }
-    return {message:`Successfully added product ${createCartDto.products[0]} to cart of user:${userId}`};
+    return productCart;
   }
   async findAll(userId:number) {
     const user = await this.prisma.user.findUnique({where:{id:userId}});
     if (!user) {
       throw new NotFoundException("User not found");
     }
-    return await this.prisma.user.findUnique({
-      where:{id:userId},
-      select:{
-        email:true,
-        _count:{select:{cart:true}},
-        cart:true
-      }});
+    const cart = await this.prisma.productItem.findMany({where:{userId},include:{product:true}});
+    return cart;
   }
   async increment(id:number,userId:number) {
     const product = await this.prisma.productItem.findUnique({where:{id}});
     if (!product) {
       throw new NotFoundException("Product not found");
     }
-    await this.prisma.productItem.update({
+    return await this.prisma.productItem.update({
       where:{id},
       data:{
         quantity:{increment:1}
       }
     });
-    return {message:`Successfully incremented product ${id} to cart of user:${userId}`};
     }
     async decrement(id:number,userId:number) {
       const product = await this.prisma.productItem.findUnique({where:{id}});
       if (!product) {
         throw new NotFoundException("Product not found");
       }
-      await this.prisma.productItem.update({
+      if (product.quantity == 1) {
+        return await this.prisma.productItem.findUnique({where:{id}});
+      }
+      return await this.prisma.productItem.update({
         where:{id},
         data:{
           quantity:{decrement:1}
         }
       });
-      return {message:`Successfully decremented product ${id} to cart of user:${userId}`};
       }
-  async
-  findOne(id: number) {
-    return `This action returns a #${id} cart`;
-  }
+  // async
+  // findOne(id: number) {
+  //   return `This action returns a #${id} cart`;
+  // }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return `This action updates a #${id} cart`;
-  }
+  // update(id: number, updateCartDto: UpdateCartDto) {
+  //   return `This action updates a #${id} cart`;
+  // }
 
   async remove(deleteCarDto:DeleteCarDto,userId:number) {
     // Removed many product from productID list
-    const deletedProducts = await this.prisma.productItem.deleteMany({where:{userId:userId,productId:{in:deleteCarDto.products}}});
-    return deletedProducts;
-  }
+    deleteCarDto.products = deleteCarDto.products.map(id => +id);
+    const deletedProducts = await this.prisma.productItem.deleteMany({where:{id:{in:deleteCarDto.products}}});
+    return deletedProducts; }
 }
