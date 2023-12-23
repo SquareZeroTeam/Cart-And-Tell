@@ -1,8 +1,6 @@
 <script setup lang="ts">
     import { ref, reactive } from 'vue';
-    import vSelect from "vue-select";
     import "vue-select/dist/vue-select.css";
-    import VueDatePicker from "@vuepic/vue-datepicker";
     import "@vuepic/vue-datepicker/dist/main.css";
     import {useFileDialog, useDropZone} from '@vueuse/core';
     
@@ -59,7 +57,7 @@
     });
     onChange2((files2) => [
         formData.proofOfAuthenticity = files2![0]
-    ])
+    ]);
 
     const dropZoneRef = ref<HTMLDivElement>()
     function onDrop(files3: File[] | null) {
@@ -96,8 +94,10 @@
         { label: "Exclusive Distributor", value: "ExclusiveDistributor" },
         { label: "Non-Exclusive Distributor", value: "NonExclusiveDistributor" },
     ]);
-
+    console.log(userObj)
     const submitForm = async () => {
+        console.log("TEST")
+        
         let isError = false;
         console.log(formData);
         const FData = new FormData();

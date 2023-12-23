@@ -14,7 +14,8 @@
     function modalToggle() {
         isModalVisible.value = !isModalVisible.value;
     }
-
+    console.log(merchant)
+    console.log(`${API}/merchant/${userObj.merchant!.id}`)
     async function notify() {
         
         let isError = false;
@@ -22,7 +23,7 @@
         const formData = new FormData();
         formData.append('isNotified', 'false');
         
-        const data = await $fetch<{message:string}>(`${API}/merchant/${userObj.merchant.id}`, {
+        const data = await $fetch<{message:string}>(`${API}/merchant/${userObj.merchant!.id}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': `Bearer ${token.value}`
