@@ -50,7 +50,7 @@ const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
                                 <p class="text-white text-center ">{{ item.text }}</p>
                             </button>
                         </NuxtLink> -->
-            <NuxtLink
+                        <NuxtLink
                 v-for="category in categories"
                 :key="category.id"
                 :to="`/merchants?category=${encodeURIComponent(category.name)}`"

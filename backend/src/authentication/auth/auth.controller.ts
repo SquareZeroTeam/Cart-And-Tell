@@ -6,23 +6,24 @@ import { IsAdminGuard } from 'src/guards/is-admin.guard';
 import { IsAccountStatusActiveGuard } from 'src/guards/is-account-status-active.guard';
 import { PrismaService } from 'src/db/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
+import { IsEmailVerifiedGuard } from 'src/guards/is-email-verified.guard';
 
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService,private readonly prisma:PrismaService,private readonly userService:UserService) {}
+    constructor(private authService: AuthService, private readonly prisma: PrismaService, private readonly userService: UserService) { }
     @Post('login')
-    @UseGuards(LocalAuthGuard)
-    login(@Request() req):any {
+    @UseGuards(LocalAuthGuard, IsEmailVerifiedGuard)
+    login(@Request() req): any {
         return this.authService.login(req.user);
     }
     @Get('validate')
-    @UseGuards(JwtAuthGuard,IsAccountStatusActiveGuard)
-    async protected(@Request() req):Promise<any> {
+    @UseGuards(JwtAuthGuard, IsAccountStatusActiveGuard)
+    async protected(@Request() req): Promise<any> {
         return req.user;
     }
     @Get('validateAsAdmin')
-    @UseGuards(JwtAuthGuard,IsAdminGuard)
-    protectedAdmin(@Request() req):any {
+    @UseGuards(JwtAuthGuard, IsAdminGuard)
+    protectedAdmin(@Request() req): any {
         return req.user;
     }
 }
