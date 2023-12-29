@@ -37,7 +37,7 @@ import { OcbcModule } from './microservices/ocbc/ocbc.module';
         strict: false,
       },
     },
-  }), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule, SupabaseModule, CategoryModule, MessagesModule, LivestreamsModule, VerifyEmailModule, OcbcModule],
+  }), UserModule, AuthModule,/* PaymongoModule,*/ MerchantModule, ProductsModule, PrismaModule, SupabaseModule, CategoryModule, MessagesModule, LivestreamsModule, VerifyEmailModule, OcbcModule],
   controllers: [AppController],
   providers: [AppService, NestMailerService],
 })

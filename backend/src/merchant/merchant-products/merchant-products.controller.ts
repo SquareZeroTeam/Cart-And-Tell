@@ -6,27 +6,30 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/authentication/auth/jwt.auth.guard';
 import { IsMerchantSelfOrAdminProductsGuard } from 'src/guards/is-merchant-self-or-admin-products.guard';
 import { IsMerchantVerifiedOrAdmin } from 'src/guards/is-merchant-verified-or-admin.guards';
+import { IsEmailVerifiedGuard } from 'src/guards/is-email-verified.guard';
 
 @Controller('merchant/:merchantId/products')
 export class MerchantProductsController {
-  constructor(private readonly merchantProductsService: MerchantProductsService) {}
+  constructor(private readonly merchantProductsService: MerchantProductsService) { }
 
   @Post('')
   @UseInterceptors(FileInterceptor('image'))
-  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard,IsMerchantVerifiedOrAdmin)
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsMerchantSelfOrAdminProductsGuard, IsMerchantVerifiedOrAdmin)
   create(
     @Param('merchantId') id: string,
     @UploadedFile(new ParseFilePipe({
       validators: [
-        new MaxFileSizeValidator({ maxSize: 1024*1024*5 ,message(maxSize) {
-          return `Maximum file size is ${maxSize/1024/1024}MB`;
-        },}),
-        new FileTypeValidator({ fileType: 'image/*'}),
+        new MaxFileSizeValidator({
+          maxSize: 1024 * 1024 * 5, message(maxSize) {
+            return `Maximum file size is ${maxSize / 1024 / 1024}MB`;
+          },
+        }),
+        new FileTypeValidator({ fileType: 'image/*' }),
       ],
-    }),) image:Express.Multer.File,
-    @Body(new ValidationPipe()) createMerchantProductDto:CreateMerchantProductDto) {
-    return this.merchantProductsService.create(+id,image,createMerchantProductDto);
-  } 
+    }),) image: Express.Multer.File,
+    @Body(new ValidationPipe()) createMerchantProductDto: CreateMerchantProductDto) {
+    return this.merchantProductsService.create(+id, image, createMerchantProductDto);
+  }
 
   @Get()
   findAll(@Param('merchantId') merchantId: string) {
@@ -34,34 +37,36 @@ export class MerchantProductsController {
   }
 
   @Get(':id')
-  findOne(@Param('merchantId') merchantId: string,@Param('id') id: string) {
-    return this.merchantProductsService.findOne(+merchantId,+id);
+  findOne(@Param('merchantId') merchantId: string, @Param('id') id: string) {
+    return this.merchantProductsService.findOne(+merchantId, +id);
   }
 
   @Patch(':id')
-  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard,IsMerchantVerifiedOrAdmin)
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsMerchantSelfOrAdminProductsGuard, IsMerchantVerifiedOrAdmin)
   @UseInterceptors(FileInterceptor('image'))
   update(
     @Param('merchantId') merchantId: string,
     @Param('id') id: string,
     @UploadedFile(new ParseFilePipe({
-      fileIsRequired:false,
+      fileIsRequired: false,
       validators: [
-        new MaxFileSizeValidator({ maxSize: 1024*1024*5 ,message(maxSize) {
-          return `Maximum file size is ${maxSize/1024/1024}MB`;
-        },}),
-        new FileTypeValidator({ fileType: 'image/*'}),
+        new MaxFileSizeValidator({
+          maxSize: 1024 * 1024 * 5, message(maxSize) {
+            return `Maximum file size is ${maxSize / 1024 / 1024}MB`;
+          },
+        }),
+        new FileTypeValidator({ fileType: 'image/*' }),
       ],
-    }),) image:Express.Multer.File,
+    }),) image: Express.Multer.File,
     @Body() updateMerchantProductDto: UpdateMerchantProductDto) {
-    return this.merchantProductsService.update(+merchantId,+id, image,updateMerchantProductDto);
+    return this.merchantProductsService.update(+merchantId, +id, image, updateMerchantProductDto);
   }
 
   @Delete(':id')
   @UseInterceptors(FileInterceptor('image'))
-  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminProductsGuard,IsMerchantVerifiedOrAdmin)
-  remove(@Param('merchantId') merchantId: string,@Param('id') id: string) {
-    return this.merchantProductsService.remove(+merchantId,+id);
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsMerchantSelfOrAdminProductsGuard, IsMerchantVerifiedOrAdmin)
+  remove(@Param('merchantId') merchantId: string, @Param('id') id: string) {
+    return this.merchantProductsService.remove(+merchantId, +id);
   }
 }
 

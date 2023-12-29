@@ -3,6 +3,13 @@ import { OcbcService } from './ocbc.service';
 import { CreateOcbcDto } from './dto/create-ocbc.dto';
 import { UpdateOcbcDto } from './dto/update-ocbc.dto';
 
+// For NRIC Testing refer to this website
+// https://samliew.com/nric-generator
+
+// OCBC API USED:
+// PayNow API
+// PayNow API Enquiry - NRIC Verification and PayNow User Verification
+
 @Controller('ocbc')
 export class OcbcController {
   constructor(private readonly ocbcService: OcbcService) { }
