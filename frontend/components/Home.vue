@@ -50,16 +50,23 @@ const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
                                 <p class="text-white text-center ">{{ item.text }}</p>
                             </button>
                         </NuxtLink> -->
-            <NuxtLink
-              v-for="category in categories"
-              :key="category.id"
-              :to="`/merchants?category=${encodeURIComponent(category.name)}`"
+                        <NuxtLink
+                v-for="category in categories"
+                :key="category.id"
+                :to="`/merchants?category=${encodeURIComponent(category.name)}`"
+                class="mb-4 group"
             >
-              <button class="flex flex-col items-center max-w-[80px]">
-                <!-- <div class="w-20 h-16 bg-white mb-2"></div> -->
-                <img class="bg-white h-20 w-20" :src="category.icon" alt="" />
-                <p class="text-white text-center">{{ category.name }}</p>
-              </button>
+                <button class="flex flex-col items-center max-w-[80px] group">
+                    <img
+                        class="bg-white h-20 w-20 object-contain transition-all duration-300 group-hover:blur-sm rounded-md"
+                        :src="category.icon"
+                    />
+                    <p
+                        class="text-white text-center text-sm group-hover:transition-all group-hover:duration-10 group-hover:bg-blue-500 group-hover:p-4 group-hover:rounded-md group-hover:absolute group-hover:mt-16 overflow-hidden line-clamp-2"
+                    >
+                        {{ category.name }}
+                    </p>
+                </button>
             </NuxtLink>
           </div>
         </div>
