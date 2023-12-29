@@ -62,7 +62,7 @@ const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
                         :src="category.icon"
                     />
                     <p
-                        class="text-whitetext-center text-sm group-hover:transition-all group-hover:duration-10 group-hover:bg-[#6DB7FB] group-hover:p-4 group-hover:rounded-md group-hover:absolute group-hover:mt-16 overflow-hidden line-clamp-2"
+                        class="text-white text-center text-sm group-hover:transition-all group-hover:duration-10 group-hover:bg-[#6DB7FB] group-hover:p-4 group-hover:rounded-md group-hover:absolute group-hover:mt-16 overflow-hidden line-clamp-2"
                     >
                         {{ category.name }}
                     </p>
