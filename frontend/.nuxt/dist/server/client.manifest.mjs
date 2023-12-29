@@ -1,0 +1,1 @@
+export { default } from "file:///C:/Users/Jhon%20Dave%20Bohol/Desktop/SquareZero/Cart-And-Tell/Cart-And-Tell/frontend/node_modules/@nuxt/vite-builder/dist/runtime/client.manifest.mjs"
