@@ -29,11 +29,11 @@ const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
   <div class="w-full bg-white lg:mr-12">
     <div class="flex flex-col gap-4">
       <div class="bg-[#282F7A] flex">
-        <p class="text-white ml-6 text-xl absolute mt-2 hidden sm:block">
-          Introduction
-        </p>
         <div class="mx-auto">
-          <img class="w-96 h-auto" src="/intro.jpg" alt="Introduction Image" />
+          <video class="w-[64rem] h-auto" controls autoplay muted>
+            <source src="/intro.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
       <div class="bg-[#282F7A]">
@@ -62,7 +62,7 @@ const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
                         :src="category.icon"
                     />
                     <p
-                        class="text-white text-center text-sm group-hover:transition-all group-hover:duration-10 group-hover:bg-blue-500 group-hover:p-4 group-hover:rounded-md group-hover:absolute group-hover:mt-16 overflow-hidden line-clamp-2"
+                        class="text-white text-center text-sm group-hover:transition-all group-hover:duration-10 group-hover:bg-[#6DB7FB] group-hover:p-4 group-hover:rounded-md group-hover:absolute group-hover:mt-16 overflow-hidden line-clamp-2"
                     >
                         {{ category.name }}
                     </p>
