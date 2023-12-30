@@ -89,11 +89,11 @@ model Merchant {
   userId Int @unique
   isVerified Boolean @default(false)
   hasPaid Boolean @default(false)
-  bankDetals MerchantBankDetails?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   livestream LiveStream[]
   status merchantStatus @default(Pending)
+  bankDetals MerchantBankDetails?
 }
 enum MerchantRelation {
   MerchantOwner
@@ -102,7 +102,9 @@ enum MerchantRelation {
 }
 model MerchantBankDetails {
   id Int @id @default(autoincrement())
-  mobileNumber Int? @unique
+  isCorporate Boolean @default(false)
+  uen String? @unique
+  mobileNumber String? @unique
   nric String? @unique
   merchant Merchant @relation(fields: [merchantId], references: [id])
   merchantId Int @unique
