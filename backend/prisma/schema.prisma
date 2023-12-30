@@ -161,3 +161,18 @@ model LiveStream {
   Messages Message[]
   viewers ClientConnected[]
 }
+enum CMSType {
+  AboutUs
+  ContactUs
+  Policy
+  Certifications
+  Ratings
+}
+
+model CMS {
+  id Int @id @default(autoincrement())
+  type CMSType @unique
+  html String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+}

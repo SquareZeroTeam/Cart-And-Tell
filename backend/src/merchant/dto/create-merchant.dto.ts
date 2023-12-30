@@ -7,22 +7,22 @@ enum MerchantRelation {
     NonExclusiveDistributor = 'NonExclusiveDistributor'
 }
 export class CreateMerchantDto {
-    @Length(4,32)
+    @Length(4, 32)
     name: string;
     @IsUrl()
     website: string;
     @Length(16, 256)
-    description:string;
+    description: string;
 
-    
-    categoryId:number;
+
+    categoryId: number;
     @IsEnum(MerchantRelation)
-    merchantRelationship:MerchantRelation;
+    merchantRelationship: MerchantRelation;
     @IsDateString()
-    merchantStartValidity:Date;
+    merchantStartValidity: Date;
     @IsDateString()
-    merchantEndValidity:Date;
-    userId:number;
+    merchantEndValidity: Date;
+    userId: number;
 }
 
 // model Merchant {
