@@ -7,11 +7,11 @@ import { IsAdminGuard } from 'src/guards/is-admin.guard';
 import Prisma from '@prisma/client';
 
 @Controller('cms')
-@UseGuards(JwtAuthGuard, IsAdminGuard)
 export class CmsController {
   constructor(private readonly cmsService: CmsService) { }
 
   @Post()
+  @UseGuards(JwtAuthGuard, IsAdminGuard)
   create(@Body() createCmDto: CreateCmsDto) {
     return this.cmsService.create(createCmDto);
   }
@@ -27,6 +27,7 @@ export class CmsController {
   }
 
   @Patch(':type')
+  @UseGuards(JwtAuthGuard, IsAdminGuard)
   update(@Param('type') type: Prisma.$Enums.CMSType, @Body() updateCmDto: UpdateCmsDto) {
     return this.cmsService.update(type, updateCmDto);
   }
