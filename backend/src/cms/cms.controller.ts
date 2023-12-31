@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, ValidationPipe } from '@nestjs/common';
 import { CmsService } from './cms.service';
 import { CreateCmsDto } from './dto/create-cms.dto';
 import { UpdateCmsDto } from './dto/update-cms.dto';
@@ -12,7 +12,7 @@ export class CmsController {
 
   @Post()
   @UseGuards(JwtAuthGuard, IsAdminGuard)
-  create(@Body() createCmDto: CreateCmsDto) {
+  create(@Body(new ValidationPipe()) createCmDto: CreateCmsDto) {
     return this.cmsService.create(createCmDto);
   }
 
@@ -28,7 +28,7 @@ export class CmsController {
 
   @Patch(':type')
   @UseGuards(JwtAuthGuard, IsAdminGuard)
-  update(@Param('type') type: Prisma.$Enums.CMSType, @Body() updateCmDto: UpdateCmsDto) {
+  update(@Param('type') type: Prisma.$Enums.CMSType, @Body(new ValidationPipe()) updateCmDto: UpdateCmsDto) {
     return this.cmsService.update(type, updateCmDto);
   }
 

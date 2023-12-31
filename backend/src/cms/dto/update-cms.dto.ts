@@ -1,11 +1,10 @@
 import Prisma from '@prisma/client';
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength, minLength } from 'class-validator';
 
 export class UpdateCmsDto {
     @IsOptional()
     type: Prisma.$Enums.CMSType;
     @IsOptional()
-    @IsString()
+    @MinLength(1)
     html: string;
-
 }
