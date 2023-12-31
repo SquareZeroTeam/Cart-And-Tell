@@ -1,29 +1,8 @@
 <script setup>
 const API = useRuntimeConfig().public.API;
-const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
-//console.log(categories);
-// const categories = [
-//   'Electronics',
-//   'Clothing',
-//   'Home & Garden',
-//   'Books & Literature',
-//   'Beauty & Personal Care',
-//   'Sports & Outdoors',
-//   'Toys & Games',
-//   'Automotive',
-//   'Health & Wellness',
-//   'Jewelry',
-//   'Food & Grocery',
-//   'Music & Instruments',
-//   'Pets',
-//   'Art & Collectibles',
-//   'Office & School Supplies',
-//   'Travel & Luggage',
-// ];
-// const items = ref(categories.value.map((category, index) => ({
-//   link: `/category/${index + 1}`,
-//   text: category,
-// })));
+const { data: categories, pending } = await useFetch(`${API}/category`, {
+  lazy: true,
+});
 </script>
 <template>
   <div class="w-full bg-white lg:mr-12">
@@ -44,12 +23,6 @@ const { data: categories } = await useFetch(`${API}/category`, { lazy: true });
         </div>
         <div class="mx-4 sm:mx-8 md:mx-12 lg:mx-16 xl:mx-40">
           <div class="gap-4 flex flex-wrap justify-center">
-            <!-- <NuxtLink v-for="(item, index) in items" :key="index" to="/merchants">
-                            <button class="flex flex-col items-center max-w-[80px] ">
-                                <div class="w-20 h-16 bg-white mb-2"></div>
-                                <p class="text-white text-center ">{{ item.text }}</p>
-                            </button>
-                        </NuxtLink> -->
             <NuxtLink
               v-for="category in categories"
               :key="category.id"

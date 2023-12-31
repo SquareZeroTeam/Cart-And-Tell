@@ -34,7 +34,7 @@ const { data, pending, error } = await useFetch<{ html: string }>(
           <div class="bg-gray-400 h-6 rounded-full mb-4 w-[70%] ml-auto"></div>
           <div class="bg-gray-400 h-6 rounded-full mb-4 w-[60%]"></div>
         </div>
-        <div v-if="!error" v-html="data!.html"></div>
+        <div v-if="!error && !pending" v-html="data!.html"></div>
       </div>
     </div>
   </div>
