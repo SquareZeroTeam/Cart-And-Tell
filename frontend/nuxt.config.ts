@@ -23,6 +23,9 @@ export default defineNuxtConfig({
       ],
     }
   },
+  tailwindcss: {
+    configPath: '~/tailwind.config.js',
+  },
   modules: [
     '@nuxtjs/tailwindcss',
     'nuxt-swiper',
