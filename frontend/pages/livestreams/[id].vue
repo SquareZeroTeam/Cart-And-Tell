@@ -6,6 +6,7 @@ const userObj = useUserObj().value;
 const API = useRuntimeConfig().public.API;
 const { id } = useRoute().params;
 const videoGrid = ref<HTMLVideoElement>();
+const onLive = ref(false);
 const peerActive = ref(false);
 // @ts-ignore
 const peer = new Peer(undefined, {
@@ -89,9 +90,10 @@ if (
       livestream.value?.merchant.id == userObj.merchant!.id
     ) {
       videoGrid.value!.srcObject = stream.value || null;
-      videoGrid.value.muted = true;
+      videoGrid.value.muted = true; 
       peer.on("open", (streamerId) => {
         peerActive.value = true;
+        onLive.value = true;
         socket.emit("join", { userId: userObj.id, roomId: id }, () => {});
         socket.emit("findAllMessages", { roomId: id }, (messages: any) => {
           messagesArray.value = messages;
@@ -138,6 +140,7 @@ if (
 onBeforeMount(() => {
   if (!(livestream.value?.merchant.id == userObj.merchant!.id)) {
     peer.on("open", (clientId) => {
+      peerActive.value = true;
       socket.emit("join", { userId: userObj.id, roomId: id }, () => {});
       socket.emit("joinLivestream", { roomId: id, clientId });
       socket.emit("findAllMessages", { roomId: id }, (messages: any) => {
@@ -157,7 +160,9 @@ onBeforeMount(() => {
     peer.on("call", (call) => {
       call.answer();
       call.on("stream", (stream) => {
+        onLive.value = true;
         if (!stream) {
+          onLive.value = false
           call.close();
         }
         if (videoGrid.value) {
@@ -167,6 +172,7 @@ onBeforeMount(() => {
       });
       call.on("close", () => {
         if (videoGrid.value) {
+          onLive.value = false;
           videoGrid.value!.srcObject = null;
         }
       });
@@ -229,12 +235,21 @@ function Delete() {
             <div
               class="w-full h-full border-2 rounded-xl overflow-hidden border-transparent"
             >
-              <div class="bg-white h-full w-full" id="videoGrid">
+              <div class="bg-white h-full w-full relative" id="videoGrid" v-if="peerActive && onLive || mediaStream">
+                <div class="bg-[rgb(0,0,0,0.5)] absolute flex justify-center items-center h-full w-full" v-if="mediaStream && !onLive">
+                    <p class="text-white font-bold text-xl">Connecting<span class="animate-ping font-bold text-7xl" v-for="i in Array.from({length:3})">.</span></p>
+                </div>
                 <video
                   ref="videoGrid"
                   autoplay
                   class="h-full w-full object-cover"
                 />
+              </div>
+
+              <div class="bg-gray-300 h-full w-full animate-pulse" v-if="!peerActive" id="videoGrid">
+              </div>
+              <div class="bg-gray-600 h-full w-full flex justify-center items-center" v-if="peerActive && !onLive">
+                <p class="text-white font-bold text-2xl">The merchant is currently out from cam</p>
               </div>
               <!-- <img src="/samplelivestream.jpg" class="h-full w-full object-cover" alt=""> -->
             </div>
@@ -272,7 +287,7 @@ function Delete() {
                         </div> -->
 
             <div class="p-4 mt-4 overflow-y-scroll h-full">
-              <div v-for="message in messagesArray">
+              <div v-if="peerActive" v-for="message in messagesArray">
                 <div v-if="message.user.id != userObj.id" class="flex flex-col">
                   <p class="font-bold">{{ message.user.email }}</p>
                   <div class="flex">
@@ -288,6 +303,14 @@ function Delete() {
                       {{ message.text }}
                     </p>
                   </div>
+                </div>
+              </div>
+              <div v-else>
+                <div v-for="i in Array.from({length:2})">
+                  <div class="h-5 w-60 bg-gray-300 rounded-full mb-4"></div>
+                  <div class="h-12 w-48 bg-gray-300 rounded-full mb-4"></div>
+                  <div class="h-5 w-60 bg-gray-300 rounded-full mb-4 mt-6 ml-auto"></div>
+                  <div class="h-12 w-48 bg-gray-300 rounded-full mb-4 ml-auto"></div>
                 </div>
               </div>
             </div>
