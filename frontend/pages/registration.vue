@@ -98,7 +98,6 @@
 
     const submitForm = async () => {
         let isError = false;
-        console.log(formData);
         const FData = new FormData();
         FData.append("name", formData.name);
         FData.append("website", formData.website);

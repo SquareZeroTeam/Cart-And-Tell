@@ -67,7 +67,6 @@ if (
   userObj.isMerchant &&
   userObj.merchant?.id == livestream.value?.merchant.id
 ) {
-  console.log("this is called");
   var { videoInputs: cameras, audioInputs: microphones } = useDevicesList({
     requestPermissions: true,
   });
@@ -92,7 +91,6 @@ if (
       videoGrid.value!.srcObject = stream.value || null;
       videoGrid.value.muted = true;
       peer.on("open", (streamerId) => {
-        console.log("Peer is ready");
         peerActive.value = true;
         socket.emit("join", { userId: userObj.id, roomId: id }, () => {});
         socket.emit("findAllMessages", { roomId: id }, (messages: any) => {
@@ -114,8 +112,6 @@ if (
               }
             ]
           ) => {
-            console.log(viewers);
-            console.log(mediaStream.value);
             viewers.forEach((viewer) => {
               peer.call(viewer.peerId, mediaStream.value as MediaStream);
             });
@@ -124,12 +120,10 @@ if (
         socket.on(
           "connectlivestream",
           (data: { clientId: string; roomId: string }) => {
-            console.log("user conected");
             peer.call(data.clientId, mediaStream.value as MediaStream);
           }
         );
         socket.on("endLivestreamDisconnect", async () => {
-          console.log("stream ended");
           stop();
           socket.disconnect();
           peer.disconnect();
@@ -153,7 +147,6 @@ onBeforeMount(() => {
         });
       });
       socket.on("endLivestreamDisconnect", async () => {
-        console.log("stream ended"); // Might install modal
         stop();
         socket.disconnect();
         peer.disconnect();
@@ -207,7 +200,6 @@ function createMessage() {
   message.value = "";
 }
 function Delete() {
-  console.log("This is called");
   if (peerActive.value) {
     peerActive.value = false;
     socket.emit("endLivestream", { roomId: id }, () => {});

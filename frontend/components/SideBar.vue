@@ -1,6 +1,5 @@
 <script setup lang="ts">
 const userObj = useUserObj().value;
-//console.log(userObj);
 async function logout() {
   userObj.email = "";
   userObj.id = NaN;

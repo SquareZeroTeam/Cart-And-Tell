@@ -45,7 +45,6 @@ async function handler() {
     });
     if (response) {
       const userObj = useUserObj();
-      console.log(response);
       userObj.value = { ...response, loggedIn: true };
     }
     await navigateTo("/");
@@ -138,7 +137,7 @@ async function handler() {
         </ul>
       </div>
 
-      <p class="text-md">
+      <p class="text-md text-center">
         Want to become part of part of Cart & Tell?
         <NuxtLink to="/signup" class="font-bold text-[#282F7A]">
           Register Now!</NuxtLink
