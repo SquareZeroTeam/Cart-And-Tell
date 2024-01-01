@@ -16,7 +16,7 @@ const { data, pending, error } = await useFetch<{ html: string }>(
       </div>
       <div class="flex flex-col gap-4 w-full mr-20">
         <div class="bg-[#282F7A]">
-          <p class="text-white m-4">About Us</p>
+          <p class="text-white m-4 font-bold">About Us</p>
         </div>
         <div
           v-if="pending"

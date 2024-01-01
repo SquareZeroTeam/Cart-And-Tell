@@ -16,7 +16,7 @@ const { data, pending, error } = await useFetch<{ html: string }>(
       </div>
       <div class="flex flex-col gap-4 w-full mr-20">
         <div class="bg-[#282F7A]">
-          <p class="text-white m-4">Contact Us</p>
+          <p class="text-white m-4 font-bold">Contact Us</p>
         </div>
         <div
           class="w-full h-full animate-pulse bg-gray-300 p-4 rounded-lg"

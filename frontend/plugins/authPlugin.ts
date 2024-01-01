@@ -1,19 +1,18 @@
-export default defineNuxtPlugin( async () => {
+export default defineNuxtPlugin(async () => {
     const token = useCookie('token');
     const API = useRuntimeConfig().public.API;
     if (token.value === undefined) {
         // return await navigateTo('/login'); 
     }
     else {
-        console.log('refresh token')
-            // Verify token
+        // Verify token
         let isInvalidToken = null;
-        const result:any = await $fetch<{
-            email:string,
-            id:number,
+        const result: any = await $fetch<{
+            email: string,
+            id: number,
             cartCount: number,
-        }>(`${API}/auth/validate`,{
-            headers:{
+        }>(`${API}/auth/validate`, {
+            headers: {
                 Authorization: `Bearer ${token.value}`,
                 ContentType: 'application/json',
             },
@@ -28,7 +27,7 @@ export default defineNuxtPlugin( async () => {
         }
         if (result) {
             const userObj = useUserObj();
-            userObj.value = {...result,loggedIn:true};
+            userObj.value = { ...result, loggedIn: true };
         }
     }
 });
