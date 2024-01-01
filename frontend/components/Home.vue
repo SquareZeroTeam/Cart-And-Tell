@@ -43,7 +43,7 @@ const { data: categories, pending } = await useFetch(`${API}/category`, {
           <SlidePartnerMerchant />
         </div>
       </div>
-      <div class="bg-[#282F7A]">
+      <div class="bg-[#282F7A] mb-4">
         <div class="flex justify-center">
           <p class="text-white m-2 text-2xl">Cart & Tell Market Place</p>
         </div>
