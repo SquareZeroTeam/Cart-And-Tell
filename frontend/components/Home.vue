@@ -1,10 +1,10 @@
 <script setup>
 const API = useRuntimeConfig().public.API;
-const { data: categories, pending } = await useFetch(`${API}/category`, {
+const { data: categories } = await useFetch(`${API}/category`, {
   lazy: true,
 });
-const {data:cartAndTellMerchant} = await useFetch(`${API}/merchant/cartandtell`, {
-  // lazy: true,
+const {data:cartAndTellMerchant,pending} = await useFetch(`${API}/merchant/cartandtell`, {
+  lazy: true,
 });
 console.log(cartAndTellMerchant.value)
 </script>
@@ -81,7 +81,7 @@ console.log(cartAndTellMerchant.value)
           }"
             :class="['w-full', 'h-[150px]','mb-4']"
           >
-            <SwiperSlide  v-for="product in cartAndTellMerchant.products" :key="product.id" :class="['mx-4','h-[10px]']">
+            <SwiperSlide v-if="!pending" v-for="product in cartAndTellMerchant.products" :key="product.id" :class="['mx-4','h-[10px]']">
               <NuxtLink :to="`/products/${product.id}`">
                 <img class="object-cover w-full h-full" :src="product.image"/>
               </NuxtLink>
