@@ -1,22 +1,20 @@
 <script setup lang="ts">
-const slides = ref(
-  Array.from({ length: 15 }, () => {
-    return { bg: " #FFFF" };
-  })
-);
+const API = useRuntimeConfig().public.API;
+const {data} = await useFetch<[{id:number,image:string}]>(`${API}/merchant/verified`, {
+  lazy:true
+})
 </script>
 
 <template>
   <div class="hidden lg:block mb-4">
     <Swiper
       :modules="[SwiperAutoplay, SwiperEffectCreative]"
-      :slides-per-view="5"
+      :slides-per-view="4"
       :spaceBetween="30"
       :loop="true"
-      :effect="''"
       :autoplay="{
         delay: 2500,
-        disableOnInteraction: true,
+        disableOnInteraction: false,
       }"
       :creative-effect="{
         prev: {
@@ -32,9 +30,8 @@ const slides = ref(
       />
 
       <SwiperSlide
-        v-for="(slide, any) in slides"
-        :key="any"
-        :style="`background-color: ${slide.bg}`"
+        v-for="merchant in data"
+        :key="merchant.id"
         :class="[
           'swiper-cards',
           'rounded-sm',
@@ -43,7 +40,9 @@ const slides = ref(
           'border-[#282F7A]',
         ]"
       >
-        {{ any }}
+      <NuxtLink :to="`/merchants/${merchant.id}`">
+        <img class="object-cover w-full h-full" :src="merchant.image"/>
+      </NuxtLink>
       </SwiperSlide>
 
       <SwiperNext

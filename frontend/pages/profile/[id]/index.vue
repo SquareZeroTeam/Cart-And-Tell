@@ -27,7 +27,7 @@
                 <div class="flex flex-col gap-4">  
                     <div class="bg-[#282F7A] flex  items-center flex-1 w-full">
                         <div class="m-6 flex w-full">
-                            <img class="w-48 h-auto rounded-md" :src="merchant.image" alt="Introduction Image">
+                            <img class="w-48 h-48 object-fit overflow-hidden rounded-md" :src="merchant.image" alt="Merchant Image">
                             <div class="flex justify-between items-start flex-1">
                                 <div>
                                     <p class="text-white ml-6 text-3xl font-bold  mt-2">{{merchant.name}}</p>

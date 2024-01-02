@@ -3,6 +3,10 @@ const API = useRuntimeConfig().public.API;
 const { data: categories, pending } = await useFetch(`${API}/category`, {
   lazy: true,
 });
+const {data:cartAndTellMerchant} = await useFetch(`${API}/merchant/cartandtell`, {
+  // lazy: true,
+});
+console.log(cartAndTellMerchant.value)
 </script>
 <template>
   <div class="w-full bg-white lg:mr-12">
@@ -52,18 +56,41 @@ const { data: categories, pending } = await useFetch(`${API}/category`, {
           <SlidePartnerMerchant />
         </div>
       </div>
-      <div class="bg-[#282F7A] mb-4">
+      <div class="bg-[#282F7A] mb-24 px-4">
         <div class="flex justify-center">
           <p class="text-white m-2 text-2xl font-bold">
             Cart & Tell Market Place
           </p>
         </div>
-        <div class="flex gap-4 m-6 justify-center items-center">
+          <Swiper
+          :modules="[SwiperAutoplay, SwiperEffectCreative]"
+          :slides-per-view="4"
+          :spaceBetween="30"
+          :loop="true"
+          :autoplay="{
+            delay: 2500,
+            disableOnInteraction: false,
+          }"
+          :creative-effect="{
+            prev: {
+              translate: ['100%', 0, -1],
+            },
+            next: {
+              translate: ['100%', 0, 0],
+            },
+          }"
+            :class="['w-full', 'h-[150px]','mb-4']"
+          >
+            <SwiperSlide  v-for="product in cartAndTellMerchant.products" :key="product.id" :class="['mx-4','h-[10px]']">
+              <NuxtLink :to="`/products/${product.id}`">
+                <img class="object-cover w-full h-full" :src="product.image"/>
+              </NuxtLink>
+            </SwiperSlide>
+          </Swiper>
+          <!-- <div class="bg-white h-32 w-64"></div>
           <div class="bg-white h-32 w-64"></div>
           <div class="bg-white h-32 w-64"></div>
-          <div class="bg-white h-32 w-64"></div>
-          <div class="bg-white h-32 w-64"></div>
-        </div>
+          <div class="bg-white h-32 w-64"></div> -->
       </div>
     </div>
   </div>
@@ -78,4 +105,10 @@ const { data: categories, pending } = await useFetch(`${API}/category`, {
 button:hover > .hidden {
   display: block;
 }
+/* .swiper {
+  width: 100%;
+  height: 100%;
+  gap:4px;
+} */
+
 </style>
