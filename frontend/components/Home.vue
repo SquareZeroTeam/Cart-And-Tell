@@ -6,7 +6,6 @@ const { data: categories } = await useFetch(`${API}/category`, {
 const {data:cartAndTellMerchant,pending} = await useFetch(`${API}/merchant/cartandtell`, {
   lazy: true,
 });
-console.log(cartAndTellMerchant.value)
 </script>
 <template>
   <div class="w-full bg-white lg:mr-12">
