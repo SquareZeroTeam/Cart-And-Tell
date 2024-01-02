@@ -9,43 +9,46 @@ import { IsMerchantSelfOrAdminGuard } from 'src/guards/is-merchant-self-or-admin
 import { JwtService } from 'src/authentication/jwt/jwt.service';
 import { IsAdminGuard } from 'src/guards/is-admin.guard';
 import { merchantStatus } from '@prisma/client';
+import { IsEmailVerifiedGuard } from 'src/guards/is-email-verified.guard';
 
 @Controller('merchant')
 export class MerchantController {
-  constructor(private readonly merchantService: MerchantService,private readonly jwt:JwtService) {}
+  constructor(private readonly merchantService: MerchantService, private readonly jwt: JwtService) { }
 
   @Post()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileFieldsInterceptor([
-    {name:'image',maxCount:1},
-    {name:'proofOfAuthenticity',maxCount:1}
+    { name: 'image', maxCount: 1 },
+    { name: 'proofOfAuthenticity', maxCount: 1 }
   ]))
   create(
     @Body(new ValidationPipe()) createMerchantDto: CreateMerchantDto,
     @UploadedFiles(new ParseFilePipe({
-      validators:[new FilesValidator({filesSchema:[
-        {fieldName:'image',fileType:'image/*',maxSize:1024*1024*5},
-        {fieldName:'proofOfAuthenticity',fileType:'application/pdf',maxSize:1024*1024*5}
-      ]})]
-    })) files: {[keys:string]:Express.Multer.File},
-    @Headers("Authorization") token:string
+      validators: [new FilesValidator({
+        filesSchema: [
+          { fieldName: 'image', fileType: 'image/*', maxSize: 1024 * 1024 * 5 },
+          { fieldName: 'proofOfAuthenticity', fileType: 'application/pdf', maxSize: 1024 * 1024 * 5 }
+        ]
+      })]
+    })) files: { [keys: string]: Express.Multer.File },
+    @Headers("Authorization") token: string
   ) {
-    return this.merchantService.create(createMerchantDto,files.image[0],files.proofOfAuthenticity[0]);
+    return this.merchantService.create(createMerchantDto, files.image[0], files.proofOfAuthenticity[0]);
   }
   @Get()
-  @UseGuards(JwtAuthGuard,IsAdminGuard)
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsAdminGuard)
   findAll(
-    @Query('status') status:merchantStatus,
+    @Query('status') status: merchantStatus,
   ) {
     return this.merchantService.findAll(status);
   }
   @Get("/verified")
-  findAllVerfied(@Query('category') category:string) {
+  findAllVerfied(@Query('category') category: string) {
     return this.merchantService.findAllVerified(category);
   }
   @Get("/unVerified")
-  @UseGuards(JwtAuthGuard,IsAdminGuard)
-  findAllUnVerfied(@Query('category') category:string) {
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsAdminGuard)
+  findAllUnVerfied(@Query('category') category: string) {
     return this.merchantService.findAllUnVerified(category);
   }
   @Get("/cartandtell")
@@ -57,28 +60,28 @@ export class MerchantController {
     return this.merchantService.findOne(+id);
   }
   @Patch(':id/approve')
-  @UseGuards(JwtAuthGuard,IsAdminGuard)
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsAdminGuard)
   approve(@Param('id') id: string) {
     return this.merchantService.approve(+id);
   }
   @Patch(':id/reject')
-  @UseGuards(JwtAuthGuard,IsAdminGuard)
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsAdminGuard)
   reject(@Param('id') id: string) {
     return this.merchantService.reject(+id);
   }
   @Patch(':id')
-  @UseGuards(JwtAuthGuard,IsMerchantSelfOrAdminGuard)
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsMerchantSelfOrAdminGuard)
   @UseInterceptors(FileFieldsInterceptor([
-    {name:'image',maxCount:1},
-    {name:'proofOfAuthenticity',maxCount:1}
-  ])) 
+    { name: 'image', maxCount: 1 },
+    { name: 'proofOfAuthenticity', maxCount: 1 }
+  ]))
   update(
-    @Param('id') id: string, 
+    @Param('id') id: string,
     @Body(new ValidationPipe()) updateMerchantDto: UpdateMerchantDto,
     @UploadedFiles(
-    ) files:{[keys:string]:Express.Multer.File}
+    ) files: { [keys: string]: Express.Multer.File }
   ) {
-    const maxFileSize = 1024*1024*5 //5mb
+    const maxFileSize = 1024 * 1024 * 5 //5mb
     if (!files.image) {
       files.image = null;
     }
@@ -87,7 +90,7 @@ export class MerchantController {
       if (!pattern.test(files.image[0].mimetype)) {
         throw new BadRequestException("image is not a type of image/*")
       }
-      if ( files.image[0].size > maxFileSize ) {
+      if (files.image[0].size > maxFileSize) {
         throw new BadRequestException("image must be less than " + maxFileSize + " bytes");
       }
       files.image = files.image[0];
@@ -105,12 +108,11 @@ export class MerchantController {
       }
       files.proofOfAuthenticity = files.proofOfAuthenticity[0]
     }
-    return this.merchantService.update(+id, updateMerchantDto,files.image,files.proofOfAuthenticity);
+    return this.merchantService.update(+id, updateMerchantDto, files.image, files.proofOfAuthenticity);
   }
   @Delete(':id')
-  @UseGuards(JwtAuthGuard,IsAdminGuard)
+  @UseGuards(JwtAuthGuard, IsEmailVerifiedGuard, IsAdminGuard)
   remove(@Param('id') id: string) {
     return this.merchantService.remove(+id);
   }
-
 }

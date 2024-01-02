@@ -17,6 +17,9 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
 import { NestMailerService } from './nest-mailer/nest-mailer.service';
 import { VerifyEmailModule } from './verify-email/verify-email.module';
 import { OcbcModule } from './microservices/ocbc/ocbc.module';
+import { CmsModule } from './cms/cms.module';
+import { OcbcbankDetailsModule } from './ocbcbank-details/ocbcbank-details.module';
+import { MerchantBankDetailsModule } from './merchant-bank-details/merchant-bank-details.module';
 @Module({
   imports: [ConfigModule.forRoot(),
   MailerModule.forRoot({
@@ -37,7 +40,7 @@ import { OcbcModule } from './microservices/ocbc/ocbc.module';
         strict: false,
       },
     },
-  }), UserModule, AuthModule, PaymongoModule, MerchantModule, ProductsModule, PrismaModule, SupabaseModule, CategoryModule, MessagesModule, LivestreamsModule, VerifyEmailModule, OcbcModule],
+  }), UserModule, AuthModule,/* PaymongoModule,*/ MerchantModule, ProductsModule, PrismaModule, SupabaseModule, CategoryModule, MessagesModule, LivestreamsModule, VerifyEmailModule, OcbcModule, CmsModule, OcbcbankDetailsModule, MerchantBankDetailsModule],
   controllers: [AppController],
   providers: [AppService, NestMailerService],
 })

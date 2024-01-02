@@ -37,6 +37,7 @@ model User {
   status UserStatus @default(Active)
   superAdmin SuperAdmin?
   admin Admin?
+  transaction CustomerTransaction[]
 }
 model SuperAdmin {
   id Int @id @default(autoincrement())
@@ -89,19 +90,52 @@ model Merchant {
   userId Int @unique
   isVerified Boolean @default(false)
   hasPaid Boolean @default(false)
-  bankDetals MerchantBankDetails?
+  merchantRegistration merchantRegistrationTransaction?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt @default(now())
   livestream LiveStream[]
   status merchantStatus @default(Pending)
+  bankDetals MerchantBankDetails?
+}
+model CustomerTransaction {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int @unique
+  amount Float
+  transactionTime String
+  transaction String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+
 }
 enum MerchantRelation {
   MerchantOwner
   ExclusiveDistributor
   NonExclusiveDistributor
 }
+model CartAndTellBankDetails {
+  id Int @id @default(autoincrement())
+  accountNo String @unique
+  uen String @unique
+  mobileNumber String @unique
+  sessionToken String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now()) 
+
+}
+model merchantRegistrationTransaction {
+  id Int @id @default(autoincrement())
+  merchant Merchant @relation(fields: [merchantId], references: [id])
+  merchantId Int @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
+}
 model MerchantBankDetails {
   id Int @id @default(autoincrement())
+  isCorporate Boolean @default(false)
+  uen String? @unique
+  mobileNumber String? @unique
+  nric String? @unique
   merchant Merchant @relation(fields: [merchantId], references: [id])
   merchantId Int @unique
   createdAt DateTime @default(now())
@@ -156,4 +190,19 @@ model LiveStream {
   productId Int? @unique
   Messages Message[]
   viewers ClientConnected[]
+}
+enum CMSType {
+  AboutUs
+  ContactUs
+  Policy
+  Certifications
+  Ratings
+}
+
+model CMS {
+  id Int @id @default(autoincrement())
+  type CMSType @unique
+  html String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }

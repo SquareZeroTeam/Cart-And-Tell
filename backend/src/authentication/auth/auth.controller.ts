@@ -8,6 +8,9 @@ import { PrismaService } from 'src/db/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
 import { IsEmailVerifiedGuard } from 'src/guards/is-email-verified.guard';
 
+// Note: The LocalAuthGuard will create a variable in request as [req.user] which contains the full object of the user
+//       Its contents is also accessible in any guards
+
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService, private readonly prisma: PrismaService, private readonly userService: UserService) { }
